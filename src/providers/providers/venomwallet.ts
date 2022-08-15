@@ -1,14 +1,15 @@
-import { ProviderOptions } from "../types";
-import { venomWalletName } from "./connectors/venomwallet";
-import * as logos from "./logos";
-import Android from "./logos/Android.svg";
-import Apple from "./logos/Apple.svg";
-import ChromeExtension from "./logos/ChromeExtension.svg";
-import MobileApp from "./logos/MobileApp.svg";
-import PlayMarket from "./logos/PlayMarket.svg";
-import VenomWalletLogo from "./logos/VenomWalletLogo.svg";
+import { getValueByKey } from ".";
+import { ProviderOptions } from "../../types";
+import { venomWalletName } from "../connectors/venomwallet";
+import * as logos from "../logos";
+import Android from "../logos/Android.svg";
+import Apple from "../logos/Apple.svg";
+import ChromeExtension from "../logos/ChromeExtension.svg";
+import MobileApp from "../logos/MobileApp.svg";
+import PlayMarket from "../logos/PlayMarket.svg";
+import VenomWalletLogo from "../logos/VenomWalletLogo.svg";
 
-const DefaultWalletLogo = VenomWalletLogo; // todo
+export { VenomWalletLogo };
 
 // for venom
 const venomDefaultLink = "/";
@@ -17,7 +18,7 @@ const venomAndroidDeepLink =
   "https://play.google.com/store/apps/details?id=com.venom.wallet";
 const venomExtensionLink =
   "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch";
-const venomDefaultLinks = {
+export const venomDefaultLinks = {
   ios: venomIosDeepLink !== null ? venomIosDeepLink || venomDefaultLink : null,
   android:
     venomAndroidDeepLink !== null
@@ -32,14 +33,7 @@ const venomDefaultLinks = {
 };
 //
 
-export type linkCreator = (
-  links: typeof venomDefaultLinks | undefined
-) => string | null;
-const defaultLinks = {
-  venomwallet: venomDefaultLinks,
-};
-
-const getVenomQr = () => {
+export const getVenomQr = () => {
   return (
     // url
     //
@@ -61,27 +55,6 @@ const getVenomQr = () => {
   );
 };
 
-const getValueByKey: (
-  id: keyof typeof defaultLinks,
-  key: keyof typeof defaultLinks["venomwallet"]
-) => linkCreator =
-  (id = "venomwallet" as const, key) =>
-  (links) => {
-    if (links?.[key] !== null && !!id) {
-      // @ts-ignore
-      const userValue = links?.[key];
-      if (userValue) return userValue;
-
-      const defaultValue = defaultLinks?.[id]?.[key];
-      if (defaultValue && id === "venomwallet" && key === "qr") {
-        return getVenomQr();
-      }
-      return defaultValue;
-    }
-
-    return null;
-  };
-
 const VenomWalletLogos = {
   wallet: VenomWalletLogo,
   connectors: {
@@ -91,16 +64,6 @@ const VenomWalletLogos = {
     android: logos.Android?.() || Android,
     playMarket: PlayMarket,
   },
-};
-
-export const DEFAULT: ProviderOptions = {
-  id: "wallet",
-  wallet: {
-    name: "wallet",
-    description: "default wallet",
-    logo: DefaultWalletLogo,
-  },
-  walletWaysToConnect: [],
 };
 
 export const venomwallet: ProviderOptions = {
@@ -184,14 +147,3 @@ export const venomwallet: ProviderOptions = {
     },
   ],
 };
-
-// export const WALLETCONNECT: ProviderOptions = {
-//   id: "walletconnect",
-//   name: "WalletConnect",
-//   logo: WalletConnectLogo,
-//   type: "qr",
-//   check: "isWalletConnect",
-//   package: {
-//     required: [["infuraId", "rpc"]],
-//   },
-// };

@@ -42,6 +42,23 @@ export const getPromisesRaw = (
         },
       },
     },
+    everwallet: {
+      extension: {
+        waitingEverPromise: () => {
+          if (windowObject) {
+            return new Promise((resolve) => {
+              let interval = setInterval(() => {
+                if (windowObject.__ever) {
+                  clearInterval(interval);
+                  resolve(windowObject.__ever);
+                }
+              }, 500);
+            });
+          }
+          return Promise.reject();
+        },
+      },
+    },
   };
 
   // @ts-ignore

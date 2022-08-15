@@ -94,8 +94,8 @@ export const Modal = ({
     );
   };
 
-  const getWalletWaysToConnect = () =>
-    options.find(({ id }) => id === walletId)?.walletWaysToConnect;
+  const getWalletWaysToConnect = (_walletId: string | undefined) =>
+    options.find(({ id }) => id === _walletId)?.walletWaysToConnect;
 
   const [slide, setSlide] = useState(getInitialSlide);
   const [walletId, setWalletId] = useState<string | undefined>();
@@ -118,7 +118,7 @@ export const Modal = ({
 
   const onCurrentWalletSelectorClick = (id: string) => {
     setWalletId(id);
-    setWalletWaysToConnect(getWalletWaysToConnect());
+    setWalletWaysToConnect(getWalletWaysToConnect(id));
     setSlide(Slide.currentWallet);
   };
 
@@ -135,7 +135,7 @@ export const Modal = ({
       case Slide.innerCard:
         setSlide(Slide.currentWallet);
         if (!getInitialWalletWayToConnect())
-          setWalletWaysToConnect(getWalletWaysToConnect());
+          setWalletWaysToConnect(getWalletWaysToConnect(walletId));
         break;
 
       case Slide.currentWallet:
