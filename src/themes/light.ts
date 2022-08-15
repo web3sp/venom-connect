@@ -1,0 +1,61 @@
+import { getThemeWithFallback } from "./helpers";
+
+const theme = {
+  common: {
+    text: {
+      color: "#3A3A51",
+    },
+    backdrop: {
+      color: "#F8F8F8",
+      opacity: 0.3,
+    },
+  },
+  popup: {
+    background: {
+      color: "#F8F8F8",
+      backdropFilter: "blur(5px)",
+    },
+    border: {
+      width: 2,
+      color:
+        "linear-gradient(317.16deg, rgba(81, 100, 154, 0.6) 78.4%, #68F7AA 105.77%)",
+      borderRadius: 16,
+    },
+    closeCross: {
+      color: "#8BA9BC",
+      hoverColor: "#68F7AA",
+    },
+  },
+  item: {
+    background: {
+      color: "#FFFFFF",
+    },
+    border: {
+      width: 2,
+      color: "#ECECEC",
+      hoverColor:
+        "linear-gradient(317.16deg, rgba(81, 100, 154, 0.6) 78.4%, #68F7AA 105.77%)",
+      pressedColor: "rgb(104, 247, 170)",
+    },
+    warning: {
+      background: {
+        color: "#FFE79F",
+      },
+    },
+    icon: {
+      main: {
+        color: "#575773",
+      },
+      subTitle: {
+        color: "#A2AAAD",
+      },
+    },
+  },
+};
+
+const lightTheme = {
+  name: "light" as const,
+  theme: getThemeWithFallback(theme),
+};
+
+export default lightTheme;
