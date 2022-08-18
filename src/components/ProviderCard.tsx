@@ -166,7 +166,7 @@ const SMainSection = styled.div<MainSection>`
 `;
 
 const STitle = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   line-height: 20px;
 `;
 
