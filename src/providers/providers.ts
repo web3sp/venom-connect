@@ -115,19 +115,19 @@ export const venomwallet: ProviderOptions = {
       id: "extension",
       type: "extension",
       logo: VenomWalletLogos.connectors.chromeExtension,
-      name: "Chrome Extension",
+      name: "Venom Chrome Extension",
       options: {
         isCurrentBrowser: ["isChrome", "isDesktop"],
         installExtensionLink: (links: typeof venomDefaultLinks | undefined) =>
           getValueByKey("venomwallet", "extension")(links),
-        checkIsProviderExist: () => true, // todo
+        checkIsProviderExist: () => !!window.__venom, // todo
       },
     },
     {
       id: "mobile",
       type: "mobile",
       logo: VenomWalletLogos.connectors.mobile,
-      name: "Mobile App",
+      name: "Venom Mobile App",
       options: {
         qr: (links: typeof venomDefaultLinks | undefined) =>
           getValueByKey("venomwallet", "qr")(links),

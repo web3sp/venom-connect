@@ -29,11 +29,17 @@ export const getPromisesRaw = (
       extension: {
         waitingVenomPromise: () => {
           if (windowObject) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
+              let nTries = 0 // число попыток, иначе он будет бесконечно, может это вынести в конфиг
               let interval = setInterval(() => {
                 if (windowObject.__venom) {
                   clearInterval(interval);
                   resolve(windowObject.__venom);
+                } else if (nTries > 0) {
+                  nTries--;
+                } else {
+                  clearInterval(interval);
+                  reject('Venom wallet is not found')
                 }
               }, 500);
             });
