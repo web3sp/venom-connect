@@ -260,7 +260,7 @@ export const ProviderCard = ({
         <notSupported.provider.Badge
           themeObject={themeObject}
           providerName={name}
-          isVisualHide={isProviderExist}
+          isVisualHide={true}
         />
       )}
     </>

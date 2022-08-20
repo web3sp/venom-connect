@@ -3,8 +3,8 @@ import { venomWalletName } from "./connectors/venomwallet";
 import * as logos from "./logos";
 import Android from "./logos/Android.svg";
 import Apple from "./logos/Apple.svg";
-import ChromeExtension from "./logos/ChromeExtension.svg";
-import MobileApp from "./logos/MobileApp.svg";
+import ChromeExtension from "./logos/ChromeExtensionVenom.svg";
+import MobileApp from "./logos/MobileAppVenom.svg";
 import PlayMarket from "./logos/PlayMarket.svg";
 import VenomWalletLogo from "./logos/VenomWalletLogo.svg";
 
@@ -86,7 +86,8 @@ const VenomWalletLogos = {
   wallet: VenomWalletLogo,
   connectors: {
     chromeExtension: ChromeExtension,
-    mobile: logos.MobileApp?.() || MobileApp,
+    // mobile: logos.MobileApp?.() || MobileApp, пока так
+    mobile: MobileApp,
     ios: logos.Apple?.() || Apple,
     android: logos.Android?.() || Android,
     playMarket: PlayMarket,

@@ -41,6 +41,9 @@ const theme = {
       background: {
         color: "#FFE79F",
       },
+      text: {
+        color: "#3A3A51",
+      },
     },
     icon: {
       main: {

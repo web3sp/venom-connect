@@ -167,6 +167,7 @@ const SModalCard = styled.div<ModalCardStyleProps>`
 type CardHeader = {
   fontSize?: string | number;
   fontWeight?: string | number;
+  lineHeight?: string | number;
 };
 const SCardHeader = styled.div<CardHeader>`
   width: 100%;
@@ -179,8 +180,8 @@ const SCardHeader = styled.div<CardHeader>`
   font-weight: ${({ fontWeight }) => fontWeight || 600};
   font-size: ${({ fontSize }) =>
     (typeof fontSize === "number" ? `${fontSize}px` : fontSize) || "24px"};
-  line-height: ${({ fontSize }) =>
-    typeof fontSize === "number" ? `${28 / (fontSize || 24)}em` : fontSize};
+  line-height: ${({ lineHeight }) =>
+  (typeof lineHeight === "number" ? `${lineHeight}px` : lineHeight) || "28px"};
 `;
 
 type AbstractPopUpProps = {
