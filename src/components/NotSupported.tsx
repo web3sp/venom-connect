@@ -9,6 +9,7 @@ type Badge = {
 const SBadge = styled.div<Badge>`
   opacity: ${({ isVisualHide }) => (isVisualHide ? 0 : 1)};
 
+  max-height: ${({ isVisualHide }) => (isVisualHide ? '20px' : 'none')};
   width: 100%;
   margin: 8px 0;
   padding: 4px 6px;
