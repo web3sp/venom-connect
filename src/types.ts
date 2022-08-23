@@ -44,6 +44,8 @@ type ItemTheme = {
   };
   border: {
     width: number;
+    borderWidth: number;
+    borderHoverColor?: string;
     color: string;
     hoverColor?: string;
     pressedColor?: string;

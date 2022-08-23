@@ -44,11 +44,23 @@ const SProviderContainerWrapper = styled.div<ProviderContainerWrapper>`
       border: { color },
     },
   }) => color};
+  border-width: ${({
+    item: {
+      border: { borderWidth },
+    },
+    }) => `${borderWidth}px`
+  };
+  border-color: transparent;
+  border-style: solid;
   /* ========================= */
 
   @media (hover: hover) {
     :hover {
-      border-width: 0;
+      border-color: ${({
+        item: {
+          border: { borderHoverColor },
+        },
+      }) => borderHoverColor};
 
       /* ========================= */
       padding: ${({

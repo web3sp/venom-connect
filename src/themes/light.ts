@@ -32,6 +32,8 @@ const theme = {
     },
     border: {
       width: 2,
+      borderWidth: 0,
+      borderHoverColor: 'transparent',
       color: "#ECECEC",
       hoverColor:
         "linear-gradient(317.16deg, rgba(81, 100, 154, 0.6) 78.4%, #68F7AA 105.77%)",
