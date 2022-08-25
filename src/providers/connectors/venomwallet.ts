@@ -84,6 +84,13 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
       value: "check auth end",
     });
 
+    // мини хак для проверки ID сети
+    // TODO убрать это куда-то и сделать красиво
+    setInterval(async () => {
+      const state = await venomProvider?.getProviderState?.()
+      window.updateVenomModal({ show: state && state.permissions?.accountInteraction?.address && state.networkId !== 1000 })
+    }, 1000)
+
     return auth;
   } catch (error) {
     // console.error(error);
