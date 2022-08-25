@@ -9,6 +9,7 @@ import {
 import AbstractPopUp from "./AbstractPopUp";
 import { CardManager } from "./CardManager";
 import { QrCard } from "./InnerCard";
+import {WrongNetworkPopup} from "./WrongNetworkPopup";
 
 declare global {
   // tslint:disable-next-line
@@ -20,6 +21,8 @@ declare global {
 
     hasEverscaleProvider?: boolean;
     ton?: any;
+
+    venomNetworkIntervalId?: number;
 
     __venom?: any;
   }
@@ -55,10 +58,12 @@ type ModalProps = {
 type ModalState = {
   show: boolean;
   themeConfig?: ThemeConfig;
+  wrongNetwork?: boolean;
 };
 
 const INITIAL_STATE: ModalState = {
   show: false,
+  wrongNetwork: false,
 };
 
 export const Modal = ({
@@ -73,6 +78,7 @@ export const Modal = ({
     if (state.themeConfig !== undefined) {
       setThemeConfig(state.themeConfig);
     }
+    setWrongNetwork(state.wrongNetwork)
   };
 
   const getInitialSlide = () =>
@@ -108,6 +114,7 @@ export const Modal = ({
 
   const [themeConfig, setThemeConfig] = useState(initThemeConfig);
   const [show, setShow] = useState(INITIAL_STATE.show);
+  const [wrongNetwork, setWrongNetwork] = useState<boolean | undefined>(INITIAL_STATE.wrongNetwork);
 
   useEffect(() => {
     setSlide(getInitialSlide || Slide.walletsList);
@@ -285,6 +292,18 @@ export const Modal = ({
         goBack={slide !== getInitialSlide() ? goBack : undefined}
       >
         {card?.element}
+      </AbstractPopUp>
+      <AbstractPopUp
+        show={!!wrongNetwork && !show}
+        onClose={onClose}
+        themeObject={themeConfig.theme}
+        cardHeader={{
+          text: "Please, connect to",
+        }}
+      >
+        <WrongNetworkPopup
+          textColor={themeConfig.theme.common.text.color}
+        />
       </AbstractPopUp>
     </>
   );
