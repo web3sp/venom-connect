@@ -100,10 +100,12 @@ export const Modal = ({
     );
   };
 
-  const getWalletWaysToConnect = () =>
-    options.find(({ id }) => id === walletId)?.walletWaysToConnect;
+  const getWalletWaysToConnect = (_walletId: string | undefined) =>
+    options.find(({ id }) => id === _walletId)?.walletWaysToConnect;
+
 
   const [slide, setSlide] = useState(getInitialSlide);
+  // не актуален
   const [walletId, setWalletId] = useState<string | undefined>();
   const [walletWaysToConnect, setWalletWaysToConnect] = useState<
     ProviderOptionsListWithOnClick[0]["walletWaysToConnect"] | undefined
@@ -125,7 +127,7 @@ export const Modal = ({
 
   const onCurrentWalletSelectorClick = (id: string) => {
     setWalletId(id);
-    setWalletWaysToConnect(getWalletWaysToConnect());
+    setWalletWaysToConnect(getWalletWaysToConnect(id));
     setSlide(Slide.currentWallet);
   };
 
@@ -142,7 +144,7 @@ export const Modal = ({
       case Slide.innerCard:
         setSlide(Slide.currentWallet);
         if (!getInitialWalletWayToConnect())
-          setWalletWaysToConnect(getWalletWaysToConnect());
+          setWalletWaysToConnect(getWalletWaysToConnect(walletId));
         break;
 
       case Slide.currentWallet:
@@ -178,6 +180,7 @@ export const Modal = ({
     }
   };
 
+  // первый шаг с кошельками
   const walletCardList: Case = useMemo(() => {
     return {
       type: Slide.walletsList,
@@ -206,6 +209,7 @@ export const Modal = ({
     };
   }, [options, themeConfig.theme]);
 
+  // это уже конкретные варианты 2го уровня
   const currentWalletCards: Case = useMemo(() => {
     const walletName = options.find(({ id }) => id === walletId)?.wallet.name;
 

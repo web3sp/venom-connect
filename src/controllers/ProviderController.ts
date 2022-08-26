@@ -30,6 +30,10 @@ export const getPromisesRaw = (
         waitingVenomPromise: () => {
           if (windowObject) {
             return new Promise((resolve, reject) => {
+              if (windowObject.__venom) {
+                resolve(windowObject.__venom);
+                return
+              }
               let nTries = 0 // число попыток, иначе он будет бесконечно, может это вынести в конфиг
               let interval = setInterval(() => {
                 if (windowObject.__venom) {
@@ -40,6 +44,33 @@ export const getPromisesRaw = (
                 } else {
                   clearInterval(interval);
                   reject('Venom wallet is not found')
+                }
+              }, 500);
+            });
+          }
+          return Promise.reject();
+        },
+      },
+    },
+    everwallet: {
+      extension: {
+        waitingEverPromise: () => {
+          if (windowObject) {
+            return new Promise((resolve, reject) => {
+              if (windowObject.__ever) {
+                resolve(windowObject.__ever);
+                return
+              }
+              let nTries = 0 // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+              let interval = setInterval(() => {
+                if (windowObject.__ever) {
+                  clearInterval(interval);
+                  resolve(windowObject.__ever);
+                } else if (nTries > 0) {
+                  nTries--;
+                } else {
+                  clearInterval(interval);
+                  reject('Ever wallet is not found')
                 }
               }, 500);
             });
