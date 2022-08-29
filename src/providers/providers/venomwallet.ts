@@ -124,7 +124,7 @@ export const venomwallet: ProviderOptions = {
       id: "ios",
       type: "ios",
       logo: VenomWalletLogos.connectors.ios,
-      name: "Mobile App",
+      name: "Venom Mobile App iOS",
       options: {
         text: "Click here to App Store",
 
@@ -137,7 +137,7 @@ export const venomwallet: ProviderOptions = {
       id: "android",
       type: "android",
       logo: VenomWalletLogos.connectors.android,
-      name: "Android Mobile App",
+      name: "Android Mobile App Venom",
       options: {
         text: "Click here to open Google Play",
 

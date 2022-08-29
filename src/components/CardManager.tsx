@@ -83,6 +83,7 @@ export const CardManager = (props: CardManagerProps) => {
               isCurrentBrowser={false}
               isProviderExist={false}
               onClick={undefined}
+              isFirst={props.isFirst}
             />
           );
         }

@@ -258,7 +258,8 @@ export const ProviderCard = ({
   isFirst,
 }: ProviderCardProps) => {
   const isShowCheckWarnings =
-    isFirst || (connectorType ? connectorType === "extension" : false);
+    // isFirst || (connectorType ? connectorType === "extension" : false);
+    isFirst || (connectorType ? false : false);
 
   const NotSupportedBadge = (
     <>

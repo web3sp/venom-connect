@@ -114,7 +114,8 @@ export class ProviderController {
 
     this.providerOptions = options.providersOptions;
 
-    this.providers = (Object.keys(allProviders.connectors) || []).map((id) => {
+    // TODO можно будет задать order для списка
+    this.providers = (Object.keys(allProviders.connectors).reverse() || []).map((id) => {
       const providerInfo: ProviderOptionsWithConnector =
         // @ts-ignore
         allProviders.providers?.[id] || undefined;
@@ -142,7 +143,10 @@ export class ProviderController {
           .concat(walletWaysToConnect || [])
           .map((walletWayToConnect) => {
             const defaultWay =
-              allProviders?.providers?.venomwallet?.walletWaysToConnect?.find(
+              // @ts-ignore
+              allProviders?.providers?.[id]?.walletWaysToConnect?.find(
+                // allProviders?.providers?.venomwallet?.walletWaysToConnect?.find(
+                // @ts-ignore
                 ({ type }) => type === walletWayToConnect.type
               );
 

@@ -61,19 +61,19 @@ export const everwallet: ProviderOptions = {
       id: "extension",
       type: "extension",
       logo: EverWalletLogos.connectors.chromeExtension,
-      name: "Chrome Extension",
+      name: "Ever Chrome Extension",
       options: {
         isCurrentBrowser: ["isChrome", "isDesktop"],
         installExtensionLink: (links: typeof everDefaultLinks | undefined) =>
           getValueByKey("everwallet", "extension")(links),
-        checkIsProviderExist: () => true, // todo
+        checkIsProviderExist: () => !!window.__ever, // todo
       },
     },
     {
       id: "mobile",
       type: "mobile",
       logo: EverWalletLogos.connectors.mobile,
-      name: "Mobile App",
+      name: "Ever Mobile App",
       options: {
         qr: (links: typeof everDefaultLinks | undefined) =>
           getValueByKey("everwallet", "qr")(links),
@@ -106,7 +106,7 @@ export const everwallet: ProviderOptions = {
       id: "ios",
       type: "ios",
       logo: EverWalletLogos.connectors.ios,
-      name: "Mobile App",
+      name: "iOS Ever Mobile App",
       options: {
         text: "Click here to App Store",
 
@@ -119,7 +119,7 @@ export const everwallet: ProviderOptions = {
       id: "android",
       type: "android",
       logo: EverWalletLogos.connectors.android,
-      name: "Android Mobile App",
+      name: "Android Ever Mobile App",
       options: {
         text: "Click here to open Google Play",
 

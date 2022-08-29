@@ -81,12 +81,29 @@ export const Modal = ({
     setWrongNetwork(state.wrongNetwork)
   };
 
-  const getInitialSlide = () =>
-    options.length > 1 ? Slide.walletsList : Slide.currentWallet;
+  const getWalletWaysToConnect = (_walletId: string | undefined) => {
+    let ret: ProviderOptionsListWithOnClick[0]["walletWaysToConnect"] = [];
+    options.forEach(o => {
+      ret = [...ret, ...o.walletWaysToConnect]
+    })
+    return ret;
+    // return options.find(({ id }) => id === _walletId)?.walletWaysToConnect;
+  }
+
+  // const getInitialSlide = () =>
+  //   options.length > 1 ? Slide.walletsList : Slide.currentWallet;
+  const getInitialSlide = () => Slide.currentWallet;
+
+  // выбираем начальный кошелёк
   const getInitialWalletOption = () =>
     getInitialSlide() === Slide.currentWallet ? options[0] : undefined;
-  const getInitialWalletWaysToConnect = () =>
-    getInitialWalletOption()?.walletWaysToConnect;
+
+  // const getInitialWalletWaysToConnect = () =>
+  //   getInitialWalletOption()?.walletWaysToConnect;
+
+  // выбираем способы подключения
+  const getInitialWalletWaysToConnect = () => getWalletWaysToConnect(undefined);
+
   const getInitialWalletWayToConnect = () => {
     const { id, walletWaysToConnect: _walletWaysToConnect } =
       getInitialWalletOption() || {};
@@ -99,10 +116,6 @@ export const Modal = ({
       undefined
     );
   };
-
-  const getWalletWaysToConnect = (_walletId: string | undefined) =>
-    options.find(({ id }) => id === _walletId)?.walletWaysToConnect;
-
 
   const [slide, setSlide] = useState(getInitialSlide);
   // не актуален
@@ -216,6 +229,7 @@ export const Modal = ({
     return {
       type: Slide.currentWallet,
       element: (
+        // список на главной
         <SProviders>
           {walletWaysToConnect?.map(
             ({ id, name, logo, onClick, type, options: x }, i) => {
@@ -228,6 +242,7 @@ export const Modal = ({
                   onClick={() => onCurrentCardItemClick(id, onClick)}
                   connectorType={type}
                   options={x}
+                  // надо только у первого передать что он первый
                   isFirst={!i} // todo
                 />
               );
@@ -235,7 +250,8 @@ export const Modal = ({
           )}
         </SProviders>
       ),
-      title: <>Choose the way to connect {walletName}:</>,
+      title: <>Choose the way to connect:</>,
+      // title: <>Choose the way to connect {walletName}:</>,
     };
   }, [options, themeConfig.theme, walletId, walletWaysToConnect]);
 
