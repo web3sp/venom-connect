@@ -19,9 +19,6 @@ declare global {
     __hasEverscaleProvider?: boolean;
     __ever?: any;
 
-    hasEverscaleProvider?: boolean;
-    ton?: any;
-
     venomNetworkIntervalId?: number;
 
     __venom?: any;

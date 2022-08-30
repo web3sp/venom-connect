@@ -110,6 +110,16 @@ export class ProviderController {
             },
           }
         : {},
+      everwallet: window
+        ? {
+          extension: {
+            forceUseFallback: true,
+            fallback:
+              getPromisesRaw(window, "everwallet")?.waitingEverPromise ||
+              (() => Promise.reject("everwallet fallback error")),
+          },
+        }
+        : {},
     };
 
     this.providerOptions = options.providersOptions;
