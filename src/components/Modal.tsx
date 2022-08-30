@@ -272,7 +272,7 @@ export const Modal = ({
             justifyContent: 'space-between'
           }}>
             {/*<QrCard {...walletWayToConnect.options} themeConfig={themeConfig} />*/}
-            {walletWayToConnect.options.devises.map((device: any) => {
+            {walletWayToConnect.options.devises?.map((device: any) => {
               if (device.type === 'ios') {
                 return <a href={device.deepLink} target="_blank" rel="noopener noreferrer"><img src={AppStore}/></a>
               }
