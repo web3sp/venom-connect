@@ -257,7 +257,7 @@ export const ProviderCard = ({
   options,
   isFirst,
 }: ProviderCardProps) => {
-  const isShowCheckWarnings =
+  const isShowBadBrowserWarning =
     // isFirst || (connectorType ? connectorType === "extension" : false);
     isFirst || (connectorType ? false : false);
 
@@ -279,6 +279,7 @@ export const ProviderCard = ({
     </>
   );
 
+  // это плашка под экстеншенами в случае их отсутствия
   const NotSupportedText = (
     <>
       {!isCurrentBrowser && (
@@ -352,7 +353,7 @@ export const ProviderCard = ({
 
   return (
     <SWrapper>
-      {isShowCheckWarnings && NotSupportedBadge}
+      {isShowBadBrowserWarning && NotSupportedBadge}
       <a
         {...(cardLink
           ? {
@@ -365,7 +366,7 @@ export const ProviderCard = ({
         <SProviderContainerWrapper
           item={themeObject.item}
           popup={themeObject.popup}
-          isShowCheckWarnings={isShowCheckWarnings}
+          isShowCheckWarnings={isShowBadBrowserWarning}
         >
           <SProviderContainer
             item={themeObject.item}
@@ -396,7 +397,7 @@ export const ProviderCard = ({
                   {optionsSubText}
                 </SSubTitleText>
               )}
-              {isShowCheckWarnings && NotSupportedText}
+              {NotSupportedText}
             </SMainSection>
           </SProviderContainer>
         </SProviderContainerWrapper>

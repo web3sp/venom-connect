@@ -4,9 +4,9 @@ import { everWalletName } from "../connectors/everwallet";
 import * as logos from "../logos";
 import Android from "../logos/Android.svg";
 import Apple from "../logos/Apple.svg";
-import ChromeExtension from "../logos/ChromeExtension.svg";
+import ChromeExtension from "../logos/ChromeExtensionEver.svg";
 import EverWalletLogo from "../logos/EverWalletLogo.svg";
-import MobileApp from "../logos/MobileApp.svg";
+import MobileApp from "../logos/MobileAppEver.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
 
 export { EverWalletLogo };
@@ -42,7 +42,8 @@ const EverWalletLogos = {
   wallet: EverWalletLogo,
   connectors: {
     chromeExtension: ChromeExtension,
-    mobile: logos.MobileApp?.() || MobileApp,
+    // mobile: logos.MobileApp?.() || MobileApp,
+    mobile: MobileApp,
     ios: logos.Apple?.() || Apple,
     android: logos.Android?.() || Android,
     playMarket: PlayMarket,
