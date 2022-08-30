@@ -301,7 +301,7 @@ export const ProviderCard = ({
         const list = options?.devises;
         const elements = Array.isArray(list)
           ? list.map(({ img, text, type }) => {
-              return (
+              return (type !=='apk' &&
                 <SSubTextItem>
                   {!!logo && (
                     <>

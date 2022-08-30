@@ -13,7 +13,7 @@ export { VenomWalletLogo };
 
 // for venom
 const venomDefaultLink = "/";
-const venomIosDeepLink = undefined;
+const venomIosDeepLink = "https://testflight.apple.com/join/x5jOlxzL";
 const venomAndroidDeepLink =
   "https://play.google.com/store/apps/details?id=com.venom.wallet";
 const venomExtensionLink =
@@ -116,6 +116,15 @@ export const venomwallet: ProviderOptions = {
             ) => getValueByKey("venomwallet", "android")(links),
             alt: "Android",
             storeId: "android",
+          },
+          {
+            type: "apk",
+            img: VenomWalletLogos.connectors.playMarket,
+            text: "Android Apk",
+
+            deepLink: 'https://venom.foundation/wallet/android',
+            alt: "Android Apk",
+            storeId: "android-apk",
           },
         ],
       },
