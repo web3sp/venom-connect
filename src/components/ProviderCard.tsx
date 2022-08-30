@@ -338,9 +338,10 @@ export const ProviderCard = ({
   const optionsSubText = getOptionsSubText();
 
   const getCardLink = () => {
+    // console.log('--> OOOO', {connectorType, isCurrentBrowser, isProviderExist},options)
     if (
       connectorType === "extension" &&
-      !isCurrentBrowser &&
+      isCurrentBrowser &&
       !isProviderExist
     ) {
       return options?.installExtensionLink as string | undefined;
