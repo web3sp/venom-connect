@@ -1,7 +1,7 @@
 import QRCode from "react-qr-code";
 import styled from "styled-components";
-import AppStore from "../images/AppStore.png";
-import GooglePlay from "../images/GooglePlay.png";
+import AppStore from "../images/AppStore.svg";
+import GooglePlay from "../images/GooglePlay.svg";
 import { ThemeConfig } from "../types";
 
 const storeImages = {

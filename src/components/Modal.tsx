@@ -10,7 +10,7 @@ import AbstractPopUp from "./AbstractPopUp";
 import {CardManager} from "./CardManager";
 import {WrongNetworkPopup} from "./WrongNetworkPopup";
 import AppStore from "../images/AppStore.svg";
-import GooglePlay from "../images/GooglePlay.png";
+import GooglePlay from "../images/GooglePlay.svg";
 import DownloadApk from "../images/DownloadApk.svg";
 
 declare global {
