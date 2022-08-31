@@ -46,7 +46,8 @@ const EverWalletLogos = {
     mobile: MobileApp,
     // ios: logos.Apple?.() || Apple,
     ios: MobileApp,
-    android: logos.Android?.() || Android,
+    // android: logos.Android?.() || Android,
+    android: MobileApp,
     playMarket: PlayMarket,
   },
 };
@@ -108,9 +109,9 @@ export const everwallet: ProviderOptions = {
       id: "ios",
       type: "ios",
       logo: EverWalletLogos.connectors.ios,
-      name: "iOS Ever Mobile App",
+      name: "Ever Mobile App",
       options: {
-        text: "Click here to App Store",
+        text: "Click here to open App Store",
 
         deepLink: (
           links: typeof everDefaultLinks | undefined = everDefaultLinks
@@ -121,7 +122,7 @@ export const everwallet: ProviderOptions = {
       id: "android",
       type: "android",
       logo: EverWalletLogos.connectors.android,
-      name: "Android Ever Mobile App",
+      name: "Ever Mobile App",
       options: {
         text: "Click here to open Google Play",
 

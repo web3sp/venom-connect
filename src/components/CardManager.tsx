@@ -52,7 +52,7 @@ export const CardManager = (props: CardManagerProps) => {
             {...props}
             isCurrentBrowser={true}
             isProviderExist={true}
-            isFirst={true}
+            isFirst={false}
           />
         ) : null;
       }

@@ -63,7 +63,8 @@ const VenomWalletLogos = {
     mobile: MobileApp,
     // ios: logos.Apple?.() || Apple,
     ios: MobileApp,
-    android: logos.Android?.() || Android,
+    // android: logos.Android?.() || Android,
+    android: MobileApp,
     playMarket: PlayMarket,
   },
 };
@@ -134,9 +135,9 @@ export const venomwallet: ProviderOptions = {
       id: "ios",
       type: "ios",
       logo: VenomWalletLogos.connectors.ios,
-      name: "Venom Mobile App iOS",
+      name: "Venom Mobile App",
       options: {
-        text: "Click here to App Store",
+        text: "Click here to open App Store",
 
         deepLink: (
           links: typeof venomDefaultLinks | undefined = venomDefaultLinks
@@ -147,7 +148,7 @@ export const venomwallet: ProviderOptions = {
       id: "android",
       type: "android",
       logo: VenomWalletLogos.connectors.android,
-      name: "Android Mobile App Venom",
+      name: "Venom Mobile App",
       options: {
         text: "Click here to open Google Play",
 
