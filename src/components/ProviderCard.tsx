@@ -338,8 +338,13 @@ export const ProviderCard = ({
   const optionsSubText = getOptionsSubText();
 
   const getCardLink = () => {
-    // console.log('--> OOOO', {connectorType, isCurrentBrowser, isProviderExist},options)
+    // console.log('--> OOOO', {connectorType, isCurrentBrowser, isProviderExist, options})
+    // чужой браузер, вернём ссылку на установку
     if (
+      connectorType === "extension" && !isCurrentBrowser
+    ) {
+      return options?.installExtensionLink as string | undefined;
+    } else if (
       connectorType === "extension" &&
       isCurrentBrowser &&
       !isProviderExist
