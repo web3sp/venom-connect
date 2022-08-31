@@ -34,6 +34,7 @@ export const CardManager = (props: CardManagerProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options]);
 
+  // вывод списка под разыне платформы
   if (connectorType) {
     if (isMobile) {
       if (isIOS) {
@@ -42,7 +43,7 @@ export const CardManager = (props: CardManagerProps) => {
             {...props}
             isCurrentBrowser={true}
             isProviderExist={true}
-            isFirst={true}
+            isFirst={false}  // всё хорошо с ними
           />
         ) : null;
       } else {

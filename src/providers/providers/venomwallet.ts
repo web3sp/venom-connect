@@ -61,7 +61,8 @@ const VenomWalletLogos = {
     chromeExtension: ChromeExtension,
     // mobile: logos.MobileApp?.() || MobileApp, пока так
     mobile: MobileApp,
-    ios: logos.Apple?.() || Apple,
+    // ios: logos.Apple?.() || Apple,
+    ios: MobileApp,
     android: logos.Android?.() || Android,
     playMarket: PlayMarket,
   },

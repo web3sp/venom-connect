@@ -357,6 +357,7 @@ export const ProviderCard = ({
 
   const cardLink = getCardLink();
 
+  // список способов подключения
   return (
     <SWrapper>
       {isShowBadBrowserWarning && NotSupportedBadge}
