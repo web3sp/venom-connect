@@ -125,7 +125,9 @@ export class ProviderController {
     this.providerOptions = options.providersOptions;
 
     // TODO можно будет задать order для списка
-    this.providers = (Object.keys(allProviders.connectors).reverse() || []).map((id) => {
+    this.providers = (Object.keys(allProviders.connectors).reverse() || [])
+    .filter((id) => this.providerOptions?.[id])
+    .map((id) => {
       const providerInfo: ProviderOptionsWithConnector =
         // @ts-ignore
         allProviders.providers?.[id] || undefined;
