@@ -13,8 +13,6 @@ If you want to rebuild this file, use the command `yarn lib` (or `npm run lib` i
 
 ---
 
-<br />
-
 # How to use VenomConnect?
 
 **Import VenomConnect**
@@ -77,6 +75,8 @@ const initVenomConnect = async () => {
             //       )()
             //     ),
             //   forceUseFallback: true,
+            //   разрешенные ид сети - число или массив чисел  
+            //   checkNetworkId: 1000,  
             // },
 
             // Setup
