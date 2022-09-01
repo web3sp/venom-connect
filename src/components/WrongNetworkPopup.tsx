@@ -41,12 +41,20 @@ const SwitchNetworkButton = styled.div`
   font-size: 18px;
   line-height: 20px;
 `
+const ChangeNetTextDiv = styled.div`
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 12px;
+  width: 100%;
+  text-align: left;
+`
 export type WrongNetworkPopupProps = {
   textColor: ThemeConfig["theme"]["common"]["text"]["color"];
 };
 export const WrongNetworkPopup = ({textColor}: WrongNetworkPopupProps) => {
   return <>
     <ShowNetwork color={textColor}>Venom Mainnet</ShowNetwork>
+    <ChangeNetTextDiv>Please change network in your wallets settings</ChangeNetTextDiv>
     {/*<SwitchNetworkButton>Switch Network</SwitchNetworkButton>*/}
   </>
 };

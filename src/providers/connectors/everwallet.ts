@@ -1,4 +1,5 @@
 import { getKey as getKeyRaw, log, makeMove } from "../../helpers/utils";
+import {setupNetworkIdTimer} from "./networkdIdTimerUtil";
 
 // checked for version "everscale-inpage-provider": "^0.3.28",
 export const everWalletName = "Ever Wallet";
@@ -75,13 +76,8 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
         const accountInteraction = permissions?.accountInteraction;
         const address = accountInteraction?.address;
 
-        if (address && everProvider && window && !window.venomNetworkIntervalId) {
-          window.venomNetworkIntervalId = window.setInterval(async () => {
-            const state = await everProvider?.getProviderState?.()
-            console.log('E SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
-            window.updateVenomModal({wrongNetwork: state && state.permissions?.accountInteraction?.address && state.networkId !== 1000})
-          }, 1000)
-        }
+        // здесь вызовется только когда уже был залогинен
+        setupNetworkIdTimer(address, everProvider, options.checkNetworkId)
 
         return address && everProvider;
       }
@@ -91,17 +87,6 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
       key,
       value: "check auth end",
     });
-
-    // мини хак для проверки ID сети
-    // TODO убрать это куда-то и сделать красиво
-    // if (window && !window.venomNetworkIntervalId) {
-    //   window.venomNetworkIntervalId = window.setInterval(async () => {
-    //     const state = await everProvider?.getProviderState?.()
-    //     console.log('E STATE', state)
-    //     console.log('E SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
-    //     window.updateVenomModal({wrongNetwork: state && state.permissions?.accountInteraction?.address && state.networkId !== 1000})
-    //   }, 1000)
-    // }
 
     return auth;
   } catch (error) {
@@ -165,6 +150,8 @@ const connectToEverWallet = async (EverProvider: any, options: any) => {
         if (accountInteraction == null) {
           throw new Error("Insufficient permissions");
         }
+
+        setupNetworkIdTimer(accountInteraction.address, everProvider, options.checkNetworkId)
 
         return accountInteraction;
       }

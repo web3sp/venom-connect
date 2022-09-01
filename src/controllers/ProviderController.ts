@@ -172,10 +172,12 @@ export class ProviderController {
 
             const defaultOptions =
               isChrome && isDesktop
+                // ? walletWayToConnect.packageOptions
                 ? defaultPackageOptions[id]?.[walletWayToConnect.type]
                 : {};
 
             const packageOptions = userOptions || defaultOptions || {};
+            packageOptions.checkNetworkId = walletWayToConnect?.packageOptions?.checkNetworkId;
 
             return {
               ...defaultWay,
