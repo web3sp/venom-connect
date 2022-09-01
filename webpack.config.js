@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   mode: "production",
   entry: {
-    index: "./src/VenomConnect.tsx"
+    index: "./src/index.tsx"
   },
   output: {
     path: path.resolve(__dirname, "./lib"),
@@ -11,7 +11,7 @@ module.exports = {
     libraryTarget: "umd",
     library: "VenomConnect",
     umdNamedDefine: true,
-    globalObject: "this",
+    globalObject: "globalThis",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
