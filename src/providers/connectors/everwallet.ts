@@ -75,6 +75,14 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
         const accountInteraction = permissions?.accountInteraction;
         const address = accountInteraction?.address;
 
+        if (address && everProvider && window && !window.venomNetworkIntervalId) {
+          window.venomNetworkIntervalId = window.setInterval(async () => {
+            const state = await everProvider?.getProviderState?.()
+            console.log('E SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
+            window.updateVenomModal({wrongNetwork: state && state.permissions?.accountInteraction?.address && state.networkId !== 1000})
+          }, 1000)
+        }
+
         return address && everProvider;
       }
     );
@@ -83,6 +91,17 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
       key,
       value: "check auth end",
     });
+
+    // мини хак для проверки ID сети
+    // TODO убрать это куда-то и сделать красиво
+    // if (window && !window.venomNetworkIntervalId) {
+    //   window.venomNetworkIntervalId = window.setInterval(async () => {
+    //     const state = await everProvider?.getProviderState?.()
+    //     console.log('E STATE', state)
+    //     console.log('E SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
+    //     window.updateVenomModal({wrongNetwork: state && state.permissions?.accountInteraction?.address && state.networkId !== 1000})
+    //   }, 1000)
+    // }
 
     return auth;
   } catch (error) {

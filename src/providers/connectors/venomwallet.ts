@@ -75,6 +75,16 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
         const accountInteraction = permissions?.accountInteraction;
         const address = accountInteraction?.address;
 
+        // мини хак для проверки ID сети
+        // TODO убрать это куда-то и сделать красиво
+        if (address && venomProvider && window && !window.venomNetworkIntervalId) {
+          window.venomNetworkIntervalId = window.setInterval(async () => {
+            const state = await venomProvider?.getProviderState?.()
+            console.log('V SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
+            window.updateVenomModal({wrongNetwork: state && state.permissions?.accountInteraction?.address && state.networkId !== 1000})
+          }, 1000)
+        }
+
         return address && venomProvider;
       }
     );
@@ -83,16 +93,6 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
       key,
       value: "check auth end",
     });
-
-    // мини хак для проверки ID сети
-    // TODO убрать это куда-то и сделать красиво
-    if (window && !window.venomNetworkIntervalId) {
-      window.venomNetworkIntervalId = window.setInterval(async () => {
-        const state = await venomProvider?.getProviderState?.()
-        console.log('SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
-        window.updateVenomModal({wrongNetwork: state && state.permissions?.accountInteraction?.address && state.networkId !== 1000})
-      }, 1000)
-    }
 
     return auth;
   } catch (error) {
