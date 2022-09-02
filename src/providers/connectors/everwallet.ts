@@ -1,5 +1,5 @@
 import { getKey as getKeyRaw, log, makeMove } from "../../helpers/utils";
-import {setupNetworkIdTimer} from "./networkdIdTimerUtil";
+import { setupNetworkIdTimer } from "./networkdIdTimerUtil";
 
 // checked for version "everscale-inpage-provider": "^0.3.28",
 export const everWalletName = "Ever Wallet";
@@ -77,7 +77,7 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
         const address = accountInteraction?.address;
 
         // здесь вызовется только когда уже был залогинен
-        setupNetworkIdTimer(address, everProvider, options.checkNetworkId)
+        setupNetworkIdTimer(address, everProvider, options.checkNetworkId);
 
         return address && everProvider;
       }
@@ -151,7 +151,11 @@ const connectToEverWallet = async (EverProvider: any, options: any) => {
           throw new Error("Insufficient permissions");
         }
 
-        setupNetworkIdTimer(accountInteraction.address, everProvider, options.checkNetworkId)
+        setupNetworkIdTimer(
+          accountInteraction.address,
+          everProvider,
+          options.checkNetworkId
+        );
 
         return accountInteraction;
       }
@@ -165,6 +169,45 @@ const connectToEverWallet = async (EverProvider: any, options: any) => {
     return everProvider;
   } catch (error) {
     // console.error(error);
+  }
+};
+
+/**
+ * everProvider: typeof ProviderRpcClient,
+ * options: any | undefined
+ */
+const getStandaloneConnectionToEverWallet = async (
+  EverProvider: any,
+  options: any
+) => {
+  try {
+    const key = getKey("extension");
+
+    log({
+      key,
+      value: "standalone start",
+    });
+
+    const everProvider = await makeMove(
+      {
+        before: "standalone provider creating",
+        after: "standalone provider created",
+        error: "standalone provider creating failed",
+        key,
+      },
+      async () => {
+        return new EverProvider(options);
+      }
+    );
+
+    log({
+      key,
+      value: "standalone end",
+    });
+
+    return everProvider;
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -211,6 +254,7 @@ const everWallet = {
   extension: {
     connector: connectToEverWallet,
     authChecker: checkEverWalletAuth,
+    standalone: getStandaloneConnectionToEverWallet,
   },
   mobile: {
     connector: goByQRCode,

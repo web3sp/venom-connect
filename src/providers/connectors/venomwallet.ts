@@ -1,5 +1,5 @@
 import { getKey as getKeyRaw, log, makeMove } from "../../helpers/utils";
-import {setupNetworkIdTimer} from "./networkdIdTimerUtil";
+import { setupNetworkIdTimer } from "./networkdIdTimerUtil";
 
 // checked for version "everscale-inpage-provider": "^0.3.28",
 export const venomWalletName = "Venom Wallet";
@@ -77,7 +77,7 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
         const address = accountInteraction?.address;
 
         // здесь вызовется только когда уже был залогинен
-        setupNetworkIdTimer(address, venomProvider, options.checkNetworkId)
+        setupNetworkIdTimer(address, venomProvider, options.checkNetworkId);
 
         return address && venomProvider;
       }
@@ -151,7 +151,11 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
           throw new Error("Insufficient permissions");
         }
 
-        setupNetworkIdTimer(accountInteraction.address, venomProvider, options.checkNetworkId)
+        setupNetworkIdTimer(
+          accountInteraction.address,
+          venomProvider,
+          options.checkNetworkId
+        );
 
         return accountInteraction;
       }
@@ -165,6 +169,45 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
     return venomProvider;
   } catch (error) {
     // console.error(error);
+  }
+};
+
+/**
+ * venomProvider: typeof ProviderRpcClient,
+ * options: any | undefined
+ */
+const getStandaloneConnectionToVenomWallet = async (
+  VenomProvider: any,
+  options: any
+) => {
+  try {
+    const key = getKey("extension");
+
+    log({
+      key,
+      value: "standalone start",
+    });
+
+    const venomProvider = await makeMove(
+      {
+        before: "standalone provider creating",
+        after: "standalone provider created",
+        error: "standalone provider creating failed",
+        key,
+      },
+      async () => {
+        return new VenomProvider(options);
+      }
+    );
+
+    log({
+      key,
+      value: "standalone end",
+    });
+
+    return venomProvider;
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -211,6 +254,7 @@ const venomWallet = {
   extension: {
     connector: connectToVenomWallet,
     authChecker: checkVenomWalletAuth,
+    standalone: getStandaloneConnectionToVenomWallet,
   },
   mobile: {
     connector: goByQRCode,

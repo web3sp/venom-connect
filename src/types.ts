@@ -128,6 +128,7 @@ export type ProviderOptionsWithConnector = {
     WayToConnect & {
       connector: Connector;
       authConnector?: Connector;
+      standalone?: Connector;
       package: any;
       packageOptions?: {
         [id: string]: any;
@@ -160,6 +161,7 @@ export type ProviderOptionsWithConnectorOptional = {
     WayToConnect & {
       connector?: Connector;
       authConnector?: Connector;
+      standalone?: Connector;
       package: any;
       packageOptions?: {
         [id: string]: any;

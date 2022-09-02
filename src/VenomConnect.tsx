@@ -238,6 +238,13 @@ class VenomConnect {
     return authProvider;
   };
 
+  public get currentProvider() {
+    return this.providerController.currentProvider;
+  }
+
+  public static getPromises = (walletId: string, type: string | undefined) =>
+    getPromisesRaw(window, walletId, type);
+
   // --------------- PRIVATE METHODS --------------- //
 
   private renderModal() {
@@ -393,9 +400,6 @@ class VenomConnect {
     });
     await window.updateVenomModal(state);
   };
-
-  public static getPromises = (walletId: string, type: string | undefined) =>
-    getPromisesRaw(window, walletId, type);
 }
 
 export { VenomConnect };

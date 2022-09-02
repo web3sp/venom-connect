@@ -32,9 +32,9 @@ export const getPromisesRaw = (
             return new Promise((resolve, reject) => {
               if (windowObject.__venom) {
                 resolve(windowObject.__venom);
-                return
+                return;
               }
-              let nTries = 0 // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+              let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
               let interval = setInterval(() => {
                 if (windowObject.__venom) {
                   clearInterval(interval);
@@ -43,7 +43,7 @@ export const getPromisesRaw = (
                   nTries--;
                 } else {
                   clearInterval(interval);
-                  reject('Venom wallet is not found')
+                  reject("Venom wallet is not found");
                 }
               }, 500);
             });
@@ -59,9 +59,9 @@ export const getPromisesRaw = (
             return new Promise((resolve, reject) => {
               if (windowObject.__ever) {
                 resolve(windowObject.__ever);
-                return
+                return;
               }
-              let nTries = 0 // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+              let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
               let interval = setInterval(() => {
                 if (windowObject.__ever) {
                   clearInterval(interval);
@@ -70,7 +70,7 @@ export const getPromisesRaw = (
                   nTries--;
                 } else {
                   clearInterval(interval);
-                  reject('Ever wallet is not found')
+                  reject("Ever wallet is not found");
                 }
               }, 500);
             });
@@ -91,9 +91,81 @@ export class ProviderController {
   private providerOptions: UserProvidersOptions;
 
   private _currentProvider: any;
+  private _standalone: any;
 
-  get currentProvider() {
-    return this._currentProvider;
+  private getStandalone = async () => {
+    const venomWallet = this.providers?.find(
+      (provider) => provider.id === "venomwallet"
+    );
+
+    if (venomWallet) {
+      const venomFromUser = venomWallet?.walletWaysToConnect.find(
+        (way) => way.type === "extension" && !!way.standalone
+      );
+      if (venomFromUser?.standalone) {
+        return venomFromUser.standalone(
+          venomFromUser.package,
+          venomFromUser.packageOptions
+        );
+      }
+
+      const venomStandaloneFallback =
+        venomWallet && allProviders.connectors.venomwallet.extension;
+
+      if (venomStandaloneFallback?.standalone && venomFromUser) {
+        return venomStandaloneFallback.standalone(
+          venomFromUser.package,
+          venomFromUser.packageOptions
+        );
+      }
+    }
+
+    const someoneFromUser = this.providers?.find(
+      (provider) =>
+        !!provider.walletWaysToConnect.find(
+          (way) => way.type === "extension" && !!way.standalone
+        )
+    );
+
+    if (someoneFromUser) {
+      const way = someoneFromUser.walletWaysToConnect.find(
+        (way) => way.type === "extension" && !!way.standalone
+      );
+
+      if (way?.standalone) {
+        return way.standalone(way.package, way.packageOptions);
+      }
+
+      const tuple = Object.entries(allProviders.connectors).find(
+        ([key, value]) =>
+          !!value.extension.connector &&
+          someoneFromUser.id === key &&
+          way?.package &&
+          way?.packageOptions
+      );
+
+      const someoneWallets = {
+        key: tuple?.[0],
+        value: tuple?.[1],
+      };
+
+      if (way && someoneWallets.value) {
+        return someoneWallets.value.extension.standalone(
+          way.package,
+          way.packageOptions
+        );
+      }
+    }
+
+    return null;
+  };
+
+  public setStandalone = async () => {
+    this._standalone = await this.getStandalone();
+  };
+
+  public get currentProvider() {
+    return this._currentProvider || this._standalone;
   }
 
   constructor(options: ProviderControllerOptions) {
@@ -112,13 +184,13 @@ export class ProviderController {
         : {},
       everwallet: window
         ? {
-          extension: {
-            forceUseFallback: true,
-            fallback:
-              getPromisesRaw(window, "everwallet")?.waitingEverPromise ||
-              (() => Promise.reject("everwallet fallback error")),
-          },
-        }
+            extension: {
+              forceUseFallback: true,
+              fallback:
+                getPromisesRaw(window, "everwallet")?.waitingEverPromise ||
+                (() => Promise.reject("everwallet fallback error")),
+            },
+          }
         : {},
     };
 
@@ -126,89 +198,104 @@ export class ProviderController {
 
     // TODO можно будет задать order для списка
     this.providers = (Object.keys(allProviders.connectors).reverse() || [])
-    .filter((id) => this.providerOptions?.[id])
-    .map((id) => {
-      const providerInfo: ProviderOptionsWithConnector =
-        // @ts-ignore
-        allProviders.providers?.[id] || undefined;
+      .filter((id) => this.providerOptions?.[id])
+      .map((id) => {
+        const providerInfo: ProviderOptionsWithConnector =
+          // @ts-ignore
+          allProviders.providers?.[id] || undefined;
 
-      const { wallet, links, walletWaysToConnect, defaultWalletWaysToConnect } =
-        this.providerOptions?.[id];
+        const {
+          wallet,
+          links,
+          walletWaysToConnect,
+          defaultWalletWaysToConnect,
+        } = this.providerOptions?.[id];
 
-      const types = walletWaysToConnect?.map(({ type }) => type);
-      const ids = walletWaysToConnect?.map(({ id }) => id);
+        const types = walletWaysToConnect?.map(({ type }) => type);
+        const ids = walletWaysToConnect?.map(({ id }) => id);
 
-      return {
-        id,
-        wallet,
-        links,
-        walletWaysToConnect: (
-          providerInfo.walletWaysToConnect as ProviderOptionsWithConnectorOptional["walletWaysToConnect"]
-        )
-          .filter((walletWayToConnect) => {
-            return (
-              !!defaultWalletWaysToConnect?.includes(walletWayToConnect.type) &&
-              (!types?.includes(walletWayToConnect.type) ||
-                !ids?.includes(walletWayToConnect.id))
-            );
-          })
-          .concat(walletWaysToConnect || [])
-          .map((walletWayToConnect) => {
-            const defaultWay =
-              // @ts-ignore
-              allProviders?.providers?.[id]?.walletWaysToConnect?.find(
-                // allProviders?.providers?.venomwallet?.walletWaysToConnect?.find(
-                // @ts-ignore
-                ({ type }) => type === walletWayToConnect.type
+        return {
+          id,
+          wallet,
+          links,
+          walletWaysToConnect: (
+            providerInfo.walletWaysToConnect as ProviderOptionsWithConnectorOptional["walletWaysToConnect"]
+          )
+            .filter((walletWayToConnect) => {
+              return (
+                !!defaultWalletWaysToConnect?.includes(
+                  walletWayToConnect.type
+                ) &&
+                (!types?.includes(walletWayToConnect.type) ||
+                  !ids?.includes(walletWayToConnect.id))
               );
-
-            const forceUseFallback =
-              !!walletWayToConnect.packageOptions?.forceUseFallback;
-
-            const userOptions =
-              isChrome && isDesktop && !forceUseFallback
-                ? walletWayToConnect.packageOptions
-                : null;
-
-            const defaultOptions =
-              isChrome && isDesktop
-                // ? walletWayToConnect.packageOptions
-                ? defaultPackageOptions[id]?.[walletWayToConnect.type]
-                : {};
-
-            const packageOptions = userOptions || defaultOptions || {};
-            // задаём 1000 как дефолт ид венома
-            packageOptions.checkNetworkId = walletWayToConnect?.packageOptions?.checkNetworkId || 1000;
-
-            return {
-              ...defaultWay,
-              ...walletWayToConnect,
-              connector:
-                walletWayToConnect.connector ||
+            })
+            .concat(walletWaysToConnect || [])
+            .map((walletWayToConnect) => {
+              const defaultWay =
                 // @ts-ignore
-                allProviders?.connectors?.[id]?.[walletWayToConnect.type]?.[
-                  "connector"
-                ],
-              authConnector:
-                walletWayToConnect.authConnector ||
-                // @ts-ignore
-                allProviders?.connectors?.[id]?.[walletWayToConnect.type]?.[
-                  "authChecker"
-                ],
-              packageOptions,
-              options: {
-                ...(typeof defaultWay?.options === "object"
-                  ? defaultWay?.options
-                  : {}),
-                ...walletWayToConnect?.options,
-              },
-            };
-          })
-          .sort(
-            (a, b) => sortingArr.indexOf(a.type) - sortingArr.indexOf(b.type)
-          ),
-      };
-    });
+                allProviders?.providers?.[id]?.walletWaysToConnect?.find(
+                  // allProviders?.providers?.venomwallet?.walletWaysToConnect?.find(
+                  // @ts-ignore
+                  ({ type }) => type === walletWayToConnect.type
+                );
+
+              const forceUseFallback =
+                !!walletWayToConnect.packageOptions?.forceUseFallback;
+
+              const userOptions =
+                isChrome && isDesktop && !forceUseFallback
+                  ? walletWayToConnect.packageOptions
+                  : null;
+
+              const defaultOptions =
+                isChrome && isDesktop
+                  ? // ? walletWayToConnect.packageOptions
+                    defaultPackageOptions[id]?.[walletWayToConnect.type]
+                  : {};
+
+              const packageOptions = userOptions || defaultOptions || {};
+              // задаём 1000 как дефолт ид венома
+              packageOptions.checkNetworkId =
+                walletWayToConnect?.packageOptions?.checkNetworkId || 1000;
+
+              return {
+                ...defaultWay,
+                ...walletWayToConnect,
+                connector:
+                  walletWayToConnect.connector ||
+                  // @ts-ignore
+                  allProviders?.connectors?.[id]?.[walletWayToConnect.type]?.[
+                    "connector"
+                  ],
+                authConnector:
+                  walletWayToConnect.authConnector ||
+                  // @ts-ignore
+                  allProviders?.connectors?.[id]?.[walletWayToConnect.type]?.[
+                    "authChecker"
+                  ],
+                standalone:
+                  walletWayToConnect.standalone ||
+                  // @ts-ignore
+                  allProviders?.connectors?.[id]?.[walletWayToConnect.type]?.[
+                    "standalone"
+                  ],
+                packageOptions,
+                options: {
+                  ...(typeof defaultWay?.options === "object"
+                    ? defaultWay?.options
+                    : {}),
+                  ...walletWayToConnect?.options,
+                },
+              };
+            })
+            .sort(
+              (a, b) => sortingArr.indexOf(a.type) - sortingArr.indexOf(b.type)
+            ),
+        };
+      });
+
+    this.setStandalone();
   }
 
   public shouldDisplayProvider(id: string) {
@@ -268,6 +355,8 @@ export class ProviderController {
     authConnector: (providerPackage: any, opts: any) => Promise<any>
   ) => {
     try {
+      this._currentProvider = null;
+
       const providerPackage = this.getProviderOption(
         id,
         connectorId,
@@ -283,6 +372,8 @@ export class ProviderController {
       };
 
       const provider = await authConnector(providerPackage, options);
+
+      this._currentProvider = provider;
 
       return provider || null;
     } catch (error) {
