@@ -177,7 +177,8 @@ export class ProviderController {
                 : {};
 
             const packageOptions = userOptions || defaultOptions || {};
-            packageOptions.checkNetworkId = walletWayToConnect?.packageOptions?.checkNetworkId;
+            // задаём 1000 как дефолт ид венома
+            packageOptions.checkNetworkId = walletWayToConnect?.packageOptions?.checkNetworkId || 1000;
 
             return {
               ...defaultWay,
