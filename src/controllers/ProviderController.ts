@@ -90,6 +90,8 @@ export class ProviderController {
   private providers: ProviderOptionsList = [];
   private providerOptions: UserProvidersOptions;
 
+  private checkNetworkId: number | number[];
+
   private _currentProvider: any;
   private _standalone: any;
 
@@ -194,6 +196,8 @@ export class ProviderController {
         : {},
     };
 
+    this.checkNetworkId = options.checkNetworkId;
+
     this.providerOptions = options.providersOptions;
 
     // TODO можно будет задать order для списка
@@ -259,8 +263,7 @@ export class ProviderController {
               const packageOptions = userOptions || defaultOptions || {};
 
               // задаём 1000 как дефолт ид венома
-              packageOptions.checkNetworkId =
-                walletWayToConnect?.packageOptions?.checkNetworkId || 1000;
+              packageOptions.checkNetworkId = this.checkNetworkId;
 
               return {
                 ...defaultWay,

@@ -186,8 +186,10 @@ export type EventCallback = {
 export type VenomConnectOptions = {
   theme: ThemeNameList | ThemeConfig["theme"];
   providersOptions: UserProvidersOptions;
+  checkNetworkId: number | number[];
 };
 
 export type ProviderControllerOptions = {
   providersOptions: UserProvidersOptions;
+  checkNetworkId: number | number[];
 };

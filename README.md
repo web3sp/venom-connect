@@ -31,6 +31,7 @@ const initVenomConnect = async () => {
 
   return new VenomConnect({
     theme: "light",
+    checkNetworkId: 1000, // or [1000] or default: 1000
     providersOptions: {
       venomwallet: {
         wallet: {

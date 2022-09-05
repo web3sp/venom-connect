@@ -28,6 +28,7 @@ let oldRoot: Root | undefined = undefined;
 const defaultOptions: VenomConnectOptions = {
   theme: themesList.default.name,
   providersOptions: {},
+  checkNetworkId: 1000,
 };
 class VenomConnect {
   private show: boolean = false;
@@ -41,6 +42,7 @@ class VenomConnect {
   constructor(options: {
     theme?: VenomConnectOptions["theme"];
     providersOptions: VenomConnectOptions["providersOptions"];
+    checkNetworkId?: number | number[];
   }) {
     const theme = options.theme || defaultOptions.theme;
     this.themeConfig = getThemeConfig(theme);
@@ -91,6 +93,7 @@ class VenomConnect {
           ];
         })
       ),
+      checkNetworkId: options.checkNetworkId || defaultOptions.checkNetworkId,
     });
 
     this.providerController.on(CONNECT_EVENT, (provider) =>
