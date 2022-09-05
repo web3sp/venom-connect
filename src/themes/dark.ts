@@ -34,7 +34,7 @@ const theme = {
     border: {
       width: 2,
       borderWidth: 0,
-      borderHoverColor: 'transparent',
+      borderHoverColor: "transparent",
       color: "rgba(72, 84, 125, 1)",
       hoverColor: "#68F7AA",
       pressedColor: "rgb(104, 247, 170)",

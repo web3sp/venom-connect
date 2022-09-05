@@ -313,10 +313,6 @@ class VenomConnect {
 
             const links = supportedOption.links;
 
-            console.log(`installExtensionLinkRaw::`, installExtensionLinkRaw);
-
-            console.log(`links::`, links);
-
             return {
               ...walletWayToConnect,
               options: {

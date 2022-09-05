@@ -355,10 +355,6 @@ export const ProviderCard = ({
 
   const getCardLink = () => {
     // чужой браузер, вернём ссылку на установку
-    console.log(`connectorType::`, connectorType);
-    console.log(`isCurrentBrowser::`, isCurrentBrowser);
-    console.log(`isProviderExist::`, isProviderExist);
-    console.log(`options::`, options);
     if (connectorType === "extension" && !isCurrentBrowser) {
       return getLinkFromArr(options?.installExtensionLink)?.link as
         | string
@@ -381,7 +377,6 @@ export const ProviderCard = ({
   // список способов подключения
   return (
     <SWrapper>
-      <pre>cardLink: {String(cardLink)}</pre>
       {isShowBadBrowserWarning && NotSupportedBadge}
       <a
         {...(cardLink

@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {useEffect, useMemo, useState} from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
+import AppStore from "../images/AppStore.svg";
+import DownloadApk from "../images/DownloadApk.svg";
+import GooglePlay from "../images/GooglePlay.svg";
 import {
   ProviderOptionsListWithOnClick,
   SimpleFunction,
   ThemeConfig,
 } from "../types";
 import AbstractPopUp from "./AbstractPopUp";
-import {CardManager} from "./CardManager";
-import {WrongNetworkPopup} from "./WrongNetworkPopup";
-import AppStore from "../images/AppStore.svg";
-import GooglePlay from "../images/GooglePlay.svg";
-import DownloadApk from "../images/DownloadApk.svg";
+import { CardManager } from "./CardManager";
+import { WrongNetworkPopup } from "./WrongNetworkPopup";
 
 declare global {
   // tslint:disable-next-line
@@ -66,10 +66,10 @@ const INITIAL_STATE: ModalState = {
 };
 
 export const Modal = ({
-                        onClose,
-                        options,
-                        themeConfig: initThemeConfig,
-                      }: ModalProps) => {
+  onClose,
+  options,
+  themeConfig: initThemeConfig,
+}: ModalProps) => {
   window.updateVenomModal = async (state: Partial<ModalState>) => {
     if (state.show !== undefined) {
       setShow(state.show);
@@ -77,17 +77,17 @@ export const Modal = ({
     if (state.themeConfig !== undefined) {
       setThemeConfig(state.themeConfig);
     }
-    setWrongNetwork(state.wrongNetwork)
+    setWrongNetwork(state.wrongNetwork);
   };
 
   const getWalletWaysToConnect = (_walletId: string | undefined) => {
     let ret: ProviderOptionsListWithOnClick[0]["walletWaysToConnect"] = [];
-    options.forEach(o => {
-      ret = [...ret, ...o.walletWaysToConnect]
-    })
+    options.forEach((o) => {
+      ret = [...ret, ...o.walletWaysToConnect];
+    });
     return ret;
     // return options.find(({ id }) => id === _walletId)?.walletWaysToConnect;
-  }
+  };
 
   // const getInitialSlide = () =>
   //   options.length > 1 ? Slide.walletsList : Slide.currentWallet;
@@ -104,8 +104,8 @@ export const Modal = ({
   const getInitialWalletWaysToConnect = () => getWalletWaysToConnect(undefined);
 
   const getInitialWalletWayToConnect = () => {
-    const {id, walletWaysToConnect: _walletWaysToConnect} =
-    getInitialWalletOption() || {};
+    const { id, walletWaysToConnect: _walletWaysToConnect } =
+      getInitialWalletOption() || {};
     return (
       (id !== undefined &&
         id === walletId &&
@@ -119,12 +119,18 @@ export const Modal = ({
   const [slide, setSlide] = useState(getInitialSlide);
   // не актуален
   const [walletId, setWalletId] = useState<string | undefined>();
-  const [walletWaysToConnect, setWalletWaysToConnect] = useState<ProviderOptionsListWithOnClick[0]["walletWaysToConnect"] | undefined>();
-  const [walletWayToConnect, setWalletWayToConnect] = useState<ProviderOptionsListWithOnClick[0]["walletWaysToConnect"][0] | undefined>();
+  const [walletWaysToConnect, setWalletWaysToConnect] = useState<
+    ProviderOptionsListWithOnClick[0]["walletWaysToConnect"] | undefined
+  >();
+  const [walletWayToConnect, setWalletWayToConnect] = useState<
+    ProviderOptionsListWithOnClick[0]["walletWaysToConnect"][0] | undefined
+  >();
 
   const [themeConfig, setThemeConfig] = useState(initThemeConfig);
   const [show, setShow] = useState(INITIAL_STATE.show);
-  const [wrongNetwork, setWrongNetwork] = useState<boolean | undefined>(INITIAL_STATE.wrongNetwork);
+  const [wrongNetwork, setWrongNetwork] = useState<boolean | undefined>(
+    INITIAL_STATE.wrongNetwork
+  );
 
   useEffect(() => {
     setSlide(getInitialSlide || Slide.walletsList);
@@ -195,7 +201,7 @@ export const Modal = ({
       type: Slide.walletsList,
       element: (
         <SProviders>
-          {options.map(({id, wallet}, i) => (
+          {options.map(({ id, wallet }, i) => (
             <CardManager
               key={id}
               name={wallet.name}
@@ -211,7 +217,7 @@ export const Modal = ({
       title: (
         <>
           Choose the wallet to
-          <br/>
+          <br />
           connect:
         </>
       ),
@@ -228,7 +234,7 @@ export const Modal = ({
         // список на главной
         <SProviders>
           {walletWaysToConnect?.map(
-            ({id, name, logo, onClick, type, options: x}, i) => {
+            ({ id, name, logo, onClick, type, options: x }, i) => {
               return (
                 <CardManager
                   key={id}
@@ -264,37 +270,70 @@ export const Modal = ({
       type: Slide.innerCard,
       element: (
         <>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            marginTop: '32px',
-            width: '286px',
-            justifyContent: 'space-between'
-          }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              marginTop: "32px",
+              width: "286px",
+              justifyContent: "space-between",
+            }}
+          >
             {/*<QrCard {...walletWayToConnect.options} themeConfig={themeConfig} />*/}
             {walletWayToConnect.options.devises?.map((device: any) => {
-              if (device.type === 'ios') {
-                return <a href={device.deepLink} target="_blank" rel="noopener noreferrer"><img src={AppStore}/></a>
+              if (device.type === "ios") {
+                return (
+                  <a
+                    href={device.deepLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={AppStore} alt="" />
+                  </a>
+                );
               }
-              if (device.type === 'android') {
-                return <a href={device.deepLink} target="_blank" rel="noopener noreferrer"><img src={GooglePlay}/></a>
+              if (device.type === "android") {
+                return (
+                  <a
+                    href={device.deepLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={GooglePlay} alt="" />
+                  </a>
+                );
               }
-              if (device.type === 'apk') {
-                return <a href={device.deepLink} target="_blank" rel="noopener noreferrer">
-                  <img style={{marginTop: '16px', cursor: 'pointer'}} src={DownloadApk}/>
-                </a>
+              if (device.type === "apk") {
+                return (
+                  <a
+                    href={device.deepLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      style={{ marginTop: "16px", cursor: "pointer" }}
+                      src={DownloadApk}
+                      alt=""
+                    />
+                  </a>
+                );
               }
+
+              return null;
             })}
           </div>
-          <div style={{marginTop: '16px', cursor: 'pointer', color: '#11A97D'}}
-               onClick={goBack}>Back
+          <div
+            style={{ marginTop: "16px", cursor: "pointer", color: "#11A97D" }}
+            onClick={goBack}
+          >
+            Back
           </div>
         </>
       ),
       title: (
         <>
           Please connect with
-          <br/>
+          <br />
           {walletWayToConnect.name}
         </>
       ),
@@ -344,9 +383,7 @@ export const Modal = ({
           text: "Please, connect to",
         }}
       >
-        <WrongNetworkPopup
-          textColor={themeConfig.theme.common.text.color}
-        />
+        <WrongNetworkPopup textColor={themeConfig.theme.common.text.color} />
       </AbstractPopUp>
     </>
   );

@@ -26,8 +26,6 @@ export const getValueByKey: (
 ) => linkCreator =
   (id = "venomwallet" as const, key) =>
   (links) => {
-    if (key === "extension")
-      console.log("-------------------", links, defaultLinks);
     if (links?.[key] !== null && !!id) {
       // @ts-ignore
       const userValue = links?.[key];

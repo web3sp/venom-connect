@@ -1,5 +1,4 @@
 import { rgba } from "polished";
-import React from "react";
 import styled from "styled-components";
 import { SimpleFunction, Theme, ThemeConfig } from "../types";
 import { CloseCross } from "./CloseCross";
@@ -181,7 +180,8 @@ const SCardHeader = styled.div<CardHeader>`
   font-size: ${({ fontSize }) =>
     (typeof fontSize === "number" ? `${fontSize}px` : fontSize) || "24px"};
   line-height: ${({ lineHeight }) =>
-  (typeof lineHeight === "number" ? `${lineHeight}px` : lineHeight) || "28px"};
+    (typeof lineHeight === "number" ? `${lineHeight}px` : lineHeight) ||
+    "28px"};
 `;
 
 type AbstractPopUpProps = {
