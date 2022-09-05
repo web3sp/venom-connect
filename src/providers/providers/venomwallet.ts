@@ -3,6 +3,7 @@ import { ProviderOptions } from "../../types";
 import { venomWalletName } from "../connectors/venomwallet";
 import ChromeExtension from "../logos/ChromeExtensionVenom.svg";
 import MobileApp from "../logos/MobileAppVenom.svg";
+import Apple from "../logos/Apple.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
 import VenomWalletLogo from "../logos/VenomWalletLogo.svg";
 
@@ -69,6 +70,7 @@ const VenomWalletLogos = {
     ios: MobileApp,
     // android: logos.Android?.() || Android,
     android: MobileApp,
+    apple: Apple,
     playMarket: PlayMarket,
   },
 };
@@ -104,7 +106,7 @@ export const venomwallet: ProviderOptions = {
         devises: [
           {
             type: "ios",
-            img: VenomWalletLogos.connectors.ios,
+            img: VenomWalletLogos.connectors.apple,
             text: "iOS App",
 
             deepLink: (links: typeof venomDefaultLinks | undefined) =>

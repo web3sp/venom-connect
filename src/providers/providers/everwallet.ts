@@ -1,6 +1,7 @@
 import { getValueByKey } from ".";
 import { ProviderOptions } from "../../types";
 import { everWalletName } from "../connectors/everwallet";
+import Apple from "../logos/Apple.svg";
 import ChromeExtension from "../logos/ChromeExtensionEver.svg";
 import EverWalletLogo from "../logos/EverWalletLogo.svg";
 import MobileApp from "../logos/MobileAppEver.svg";
@@ -61,6 +62,7 @@ const EverWalletLogos = {
     ios: MobileApp,
     // android: logos.Android?.() || Android,
     android: MobileApp,
+    apple: Apple,
     playMarket: PlayMarket,
   },
 };
@@ -99,7 +101,7 @@ export const everwallet: ProviderOptions = {
         devises: [
           {
             type: "ios",
-            img: EverWalletLogos.connectors.ios,
+            img: EverWalletLogos.connectors.apple,
             text: "iOS App",
 
             deepLink: (links: typeof everDefaultLinks | undefined) =>
