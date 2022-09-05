@@ -306,7 +306,7 @@ export const ProviderCard = ({
                     {!!logo && (
                       <>
                         {typeof img === "string" ? (
-                          <img src={img} alt={type || ""} height={12} />
+                          <img src={img} alt={type || ""} height={12} style={{maxHeight: '12px'}} />
                         ) : (
                           <SImg
                             color={themeObject.item.icon.subTitle.color}
