@@ -85,7 +85,7 @@ export const venomwallet: ProviderOptions = {
       id: "extension",
       type: "extension",
       logo: VenomWalletLogos.connectors.chromeExtension,
-      name: "Venom Chrome Extension",
+      name: "Venom Extension",
       options: {
         isCurrentBrowser: [["isChrome", "isDesktop"]],
         installExtensionLink: (links: typeof venomDefaultLinks | undefined) =>

@@ -16,8 +16,7 @@ const everAndroidDeepLink =
   "https://play.google.com/store/apps/details?id=com.broxus.crystal.app";
 const everExtensionLinkChrome =
   "https://chrome.google.com/webstore/detail/ever-wallet/cgeeodpfagjceefieflmdfphplkenlfk";
-const everExtensionLinkFirefox =
-  "https://chrome.google.com/webstore/detail/ever-wallet/cgeeodpfagjceefieflmdfphplkenlfk";
+const everExtensionLinkFirefox = "https://everwallet.net";
 export const everDefaultLinks = {
   ios: everIosDeepLink !== null ? everIosDeepLink || everDefaultLink : null,
   android:
@@ -78,7 +77,7 @@ export const everwallet: ProviderOptions = {
       id: "extension",
       type: "extension",
       logo: EverWalletLogos.connectors.chromeExtension,
-      name: "Ever Chrome Extension",
+      name: "Ever Extension",
       options: {
         isCurrentBrowser: [
           ["isChrome", "isDesktop"],

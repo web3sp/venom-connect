@@ -207,7 +207,7 @@ const getStandaloneConnectionToEverWallet = async (
 
     return everProvider;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 };
 

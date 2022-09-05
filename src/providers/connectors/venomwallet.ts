@@ -76,8 +76,6 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
         const accountInteraction = permissions?.accountInteraction;
         const address = accountInteraction?.address;
 
-        console.log(`--- getProviderState::`, getProviderState);
-
         // здесь вызовется только когда уже был залогинен
         setupNetworkIdTimer(address, venomProvider, options.checkNetworkId);
 
@@ -209,7 +207,7 @@ const getStandaloneConnectionToVenomWallet = async (
 
     return venomProvider;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 };
 

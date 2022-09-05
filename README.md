@@ -40,8 +40,12 @@ const initVenomConnect = async () => {
           // description: "Custom description",
         },
         links: {
-          extension:
-            "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch",
+          extension: [
+            {
+              browser: "chrome", // "chrome" | "firefox"
+              link: "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch",
+            },
+          ],
           ios: null,
           android:
             "https://play.google.com/store/apps/details?id=com.venom.wallet",
@@ -75,8 +79,8 @@ const initVenomConnect = async () => {
             //       )()
             //     ),
             //   forceUseFallback: true,
-            //   разрешенные ид сети - число или массив чисел  
-            //   checkNetworkId: 1000,  
+            //   разрешенные ид сети - число или массив чисел
+            //   checkNetworkId: 1000,
             // },
 
             // Setup
