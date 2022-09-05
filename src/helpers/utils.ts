@@ -56,22 +56,23 @@ export const checkIsCurrentBrowser = (isCurrentBrowser?: any) => {
   let _isCurrentBrowser: boolean | undefined;
 
   try {
-    if (isCurrentBrowser && Array.isArray(isCurrentBrowser)) {
+    if (
+      isCurrentBrowser &&
+      Array.isArray(isCurrentBrowser) &&
+      isCurrentBrowser.reduce((r, br) => r && !Array.isArray(br), true)
+    ) {
       // format: ["isChrome", "isDesktop"]
+    } else if (isCurrentBrowser && Array.isArray(isCurrentBrowser)) {
       _isCurrentBrowser = isCurrentBrowser?.reduce((r, item, i) => {
-        if (item && Array.isArray(item)) {
-          // format: [["isChrome", "isDesktop"], ["isFirefox", "isDesktop"]]
-          return (
-            (r && !!i) ||
-            !!item?.reduce((rInner, itemInner) => {
-              // @ts-ignore
-              return rInner && deviceDetect[itemInner];
-            }, true)
-          );
-        }
-        // @ts-ignore
-        return r && deviceDetect[item];
-      }, true);
+        // format: [["isChrome", "isDesktop"], ["isFirefox", "isDesktop"]]
+        return (
+          r ||
+          !!item?.reduce((rInner: any, itemInner: any) => {
+            // @ts-ignore
+            return rInner && deviceDetect[itemInner];
+          }, true)
+        );
+      }, false);
     } else {
       // format: "isDesktop"
       // @ts-ignore

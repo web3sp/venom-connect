@@ -4,6 +4,7 @@ import {
   Events,
   SELECT_EVENT,
 } from "../helpers/events";
+import { checkIsCurrentBrowser } from "../helpers/utils";
 import * as allProviders from "../providers";
 import {
   ConnectorType,
@@ -239,9 +240,21 @@ export class ProviderController {
                   ({ type }) => type === walletWayToConnect.type
                 );
 
-              const userOptions = walletWayToConnect.packageOptions;
-              const defaultOptions =
-                defaultPackageOptions[id]?.[walletWayToConnect.type];
+              const isCurrentDevise = checkIsCurrentBrowser(
+                defaultWay.options.isCurrentBrowser
+              );
+
+              const forceUseFallback =
+                !!walletWayToConnect.packageOptions?.forceUseFallback;
+
+              const userOptions =
+                isCurrentDevise && !forceUseFallback
+                  ? walletWayToConnect.packageOptions
+                  : null;
+
+              const defaultOptions = isCurrentDevise
+                ? defaultPackageOptions[id]?.[walletWayToConnect.type]
+                : {};
 
               const packageOptions = userOptions || defaultOptions || {};
 
