@@ -1,9 +1,6 @@
 import { getValueByKey } from ".";
 import { ProviderOptions } from "../../types";
 import { venomWalletName } from "../connectors/venomwallet";
-import * as logos from "../logos";
-import Android from "../logos/Android.svg";
-import Apple from "../logos/Apple.svg";
 import ChromeExtension from "../logos/ChromeExtensionVenom.svg";
 import MobileApp from "../logos/MobileAppVenom.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
@@ -16,7 +13,7 @@ const venomDefaultLink = "/";
 const venomIosDeepLink = "https://testflight.apple.com/join/x5jOlxzL";
 const venomAndroidDeepLink =
   "https://play.google.com/store/apps/details?id=com.venom.wallet";
-const venomExtensionLink =
+const venomExtensionLinkChrome =
   "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch";
 export const venomDefaultLinks = {
   ios: venomIosDeepLink !== null ? venomIosDeepLink || venomDefaultLink : null,
@@ -28,8 +25,15 @@ export const venomDefaultLinks = {
     venomIosDeepLink !== null
       ? venomIosDeepLink || venomAndroidDeepLink || venomDefaultLink
       : null,
-  extension:
-    venomExtensionLink !== null ? venomExtensionLink || venomDefaultLink : null,
+  extension: [
+    {
+      browser: "chrome",
+      link:
+        venomExtensionLinkChrome !== null
+          ? venomExtensionLinkChrome || venomDefaultLink
+          : null,
+    },
+  ],
 };
 //
 
@@ -83,7 +87,7 @@ export const venomwallet: ProviderOptions = {
       logo: VenomWalletLogos.connectors.chromeExtension,
       name: "Venom Chrome Extension",
       options: {
-        isCurrentBrowser: ["isChrome", "isDesktop"],
+        isCurrentBrowser: [["isChrome", "isDesktop"]],
         installExtensionLink: (links: typeof venomDefaultLinks | undefined) =>
           getValueByKey("venomwallet", "extension")(links),
         checkIsProviderExist: () => !!window.__venom, // todo
@@ -124,7 +128,7 @@ export const venomwallet: ProviderOptions = {
             img: VenomWalletLogos.connectors.playMarket,
             text: "Android Apk",
 
-            deepLink: 'https://venom.foundation/wallet/android',
+            deepLink: "https://venom.foundation/wallet/android",
             alt: "Android Apk",
             storeId: "android-apk",
           },

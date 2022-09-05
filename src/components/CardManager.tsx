@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { isIOS, isMobile } from "react-device-detect";
+import { isIOS, isMobile, browserName } from "react-device-detect";
 import { checkIsCurrentBrowser } from "../helpers/utils";
 import { ProviderCard, ProviderCardProps } from "./ProviderCard";
 
 type CardManagerProps = Omit<
   ProviderCardProps,
-  "isProviderExist" | "isCurrentBrowser"
+  "isProviderExist" | "isCurrentBrowser" | "browser"
 > & {
   // checkIsProviderExist: () => Promise<boolean>;
 };
@@ -43,7 +43,7 @@ export const CardManager = (props: CardManagerProps) => {
             {...props}
             isCurrentBrowser={true}
             isProviderExist={true}
-            isFirst={false}  // всё хорошо с ними
+            isFirst={false} // всё хорошо с ними
           />
         ) : null;
       } else {
@@ -75,6 +75,7 @@ export const CardManager = (props: CardManagerProps) => {
               {...props}
               isCurrentBrowser={isCurrentBrowser}
               isProviderExist={isProviderExist}
+              browser={browserName?.toLocaleLowerCase()}
             />
           );
         } else {

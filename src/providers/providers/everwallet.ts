@@ -1,9 +1,6 @@
 import { getValueByKey } from ".";
 import { ProviderOptions } from "../../types";
 import { everWalletName } from "../connectors/everwallet";
-import * as logos from "../logos";
-import Android from "../logos/Android.svg";
-import Apple from "../logos/Apple.svg";
 import ChromeExtension from "../logos/ChromeExtensionEver.svg";
 import EverWalletLogo from "../logos/EverWalletLogo.svg";
 import MobileApp from "../logos/MobileAppEver.svg";
@@ -17,7 +14,9 @@ const everIosDeepLink =
   "https://apps.apple.com/ru/app/ton-crystal-wallet/id1581310780";
 const everAndroidDeepLink =
   "https://play.google.com/store/apps/details?id=com.broxus.crystal.app";
-const everExtensionLink =
+const everExtensionLinkChrome =
+  "https://chrome.google.com/webstore/detail/ever-wallet/cgeeodpfagjceefieflmdfphplkenlfk";
+const everExtensionLinkFirefox =
   "https://chrome.google.com/webstore/detail/ever-wallet/cgeeodpfagjceefieflmdfphplkenlfk";
 export const everDefaultLinks = {
   ios: everIosDeepLink !== null ? everIosDeepLink || everDefaultLink : null,
@@ -29,8 +28,23 @@ export const everDefaultLinks = {
     everIosDeepLink !== null
       ? everIosDeepLink || everAndroidDeepLink || everDefaultLink
       : null,
-  extension:
-    everExtensionLink !== null ? everExtensionLink || everDefaultLink : null,
+
+  extension: [
+    {
+      browser: "chrome",
+      link:
+        everExtensionLinkChrome !== null
+          ? everExtensionLinkChrome || everDefaultLink
+          : null,
+    },
+    {
+      browser: "firefox",
+      link:
+        everExtensionLinkFirefox !== null
+          ? everExtensionLinkFirefox || everDefaultLink
+          : null,
+    },
+  ],
 };
 //
 
@@ -66,7 +80,10 @@ export const everwallet: ProviderOptions = {
       logo: EverWalletLogos.connectors.chromeExtension,
       name: "Ever Chrome Extension",
       options: {
-        isCurrentBrowser: ["isChrome", "isDesktop"],
+        isCurrentBrowser: [
+          ["isChrome", "isDesktop"],
+          ["isFirefox", "isDesktop"],
+        ],
         installExtensionLink: (links: typeof everDefaultLinks | undefined) =>
           getValueByKey("everwallet", "extension")(links),
         checkIsProviderExist: () => !!window.__ever, // todo

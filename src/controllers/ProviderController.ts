@@ -1,4 +1,3 @@
-import { isChrome, isDesktop } from "react-device-detect";
 import {
   CONNECT_EVENT,
   ERROR_EVENT,
@@ -240,21 +239,12 @@ export class ProviderController {
                   ({ type }) => type === walletWayToConnect.type
                 );
 
-              const forceUseFallback =
-                !!walletWayToConnect.packageOptions?.forceUseFallback;
-
-              const userOptions =
-                isChrome && isDesktop && !forceUseFallback
-                  ? walletWayToConnect.packageOptions
-                  : null;
-
+              const userOptions = walletWayToConnect.packageOptions;
               const defaultOptions =
-                isChrome && isDesktop
-                  ? // ? walletWayToConnect.packageOptions
-                    defaultPackageOptions[id]?.[walletWayToConnect.type]
-                  : {};
+                defaultPackageOptions[id]?.[walletWayToConnect.type];
 
               const packageOptions = userOptions || defaultOptions || {};
+
               // задаём 1000 как дефолт ид венома
               packageOptions.checkNetworkId =
                 walletWayToConnect?.packageOptions?.checkNetworkId || 1000;

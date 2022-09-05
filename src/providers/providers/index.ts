@@ -6,9 +6,15 @@ export * from "./venomwallet";
 
 const DefaultWalletLogo = VenomWalletLogo; // todo
 
-export type linkCreator = (
+type linkCreator = (
   links: typeof venomDefaultLinks | typeof everDefaultLinks | undefined
-) => string | null;
+) =>
+  | string
+  | null
+  | {
+      browser: string;
+      link: string | null;
+    }[];
 const defaultLinks = {
   venomwallet: venomDefaultLinks,
   everwallet: everDefaultLinks,
@@ -20,6 +26,8 @@ export const getValueByKey: (
 ) => linkCreator =
   (id = "venomwallet" as const, key) =>
   (links) => {
+    if (key === "extension")
+      console.log("-------------------", links, defaultLinks);
     if (links?.[key] !== null && !!id) {
       // @ts-ignore
       const userValue = links?.[key];

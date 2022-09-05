@@ -48,8 +48,7 @@ const SProviderContainerWrapper = styled.div<ProviderContainerWrapper>`
     item: {
       border: { borderWidth },
     },
-    }) => `${borderWidth}px`
-  };
+  }) => `${borderWidth}px`};
   border-color: transparent;
   border-style: solid;
   /* ========================= */
@@ -242,6 +241,7 @@ export type ProviderCardProps = WalletDisplay & {
   themeObject: Theme;
   onClick?: () => void; // todo ?
   connectorType?: ConnectorType;
+  browser?: string; // lowercase
   options?: WayToConnect["options"];
   isFirst?: boolean;
 };
@@ -254,12 +254,11 @@ export const ProviderCard = ({
   themeObject,
   onClick,
   connectorType,
+  browser,
   options,
   isFirst,
 }: ProviderCardProps) => {
-  const isShowBadBrowserWarning =
-    // isFirst || (connectorType ? connectorType === "extension" : false);
-    isFirst || (connectorType ? false : false);
+  const isShowBadBrowserWarning = !!isFirst;
 
   const NotSupportedBadge = (
     <>
@@ -301,24 +300,26 @@ export const ProviderCard = ({
         const list = options?.devises;
         const elements = Array.isArray(list)
           ? list.map(({ img, text, type }) => {
-              return (type !=='apk' &&
-                <SSubTextItem>
-                  {!!logo && (
-                    <>
-                      {typeof img === "string" ? (
-                        <img src={img} alt={type || ""} height={12} />
-                      ) : (
-                        <SImg
-                          color={themeObject.item.icon.subTitle.color}
-                          maxHeight={12}
-                        >
-                          {img}
-                        </SImg>
-                      )}
-                    </>
-                  )}
-                  <span>{text}</span>
-                </SSubTextItem>
+              return (
+                type !== "apk" && (
+                  <SSubTextItem>
+                    {!!logo && (
+                      <>
+                        {typeof img === "string" ? (
+                          <img src={img} alt={type || ""} height={12} />
+                        ) : (
+                          <SImg
+                            color={themeObject.item.icon.subTitle.color}
+                            maxHeight={12}
+                          >
+                            {img}
+                          </SImg>
+                        )}
+                      </>
+                    )}
+                    <span>{text}</span>
+                  </SSubTextItem>
+                )
               );
             })
           : null;
@@ -337,19 +338,39 @@ export const ProviderCard = ({
 
   const optionsSubText = getOptionsSubText();
 
+  const getLinkFromArr = (
+    arr: { browser: string; link: string | null }[] | undefined | string
+  ) => {
+    if (!Array.isArray(arr)) return undefined;
+
+    const current = arr?.find(
+      (extensionObj) => extensionObj.browser === browser
+    );
+    const fallback = arr?.find(
+      (extensionObj) => extensionObj.browser === "chrome"
+    );
+
+    return current || fallback;
+  };
+
   const getCardLink = () => {
-    // console.log('--> OOOO', {connectorType, isCurrentBrowser, isProviderExist, options})
     // чужой браузер, вернём ссылку на установку
-    if (
-      connectorType === "extension" && !isCurrentBrowser
-    ) {
-      return options?.installExtensionLink as string | undefined;
+    console.log(`connectorType::`, connectorType);
+    console.log(`isCurrentBrowser::`, isCurrentBrowser);
+    console.log(`isProviderExist::`, isProviderExist);
+    console.log(`options::`, options);
+    if (connectorType === "extension" && !isCurrentBrowser) {
+      return getLinkFromArr(options?.installExtensionLink)?.link as
+        | string
+        | undefined;
     } else if (
       connectorType === "extension" &&
       isCurrentBrowser &&
       !isProviderExist
     ) {
-      return options?.installExtensionLink as string | undefined;
+      return getLinkFromArr(options?.installExtensionLink)?.link as
+        | string
+        | undefined;
     } else if (connectorType === "ios" || connectorType === "android") {
       return options?.deepLink as string | undefined;
     }
@@ -360,6 +381,7 @@ export const ProviderCard = ({
   // список способов подключения
   return (
     <SWrapper>
+      <pre>cardLink: {String(cardLink)}</pre>
       {isShowBadBrowserWarning && NotSupportedBadge}
       <a
         {...(cardLink

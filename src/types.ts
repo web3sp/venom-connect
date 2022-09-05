@@ -94,7 +94,10 @@ export type ThemesList = {
 export type SimpleFunction = (input?: any) => void;
 
 type Links = {
-  extension: string | null;
+  extension: {
+    browser: "chrome" | "firefox";
+    link: string | null;
+  }[];
   ios: string | null;
   android: string | null;
   qr: string | null;
