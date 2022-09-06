@@ -179,9 +179,10 @@ export const Modal = ({
   };
 
   // выбран способ коннетка
-  const onCurrentCardItemClick = (name: string, cb: () => void) => {
+  const onCurrentCardItemClick = (name: string, id: string, cb: () => void) => {
     const _walletWayToConnect = walletWaysToConnect?.find(
-      (_walletWayToConnect) => _walletWayToConnect.name === name
+      (_walletWayToConnect) =>
+        _walletWayToConnect.name === name && _walletWayToConnect.id === id
     );
     setWalletWayToConnect(_walletWayToConnect);
     if (
@@ -241,7 +242,7 @@ export const Modal = ({
                   name={name}
                   logo={logo}
                   themeObject={themeConfig.theme}
-                  onClick={() => onCurrentCardItemClick(name, onClick)}
+                  onClick={() => onCurrentCardItemClick(name, id, onClick)}
                   connectorType={type}
                   options={x}
                   // надо только у первого передать что он первый
