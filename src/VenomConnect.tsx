@@ -115,6 +115,10 @@ class VenomConnect {
 
   public connect = (): Promise<any> =>
     new Promise(async (resolve, reject) => {
+      this.updateState({
+        wrongNetwork: undefined,
+      });
+
       this.on(CONNECT_EVENT, (provider) => resolve(provider));
       this.on(ERROR_EVENT, (error) => reject(error));
       this.on(CLOSE_EVENT, () => reject("Modal closed by user"));
@@ -250,6 +254,12 @@ class VenomConnect {
 
   // --------------- PRIVATE METHODS --------------- //
 
+  private async disconnect() {
+    try {
+      await this.currentProvider?._api?.disconnect?.();
+    } catch (error) {}
+  }
+
   private renderModal() {
     const VENOM_CONNECT_MODAL_ID = "VENOM_CONNECT_MODAL_ID";
 
@@ -351,6 +361,10 @@ class VenomConnect {
         themeConfig={this.themeConfig}
         options={injectedLinkOptions}
         onClose={this.onClose}
+        changeWallet={async () => {
+          await this.disconnect();
+          this.connect();
+        }}
       />
     );
   }

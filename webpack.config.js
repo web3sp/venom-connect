@@ -6,7 +6,8 @@ module.exports = {
     index: "./src/index.tsx"
   },
   output: {
-    path: path.resolve(__dirname, "./lib"),
+    // path: path.resolve(__dirname, "../example/src/lib/venom"), // for dev
+    path: path.resolve(__dirname, "./lib"), // for prod
     filename: "[name].js",
     libraryTarget: "umd",
     library: "VenomConnect",

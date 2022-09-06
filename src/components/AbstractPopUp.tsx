@@ -187,7 +187,7 @@ const SCardHeader = styled.div<CardHeader>`
 type AbstractPopUpProps = {
   show: boolean;
   goBack?: SimpleFunction;
-  onClose: SimpleFunction;
+  onClose?: SimpleFunction;
   themeObject: ThemeConfig["theme"];
   cardHeader: {
     text: string | JSX.Element;
@@ -218,11 +218,13 @@ const AbstractPopUp = ({
               fontWeight={themeObject.popup.title?.fontWeight}
             >
               <span>{cardHeader.text}</span>
-              <CloseCross
-                color={themeObject.popup.closeCross.color}
-                hoverColor={themeObject.popup.closeCross.hoverColor}
-                onClick={onClose}
-              />
+              {!!onClose && (
+                <CloseCross
+                  color={themeObject.popup.closeCross.color}
+                  hoverColor={themeObject.popup.closeCross.hoverColor}
+                  onClick={onClose}
+                />
+              )}
             </SCardHeader>
             {children}
           </SModalCard>

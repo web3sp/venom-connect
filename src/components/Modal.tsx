@@ -52,21 +52,25 @@ type ModalProps = {
   themeConfig: ThemeConfig;
   options: ProviderOptionsListWithOnClick;
   onClose: SimpleFunction;
+  changeWallet: SimpleFunction;
 };
 
 type ModalState = {
   show: boolean;
   themeConfig?: ThemeConfig;
   wrongNetwork?: boolean;
+  isFullProvider?: boolean;
 };
 
 const INITIAL_STATE: ModalState = {
   show: false,
   wrongNetwork: false,
+  isFullProvider: false,
 };
 
 export const Modal = ({
   onClose,
+  changeWallet,
   options,
   themeConfig: initThemeConfig,
 }: ModalProps) => {
@@ -76,6 +80,9 @@ export const Modal = ({
     }
     if (state.themeConfig !== undefined) {
       setThemeConfig(state.themeConfig);
+    }
+    if (state.isFullProvider !== undefined) {
+      setIsFullProvider(state.isFullProvider);
     }
     setWrongNetwork(state.wrongNetwork);
   };
@@ -130,6 +137,9 @@ export const Modal = ({
   const [show, setShow] = useState(INITIAL_STATE.show);
   const [wrongNetwork, setWrongNetwork] = useState<boolean | undefined>(
     INITIAL_STATE.wrongNetwork
+  );
+  const [isFullProvider, setIsFullProvider] = useState<boolean | undefined>(
+    INITIAL_STATE.isFullProvider
   );
 
   useEffect(() => {
@@ -377,14 +387,16 @@ export const Modal = ({
         {card?.element}
       </AbstractPopUp>
       <AbstractPopUp
-        show={!!wrongNetwork && !show}
-        onClose={onClose}
+        show={!!wrongNetwork && !show && !!isFullProvider}
         themeObject={themeConfig.theme}
         cardHeader={{
-          text: "Please, connect to",
+          text: "Active network is wrong",
         }}
       >
-        <WrongNetworkPopup textColor={themeConfig.theme.common.text.color} />
+        <WrongNetworkPopup
+          textColor={themeConfig.theme.common.text.color}
+          changeWallet={changeWallet}
+        />
       </AbstractPopUp>
     </>
   );

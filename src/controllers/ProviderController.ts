@@ -166,6 +166,13 @@ export class ProviderController {
     this._standalone = await this.getStandalone();
   };
 
+  public set currentProvider(cp) {
+    window.updateVenomModal({
+      isFullProvider: !!cp,
+    });
+    this._currentProvider = cp;
+  }
+
   public get currentProvider() {
     return this._currentProvider || this._standalone;
   }
@@ -361,7 +368,7 @@ export class ProviderController {
     authConnector: (providerPackage: any, opts: any) => Promise<any>
   ) => {
     try {
-      this._currentProvider = null;
+      this.currentProvider = null;
 
       const providerPackage = this.getProviderOption(
         id,
@@ -379,7 +386,7 @@ export class ProviderController {
 
       const provider = await authConnector(providerPackage, options);
 
-      this._currentProvider = provider;
+      this.currentProvider = provider;
 
       return provider || null;
     } catch (error) {
@@ -393,7 +400,7 @@ export class ProviderController {
     connector: (providerPackage: any, opts: any) => Promise<any>
   ) => {
     try {
-      this._currentProvider = null;
+      this.currentProvider = null;
 
       this.eventController.trigger(SELECT_EVENT, id);
       const providerPackage = this.getProviderOption(
@@ -412,7 +419,7 @@ export class ProviderController {
 
       const provider = await connector(providerPackage, options);
 
-      this._currentProvider = provider;
+      this.currentProvider = provider;
 
       this.eventController.trigger(CONNECT_EVENT, provider);
     } catch (error) {

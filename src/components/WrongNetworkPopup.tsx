@@ -4,6 +4,11 @@ import { ThemeConfig } from "../types";
 type Color = {
   color: string;
 };
+const ShowNetworkWrapper = styled.div`
+  width: 100%;
+
+  margin-top: 9px;
+`;
 const ShowNetwork = styled.div<Color>`
   width: 320px;
   height: 56px;
@@ -20,11 +25,9 @@ const ShowNetwork = styled.div<Color>`
   font-size: 20px;
   line-height: 20px;
   color: ${({ color }) => color};
-
-  margin-top: 35px;
 `;
 
-const SwitchNetworkButton = styled.div`
+const ChangeWalletButton = styled.div`
   background: #11a97d;
   width: 320px;
   height: 56px;
@@ -40,25 +43,41 @@ const SwitchNetworkButton = styled.div`
   font-weight: 400;
   font-size: 18px;
   line-height: 20px;
+
+  margin-bottom: 17px;
 `;
-const ChangeNetTextDiv = styled.div`
+
+type TextDivType = {
+  textAlign?: "center" | "left";
+};
+const TextDiv = styled.div<TextDivType>`
   font-size: 12px;
   line-height: 16px;
-  margin-top: 12px;
   width: 100%;
-  text-align: left;
+
+  margin: 12px 0;
+  text-align: ${({ textAlign }) => textAlign || "center"};
 `;
 export type WrongNetworkPopupProps = {
   textColor: ThemeConfig["theme"]["common"]["text"]["color"];
+  changeWallet: () => void;
 };
-export const WrongNetworkPopup = ({ textColor }: WrongNetworkPopupProps) => {
+export const WrongNetworkPopup = ({
+  textColor,
+  changeWallet,
+}: WrongNetworkPopupProps) => {
   return (
     <>
-      <ShowNetwork color={textColor}>Venom Mainnet</ShowNetwork>
-      <ChangeNetTextDiv>
-        Please change network in your wallets settings
-      </ChangeNetTextDiv>
-      {/*<SwitchNetworkButton>Switch Network</SwitchNetworkButton>*/}
+      <ShowNetworkWrapper>
+        <TextDiv textAlign="left">
+          Please change network in your wallets settings to
+        </TextDiv>
+        <ShowNetwork color={textColor}>Venom Mainnet</ShowNetwork>
+      </ShowNetworkWrapper>
+      <TextDiv textAlign="center">or</TextDiv>
+      <ChangeWalletButton onClick={changeWallet}>
+        Change Wallet
+      </ChangeWalletButton>
     </>
   );
 };
