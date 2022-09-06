@@ -306,7 +306,12 @@ export const ProviderCard = ({
                     {!!logo && (
                       <>
                         {typeof img === "string" ? (
-                          <img src={img} alt={type || ""} height={12} style={{maxHeight: '12px'}} />
+                          <img
+                            src={img}
+                            alt={type || ""}
+                            height={12}
+                            style={{ maxHeight: "12px" }}
+                          />
                         ) : (
                           <SImg
                             color={themeObject.item.icon.subTitle.color}
@@ -374,6 +379,21 @@ export const ProviderCard = ({
 
   const cardLink = getCardLink();
 
+  const getLogo = (_logo: any) => {
+    if (typeof _logo !== "object") return "";
+
+    const __logo: { chrome?: string; firefox?: string } = _logo;
+
+    switch (browser) {
+      case "firefox":
+        return __logo.firefox || __logo.chrome;
+
+      case "chrome":
+      default:
+        return __logo.chrome;
+    }
+  };
+
   // список способов подключения
   return (
     <SWrapper>
@@ -400,16 +420,11 @@ export const ProviderCard = ({
             <SIconSection item={themeObject.item}>
               {!!logo && (
                 <>
-                  {typeof logo === "string" ? (
-                    <img src={logo} alt={name} style={{ maxHeight: "24px" }} />
-                  ) : (
-                    <SImg
-                      color={themeObject.item.icon.main.color}
-                      maxHeight={24}
-                    >
-                      {logo}
-                    </SImg>
-                  )}
+                  <img
+                    src={typeof logo === "string" ? logo : getLogo(logo)}
+                    alt={name}
+                    style={{ maxHeight: "24px" }}
+                  />
                 </>
               )}
             </SIconSection>

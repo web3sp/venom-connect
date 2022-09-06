@@ -3,6 +3,7 @@ import { ProviderOptions } from "../../types";
 import { everWalletName } from "../connectors/everwallet";
 import Apple from "../logos/Apple.svg";
 import ChromeExtension from "../logos/ChromeExtensionEver.svg";
+import FirefoxExtension from "../logos/FirefoxExtensionEver.svg";
 import EverWalletLogo from "../logos/EverWalletLogo.svg";
 import MobileApp from "../logos/MobileAppEver.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
@@ -56,6 +57,7 @@ const EverWalletLogos = {
   wallet: EverWalletLogo,
   connectors: {
     chromeExtension: ChromeExtension,
+    firefoxExtension: FirefoxExtension,
     // mobile: logos.MobileApp?.() || MobileApp,
     mobile: MobileApp,
     // ios: logos.Apple?.() || Apple,
@@ -78,7 +80,10 @@ export const everwallet: ProviderOptions = {
     {
       id: "extension",
       type: "extension",
-      logo: EverWalletLogos.connectors.chromeExtension,
+      logo: {
+        chrome: EverWalletLogos.connectors.chromeExtension,
+        firefox: EverWalletLogos.connectors.firefoxExtension,
+      },
       name: "Ever Extension",
       options: {
         isCurrentBrowser: [

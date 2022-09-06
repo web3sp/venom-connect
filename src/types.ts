@@ -105,7 +105,12 @@ type Links = {
 
 type ProviderDisplay = {
   name: string;
-  logo: string | JSX.Element;
+  logo:
+    | string
+    | JSX.Element
+    | {
+        [key: string]: string;
+      };
 };
 export type WalletDisplay = ProviderDisplay & {
   description?: string;

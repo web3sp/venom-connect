@@ -2,6 +2,7 @@ import { getValueByKey } from ".";
 import { ProviderOptions } from "../../types";
 import { venomWalletName } from "../connectors/venomwallet";
 import ChromeExtension from "../logos/ChromeExtensionVenom.svg";
+import FirefoxExtension from "../logos/FirefoxExtensionVenom.svg";
 import MobileApp from "../logos/MobileAppVenom.svg";
 import Apple from "../logos/Apple.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
@@ -64,6 +65,7 @@ const VenomWalletLogos = {
   wallet: VenomWalletLogo,
   connectors: {
     chromeExtension: ChromeExtension,
+    firefoxExtension: FirefoxExtension,
     // mobile: logos.MobileApp?.() || MobileApp, пока так
     mobile: MobileApp,
     // ios: logos.Apple?.() || Apple,
@@ -86,7 +88,10 @@ export const venomwallet: ProviderOptions = {
     {
       id: "extension",
       type: "extension",
-      logo: VenomWalletLogos.connectors.chromeExtension,
+      logo: {
+        chrome: VenomWalletLogos.connectors.chromeExtension,
+        // firefox: VenomWalletLogos.connectors.firefoxExtension,
+      },
       name: "Venom Extension",
       options: {
         isCurrentBrowser: [["isChrome", "isDesktop"]],
