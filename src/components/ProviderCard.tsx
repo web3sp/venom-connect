@@ -246,7 +246,7 @@ export type ProviderCardProps = WalletDisplay & {
   isFirst?: boolean;
 };
 export const ProviderCard = ({
-  name,
+  name: nameRaw,
   logo,
   description,
   isProviderExist,
@@ -254,10 +254,12 @@ export const ProviderCard = ({
   themeObject,
   onClick,
   connectorType,
-  browser,
+  browser: browserNameRaw,
   options,
   isFirst,
 }: ProviderCardProps) => {
+  const browserName = browserNameRaw?.toLocaleLowerCase()?.trim();
+  const name = nameRaw.replace("[[browser]]", isCurrentBrowser && browserNameRaw ? browserNameRaw : "Chrome");
   const isShowBadBrowserWarning = !!isFirst;
 
   const NotSupportedBadge = (
@@ -349,7 +351,7 @@ export const ProviderCard = ({
     if (!Array.isArray(arr)) return undefined;
 
     const current = arr?.find(
-      (extensionObj) => extensionObj.browser === browser
+      (extensionObj) => extensionObj.browser === browserName
     );
     const fallback = arr?.find(
       (extensionObj) => extensionObj.browser === "chrome"
@@ -384,7 +386,7 @@ export const ProviderCard = ({
 
     const __logo: { chrome?: string; firefox?: string } = _logo;
 
-    switch (browser) {
+    switch (browserName) {
       case "firefox":
         return __logo.firefox || __logo.chrome;
 

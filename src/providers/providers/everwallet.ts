@@ -84,7 +84,7 @@ export const everwallet: ProviderOptions = {
         chrome: EverWalletLogos.connectors.chromeExtension,
         firefox: EverWalletLogos.connectors.firefoxExtension,
       },
-      name: "Ever Extension",
+      name: "Ever [[browser]] Extension", // [[browser]] will replace to 'Chrome' or 'Firefox'
       options: {
         isCurrentBrowser: [
           ["isChrome", "isDesktop"],

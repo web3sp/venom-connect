@@ -75,7 +75,7 @@ export const CardManager = (props: CardManagerProps) => {
               {...props}
               isCurrentBrowser={isCurrentBrowser}
               isProviderExist={isProviderExist}
-              browser={browserName?.toLocaleLowerCase()}
+              browser={browserName}
             />
           );
         } else {
