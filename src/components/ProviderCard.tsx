@@ -239,6 +239,7 @@ export type ProviderCardProps = WalletDisplay & {
   isProviderExist: boolean;
   isCurrentBrowser: boolean;
   themeObject: Theme;
+  themeName: string;
   onClick?: () => void; // todo ?
   connectorType?: ConnectorType;
   browser?: string; // lowercase
@@ -251,10 +252,12 @@ export type ProviderCardProps = WalletDisplay & {
 export const ProviderCard = ({
   name: nameRaw,
   logo,
+  logoWhite,
   description,
   isProviderExist,
   isCurrentBrowser,
   themeObject,
+  themeName,
   onClick,
   connectorType,
   browser: browserNameRaw,
@@ -399,19 +402,25 @@ export const ProviderCard = ({
 
   const cardLink = getCardLink();
 
-  const getLogo = (_logo: any) => {
-    if (typeof _logo !== "object") return "";
-
-    const __logo: { chrome?: string; firefox?: string } = _logo;
-
-    switch (browserName) {
-      case "firefox":
-        return __logo.firefox || __logo.chrome;
-
-      case "chrome":
-      default:
-        return __logo.chrome;
+  const getLogo = () => {
+    if (typeof logo === "string") {
+      return themeName === "venom" ? logoWhite : logo;
     }
+
+    if (typeof logo === "object") {
+      const __logo = logo as { chrome?: string; firefox?: string };
+
+      switch (browserName) {
+        case "firefox":
+          return __logo.firefox || __logo.chrome;
+
+        case "chrome":
+        default:
+          return __logo.chrome;
+      }
+    }
+
+    return "";
   };
 
   // список способов подключения
@@ -441,7 +450,7 @@ export const ProviderCard = ({
               {!!logo && (
                 <>
                   <img
-                    src={typeof logo === "string" ? logo : getLogo(logo)}
+                    src={getLogo()}
                     alt={name}
                     style={{ maxHeight: "24px" }}
                   />

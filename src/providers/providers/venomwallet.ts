@@ -1,10 +1,11 @@
 import { getValueByKey } from ".";
 import { ProviderOptions } from "../../types";
 import { venomWalletName } from "../connectors/venomwallet";
+import Apple from "../logos/Apple.svg";
 import ChromeExtension from "../logos/ChromeExtensionVenom.svg";
 import FirefoxExtension from "../logos/FirefoxExtensionVenom.svg";
 import MobileApp from "../logos/MobileAppVenom.svg";
-import Apple from "../logos/Apple.svg";
+import MobileAppWhite from "../logos/MobileAppVenomWhite.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
 import VenomWalletLogo from "../logos/VenomWalletLogo.svg";
 
@@ -66,12 +67,12 @@ const VenomWalletLogos = {
   connectors: {
     chromeExtension: ChromeExtension,
     firefoxExtension: FirefoxExtension,
-    // mobile: logos.MobileApp?.() || MobileApp, пока так
     mobile: MobileApp,
-    // ios: logos.Apple?.() || Apple,
+    mobileWhite: MobileAppWhite,
     ios: MobileApp,
-    // android: logos.Android?.() || Android,
+    iosWhite: MobileAppWhite,
     android: MobileApp,
+    androidWhite: MobileAppWhite,
     apple: Apple,
     playMarket: PlayMarket,
   },
@@ -104,6 +105,7 @@ export const venomwallet: ProviderOptions = {
       id: "mobile",
       type: "mobile",
       logo: VenomWalletLogos.connectors.mobile,
+      logoWhite: VenomWalletLogos.connectors.mobileWhite,
       name: "Venom Mobile App",
       options: {
         qr: (links: typeof venomDefaultLinks | undefined) =>
@@ -146,6 +148,7 @@ export const venomwallet: ProviderOptions = {
       id: "ios",
       type: "ios",
       logo: VenomWalletLogos.connectors.ios,
+      logoWhite: VenomWalletLogos.connectors.iosWhite,
       name: "Venom Mobile App",
       options: {
         text: "Click here to open App Store",
@@ -159,6 +162,7 @@ export const venomwallet: ProviderOptions = {
       id: "android",
       type: "android",
       logo: VenomWalletLogos.connectors.android,
+      logoWhite: VenomWalletLogos.connectors.androidWhite,
       name: "Venom Mobile App",
       options: {
         text: "Click here to open Google Play",

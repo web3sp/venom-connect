@@ -220,6 +220,7 @@ export const Modal = ({
               logo={wallet.logo}
               description={wallet.description}
               themeObject={themeConfig.theme}
+              themeName={themeConfig.name}
               onClick={() => onWalletCardItemClick(id)}
               isFirst={!i} // todo
             />
@@ -246,13 +247,15 @@ export const Modal = ({
         // список на главной
         <SProviders>
           {walletWaysToConnect?.map(
-            ({ id, name, logo, onClick, type, options: x }, i) => {
+            ({ id, name, logo, logoWhite, onClick, type, options: x }, i) => {
               return (
                 <CardManager
                   key={id}
                   name={name}
                   logo={logo}
+                  logoWhite={logoWhite}
                   themeObject={themeConfig.theme}
+                  themeName={themeConfig.name}
                   onClick={() => onCurrentCardItemClick(name, id, onClick)}
                   connectorType={type}
                   options={x}

@@ -6,6 +6,7 @@ import ChromeExtension from "../logos/ChromeExtensionEver.svg";
 import FirefoxExtension from "../logos/FirefoxExtensionEver.svg";
 import EverWalletLogo from "../logos/EverWalletLogo.svg";
 import MobileApp from "../logos/MobileAppEver.svg";
+import MobileAppWhite from "../logos/MobileAppEverWhite.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
 
 export { EverWalletLogo };
@@ -58,12 +59,12 @@ const EverWalletLogos = {
   connectors: {
     chromeExtension: ChromeExtension,
     firefoxExtension: FirefoxExtension,
-    // mobile: logos.MobileApp?.() || MobileApp,
     mobile: MobileApp,
-    // ios: logos.Apple?.() || Apple,
+    mobileWhite: MobileAppWhite,
     ios: MobileApp,
-    // android: logos.Android?.() || Android,
+    iosWhite: MobileAppWhite,
     android: MobileApp,
+    androidWhite: MobileAppWhite,
     apple: Apple,
     playMarket: PlayMarket,
   },
@@ -99,6 +100,7 @@ export const everwallet: ProviderOptions = {
       id: "mobile",
       type: "mobile",
       logo: EverWalletLogos.connectors.mobile,
+      logoWhite: EverWalletLogos.connectors.mobileWhite,
       name: "Ever Mobile App",
       options: {
         qr: (links: typeof everDefaultLinks | undefined) =>
@@ -132,6 +134,7 @@ export const everwallet: ProviderOptions = {
       id: "ios",
       type: "ios",
       logo: EverWalletLogos.connectors.ios,
+      logoWhite: EverWalletLogos.connectors.ios,
       name: "Ever Mobile App",
       options: {
         text: "Click here to open App Store",
@@ -145,6 +148,7 @@ export const everwallet: ProviderOptions = {
       id: "android",
       type: "android",
       logo: EverWalletLogos.connectors.android,
+      logoWhite: EverWalletLogos.connectors.android,
       name: "Ever Mobile App",
       options: {
         text: "Click here to open Google Play",

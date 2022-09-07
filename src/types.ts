@@ -111,6 +111,7 @@ type ProviderDisplay = {
     | {
         [key: string]: string;
       };
+  logoWhite?: string;
 };
 export type WalletDisplay = ProviderDisplay & {
   description?: string;

@@ -6,9 +6,7 @@ import { ProviderCard, ProviderCardProps } from "./ProviderCard";
 type CardManagerProps = Omit<
   ProviderCardProps,
   "isProviderExist" | "isCurrentBrowser" | "browser"
-> & {
-  // checkIsProviderExist: () => Promise<boolean>;
-};
+>;
 export const CardManager = (props: CardManagerProps) => {
   const {
     connectorType,
