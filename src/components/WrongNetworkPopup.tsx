@@ -6,11 +6,12 @@ type Color = {
 };
 const ShowNetworkWrapper = styled.div`
   width: 100%;
+  max-width: 320px;
 
   margin-top: 9px;
 `;
 const ShowNetwork = styled.div<Color>`
-  width: 320px;
+  width: 100%;
   height: 56px;
   border: ${({ color }) => color} 1px dashed;
 
@@ -29,7 +30,8 @@ const ShowNetwork = styled.div<Color>`
 
 const ChangeWalletButton = styled.div`
   background: #11a97d;
-  width: 320px;
+  width: 100%;
+  max-width: 320px;
   height: 56px;
   color: white;
   border-radius: 8px;
