@@ -80,9 +80,9 @@ const SProviderContainerWrapper = styled.div<ProviderContainerWrapper>`
       /* ========================= */
       padding: ${({
         item: {
-          border: { width },
+          border: { width, borderWidth },
         },
-      }) => `${width}px`};
+      }) => `${width + borderWidth}px`};
       background: ${({
         item: {
           border: { pressedColor },
