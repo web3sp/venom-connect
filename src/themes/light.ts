@@ -7,7 +7,8 @@ const theme = {
     },
     backdrop: {
       color: "#F8F8F8",
-      opacity: 0.3,
+      opacity: 0.5,
+      backdropFilter: "blur(5px)",
     },
   },
   popup: {

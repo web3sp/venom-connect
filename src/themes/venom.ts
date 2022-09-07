@@ -8,7 +8,8 @@ const theme = {
     },
     backdrop: {
       color: "#11133D",
-      opacity: 0.3,
+      opacity: 0.5,
+      backdropFilter: "blur(5px)",
     },
   },
   popup: {
@@ -37,7 +38,7 @@ const theme = {
     border: {
       width: 1,
       borderWidth: 1,
-      borderHoverColor: '#68F7AA',
+      borderHoverColor: "#68F7AA",
       color: "transparent",
       hoverColor: "rgba(255, 255, 255, 0.2)",
       pressedColor: "rgba(255, 255, 255, 0.15)",
