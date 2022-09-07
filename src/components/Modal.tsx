@@ -188,7 +188,7 @@ export const Modal = ({
     onCurrentWalletSelectorClick(id);
   };
 
-  // выбран способ коннетка
+  // выбран способ коннекта
   const onCurrentCardItemClick = (name: string, id: string, cb: () => void) => {
     const _walletWayToConnect = walletWaysToConnect?.find(
       (_walletWayToConnect) =>

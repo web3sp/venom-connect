@@ -113,6 +113,9 @@ class VenomConnect {
     await this._toggleModal();
   }
 
+  // работа с логином
+  // покажем попап со способами подключения (для мобил - сразу выбор аккаунта)
+  // как использовать в случае если уже залогинен - непонятно
   public connect = (): Promise<any> =>
     new Promise(async (resolve, reject) => {
       this.updateState({
@@ -127,7 +130,13 @@ class VenomConnect {
       const authList = await this.checkAuth(connectorIdList);
 
       if (!authList || !authList.length) {
-        await this._toggleModal();
+
+        // проверям что мобильный веном
+        if (navigator && navigator.userAgent.includes('VenomWalletBrowser')) {
+          await this.connectTo('venomwallet', 'extension')
+        } else {
+          await this._toggleModal();
+        }
       }
     });
 
