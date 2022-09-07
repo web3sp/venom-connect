@@ -37,8 +37,15 @@ const SBadge = styled.div<Badge>`
 `;
 
 export enum Browsers {
-  googleChrome = "Google Chrome",
+  isChrome = "Google Chrome",
+  isFirefox = "Mozilla Firefox",
 }
+
+export const filterNameArr = (nameArr: string[]) => {
+  console.log(`nameArr::`, nameArr);
+  // @ts-ignore
+  return nameArr?.map((n) => Browsers[n] || null)?.filter((n) => !!n);
+};
 
 type BrowserBadgeProps = {
   browserName: Browsers | string;

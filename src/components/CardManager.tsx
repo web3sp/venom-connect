@@ -10,7 +10,13 @@ type CardManagerProps = Omit<
   // checkIsProviderExist: () => Promise<boolean>;
 };
 export const CardManager = (props: CardManagerProps) => {
-  const { connectorType, options } = props;
+  const {
+    connectorType,
+    options,
+    isBadBrowser,
+    allBrowsersNames,
+    browsersNames,
+  } = props;
   const [isProviderExist, setIsProviderExist] = useState<boolean | undefined>();
   const [isCurrentBrowser, setIsCurrentBrowser] = useState<
     boolean | undefined
@@ -76,6 +82,9 @@ export const CardManager = (props: CardManagerProps) => {
               isCurrentBrowser={isCurrentBrowser}
               isProviderExist={isProviderExist}
               browser={browserName}
+              isBadBrowser={isBadBrowser}
+              allBrowsersNames={allBrowsersNames}
+              browsersNames={browsersNames}
             />
           );
         } else {

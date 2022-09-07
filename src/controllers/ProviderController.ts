@@ -259,11 +259,11 @@ export class ProviderController {
                 !!walletWayToConnect.packageOptions?.forceUseFallback;
 
               const userOptions =
-                isCurrentDevise && !forceUseFallback
+                isCurrentDevise.isCurrentBrowser && !forceUseFallback
                   ? walletWayToConnect.packageOptions
                   : null;
 
-              const defaultOptions = isCurrentDevise
+              const defaultOptions = isCurrentDevise.isCurrentBrowser
                 ? defaultPackageOptions[id]?.[walletWayToConnect.type]
                 : {};
 

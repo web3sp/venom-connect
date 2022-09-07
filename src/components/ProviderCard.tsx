@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ConnectorType, Theme, WalletDisplay, WayToConnect } from "../types";
-import { Browsers, notSupported } from "./NotSupported";
+import { filterNameArr, notSupported } from "./NotSupported";
 
 type Wrapper = {};
 const SWrapper = styled.div<Wrapper>`
@@ -244,6 +244,9 @@ export type ProviderCardProps = WalletDisplay & {
   browser?: string; // lowercase
   options?: WayToConnect["options"];
   isFirst?: boolean;
+  isBadBrowser?: boolean;
+  allBrowsersNames?: string[];
+  browsersNames?: string[];
 };
 export const ProviderCard = ({
   name: nameRaw,
@@ -257,17 +260,27 @@ export const ProviderCard = ({
   browser: browserNameRaw,
   options,
   isFirst,
+  isBadBrowser,
+  allBrowsersNames,
+  browsersNames,
 }: ProviderCardProps) => {
   const browserName = browserNameRaw?.toLocaleLowerCase()?.trim();
-  const name = nameRaw.replace("[[browser]]", isCurrentBrowser && browserNameRaw ? browserNameRaw : "Chrome");
-  const isShowBadBrowserWarning = !!isFirst;
+  const name = nameRaw.replace(
+    "[[browser]]",
+    isCurrentBrowser && browserNameRaw ? browserNameRaw : "Chrome"
+  );
+  const isShowBadBrowserWarning = !!isFirst && !!isBadBrowser;
 
   const NotSupportedBadge = (
     <>
       {!isCurrentBrowser && (
         <notSupported.browser.Badge
           themeObject={themeObject}
-          browserName={Browsers.googleChrome}
+          browserName={
+            (allBrowsersNames &&
+              filterNameArr(allBrowsersNames)?.join(" or ")) ||
+            ""
+          }
         />
       )}
       {isCurrentBrowser && (
@@ -285,7 +298,12 @@ export const ProviderCard = ({
     <>
       {!isCurrentBrowser && (
         <SSubTitleText>
-          <notSupported.browser.Text browserName={Browsers.googleChrome} />
+          <notSupported.browser.Text
+            browserName={
+              (browsersNames && filterNameArr(browsersNames)?.join(" or ")) ||
+              ""
+            }
+          />
         </SSubTitleText>
       )}
       {isCurrentBrowser && !isProviderExist && (

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
+import { checkIsCurrentBrowser } from "../helpers/utils";
 import AppStore from "../images/AppStore.svg";
 import DownloadApk from "../images/DownloadApk.svg";
 import GooglePlay from "../images/GooglePlay.svg";
@@ -257,6 +258,33 @@ export const Modal = ({
                   options={x}
                   // надо только у первого передать что он первый
                   isFirst={!i} // todo
+                  isBadBrowser={
+                    !options.reduce(
+                      (r, wallet) =>
+                        r ||
+                        !!wallet.walletWaysToConnect
+                          .filter((way) => way.type === "extension")
+                          .reduce(
+                            (rInner, way) =>
+                              rInner ||
+                              checkIsCurrentBrowser(
+                                way.options.isCurrentBrowser
+                              ).isCurrentBrowser,
+                            false
+                          ),
+                      false
+                    )
+                  }
+                  allBrowsersNames={options
+                    .map((wallet) =>
+                      wallet.walletWaysToConnect.map((way) =>
+                        way.options.isCurrentBrowser?.map(
+                          (browser: any) => browser?.browser
+                        )
+                      )
+                    )
+                    .flat(100)}
+                  browsersNames={x.isCurrentBrowser?.flat?.(100)}
                 />
               );
             }
