@@ -59,7 +59,7 @@ class VenomConnect {
             // @ts-ignore
             | undefined = allProviders.providers?.[key];
 
-          const defaultProviderOptions = {
+          const defaultProviderOptions: any = {
             ...(defaultAnyProviderOptions || {}),
             ...(defaultCurrentProviderOptions || {}),
           };
@@ -130,10 +130,16 @@ class VenomConnect {
       const authList = await this.checkAuth(connectorIdList);
 
       if (!authList || !authList.length) {
+        // проверяем что мобильный venom
+        if (navigator && navigator.userAgent.includes("VenomWalletBrowser")) {
+          await this.connectTo("venomwallet", "extension");
 
-        // проверям что мобильный веном
-        if (navigator && navigator.userAgent.includes('VenomWalletBrowser')) {
-          await this.connectTo('venomwallet', 'extension')
+          // проверяем что мобильный ever
+        } else if (
+          navigator &&
+          navigator.userAgent.includes("EverWalletBrowser")
+        ) {
+          await this.connectTo("everwallet", "extension");
         } else {
           await this._toggleModal();
         }
