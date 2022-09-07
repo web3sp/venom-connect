@@ -23,10 +23,8 @@ const SBackdrop = styled.div<BackdropStyleProps>`
 
   position: fixed;
 
-  width: 100vw;
-  min-height: 100vh;
-  margin-left: -50vw;
-  left: 50%;
+  width: 100%;
+  height: 100%;
   z-index: 999999999999;
 
   display: flex;
