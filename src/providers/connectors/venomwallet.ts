@@ -1,5 +1,5 @@
 import { getKey as getKeyRaw, log, makeMove } from "../../helpers/utils";
-import { setupNetworkIdTimer } from "./networkdIdTimerUtil";
+import { setupNetworkIdTimer } from "./networkIdTimerUtil";
 
 // checked for version "everscale-inpage-provider": "^0.3.28",
 export const venomWalletName = "Venom Wallet";

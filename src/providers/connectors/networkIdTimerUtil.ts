@@ -20,13 +20,16 @@ export const setupNetworkIdTimer = (
           isAllowedId = state.networkId === allowedNetworkIds;
         }
       }
+
+      const isAuth = !!state?.permissions?.accountInteraction?.address;
+
       // console.log('TESING NET', allowedNetworkIds, state)
       // console.log('E SET TO WRONG', state && address && !isAllowedId)
       window.updateVenomModal({
-        wrongNetwork: state && address && !isAllowedId,
+        wrongNetwork: isAuth ? state && address && !isAllowedId : undefined,
       });
       // console.log('E SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
-    }, 1000);
+    }, 500);
   }
 };
 

@@ -42,7 +42,6 @@ export enum Browsers {
 }
 
 export const filterNameArr = (nameArr: string[]) => {
-  console.log(`nameArr::`, nameArr);
   // @ts-ignore
   return nameArr?.map((n) => Browsers[n] || null)?.filter((n) => !!n);
 };
