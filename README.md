@@ -48,8 +48,7 @@ const initVenomConnect = async () => {
             },
           ],
           ios: null,
-          android:
-            "https://play.google.com/store/apps/details?id=com.venom.wallet",
+          android: "https://venomwallet.page.link/download",
           qr: undefined,
         },
         links: {

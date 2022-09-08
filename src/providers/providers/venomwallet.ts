@@ -14,8 +14,7 @@ export { VenomWalletLogo };
 // for venom
 const venomDefaultLink = "/";
 const venomIosDeepLink = "https://testflight.apple.com/join/x5jOlxzL";
-const venomAndroidDeepLink =
-  "https://play.google.com/store/apps/details?id=com.venom.wallet";
+const venomAndroidDeepLink = "https://venomwallet.page.link/download";
 const venomExtensionLinkChrome =
   "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch";
 export const venomDefaultLinks = {
