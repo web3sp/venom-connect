@@ -45,7 +45,7 @@ export const getPromisesRaw = (
                   clearInterval(interval);
                   reject("Venom wallet is not found");
                 }
-              }, 500);
+              }, 100);
             });
           }
           return Promise.reject();
@@ -72,7 +72,7 @@ export const getPromisesRaw = (
                   clearInterval(interval);
                   reject("Ever wallet is not found");
                 }
-              }, 500);
+              }, 100);
             });
           }
           return Promise.reject();

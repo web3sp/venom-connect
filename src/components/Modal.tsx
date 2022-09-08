@@ -54,6 +54,7 @@ type ModalProps = {
   options: ProviderOptionsListWithOnClick;
   onClose: SimpleFunction;
   changeWallet: SimpleFunction;
+  disconnect?: SimpleFunction;
 };
 
 type ModalState = {
@@ -70,10 +71,11 @@ const INITIAL_STATE: ModalState = {
 };
 
 export const Modal = ({
+  themeConfig: initThemeConfig,
+  options,
   onClose,
   changeWallet,
-  options,
-  themeConfig: initThemeConfig,
+  disconnect,
 }: ModalProps) => {
   window.updateVenomModal = async (state: Partial<ModalState>) => {
     if (state.show !== undefined) {
@@ -427,6 +429,7 @@ export const Modal = ({
         <WrongNetworkPopup
           textColor={themeConfig.theme.common.text.color}
           changeWallet={changeWallet}
+          disconnect={disconnect}
         />
       </AbstractPopUp>
     </>

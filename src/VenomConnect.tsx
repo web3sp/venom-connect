@@ -131,15 +131,14 @@ class VenomConnect {
 
       if (!authList || !authList.length) {
         // проверяем что мобильный venom
-        if (navigator && navigator.userAgent.includes("VenomWalletBrowser")) {
+        if (this.checkIsWalletBrowser().isVenomWalletBrowser) {
           await this.connectTo("venomwallet", "extension");
 
           // проверяем что мобильный ever
-        } else if (
-          navigator &&
-          navigator.userAgent.includes("EverWalletBrowser")
-        ) {
+        } else if (this.checkIsWalletBrowser().isEverWalletBrowser) {
           await this.connectTo("everwallet", "extension");
+
+          // показываем обычный попап
         } else {
           await this._toggleModal();
         }
@@ -269,6 +268,20 @@ class VenomConnect {
 
   // --------------- PRIVATE METHODS --------------- //
 
+  private checkIsWalletBrowser = () => {
+    const isVenomWalletBrowser = !!(
+      navigator && navigator.userAgent.includes("VenomWalletBrowser")
+    );
+    const isEverWalletBrowser = !!(
+      navigator && navigator.userAgent.includes("EverWalletBrowser")
+    );
+    return {
+      isVenomWalletBrowser,
+      isEverWalletBrowser,
+      isOneOfWalletBrowsers: isVenomWalletBrowser || isEverWalletBrowser,
+    };
+  };
+
   private async disconnect() {
     try {
       await this.currentProvider?._api?.disconnect?.();
@@ -380,6 +393,11 @@ class VenomConnect {
           await this.disconnect();
           this.connect();
         }}
+        disconnect={
+          this.checkIsWalletBrowser().isOneOfWalletBrowsers
+            ? () => this.disconnect()
+            : undefined
+        }
       />
     );
   }

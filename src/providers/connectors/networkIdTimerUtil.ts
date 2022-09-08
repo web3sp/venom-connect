@@ -29,7 +29,7 @@ export const setupNetworkIdTimer = (
         wrongNetwork: isAuth ? state && address && !isAllowedId : undefined,
       });
       // console.log('E SET TO', state && state.permissions?.accountInteraction?.address && state.networkId !== 1000)
-    }, 500);
+    }, 100);
   }
 };
 
