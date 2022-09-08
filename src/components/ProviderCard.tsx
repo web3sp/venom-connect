@@ -280,9 +280,10 @@ export const ProviderCard = ({
         <notSupported.browser.Badge
           themeObject={themeObject}
           browserName={
-            (allBrowsersNames &&
-              filterNameArr(allBrowsersNames)?.join(" or ")) ||
-            ""
+            // (allBrowsersNames &&
+            //   filterNameArr(allBrowsersNames)?.join(" or ")) ||
+
+            "Google Chrome"
           }
         />
       )}
@@ -303,7 +304,8 @@ export const ProviderCard = ({
         <SSubTitleText>
           <notSupported.browser.Text
             browserName={
-              (browsersNames && filterNameArr(browsersNames)?.join(" or ")) ||
+              (browsersNames && filterNameArr(browsersNames)?.[0]) ||
+              // ?.join(" or ")
               ""
             }
           />
