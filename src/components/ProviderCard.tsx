@@ -92,7 +92,7 @@ const SProviderContainerWrapper = styled.div<ProviderContainerWrapper>`
 
       & > div > div {
         user-select: none;
-        filter: contrast(0%) brightness(0%) blur(0.1px) opacity(0.3); // ?
+        filter: contrast(0%) brightness(0%) opacity(0.3); // ?
       }
     }
   }
