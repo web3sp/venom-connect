@@ -19,64 +19,60 @@ import { EventController } from "./EventController";
 
 const sortingArr: ConnectorType[] = ["extension", "mobile", "ios", "android"];
 
-export const getPromisesRaw = (
+export const getPromiseRaw = (
   windowObject: any,
   walletId: string,
   type: string | undefined = "extension"
 ) => {
   const promises = {
     venomwallet: {
-      extension: {
-        waitingVenomPromise: () => {
-          if (windowObject) {
-            return new Promise((resolve, reject) => {
+      extension: () => {
+        if (windowObject) {
+          return new Promise((resolve, reject) => {
+            if (windowObject.__venom) {
+              resolve(windowObject.__venom);
+              return;
+            }
+            let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+            let interval = setInterval(() => {
               if (windowObject.__venom) {
+                clearInterval(interval);
                 resolve(windowObject.__venom);
-                return;
+              } else if (nTries > 0) {
+                nTries--;
+              } else {
+                clearInterval(interval);
+                reject("Venom wallet is not found");
               }
-              let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
-              let interval = setInterval(() => {
-                if (windowObject.__venom) {
-                  clearInterval(interval);
-                  resolve(windowObject.__venom);
-                } else if (nTries > 0) {
-                  nTries--;
-                } else {
-                  clearInterval(interval);
-                  reject("Venom wallet is not found");
-                }
-              }, 100);
-            });
-          }
-          return Promise.reject();
-        },
+            }, 100);
+          });
+        }
+        return Promise.reject();
       },
     },
     everwallet: {
-      extension: {
-        waitingEverPromise: () => {
-          if (windowObject) {
-            return new Promise((resolve, reject) => {
+      extension: () => {
+        if (windowObject) {
+          return new Promise((resolve, reject) => {
+            if (windowObject.__ever) {
+              resolve(windowObject.__ever);
+              return;
+            }
+            let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+            let interval = setInterval(() => {
               if (windowObject.__ever) {
+                clearInterval(interval);
                 resolve(windowObject.__ever);
-                return;
+              } else if (nTries > 0) {
+                nTries--;
+              } else {
+                clearInterval(interval);
+                reject("Ever wallet is not found");
               }
-              let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
-              let interval = setInterval(() => {
-                if (windowObject.__ever) {
-                  clearInterval(interval);
-                  resolve(windowObject.__ever);
-                } else if (nTries > 0) {
-                  nTries--;
-                } else {
-                  clearInterval(interval);
-                  reject("Ever wallet is not found");
-                }
-              }, 100);
-            });
-          }
-          return Promise.reject();
-        },
+            }, 100);
+          });
+        }
+        return Promise.reject();
       },
     },
   };
@@ -186,7 +182,7 @@ export class ProviderController {
             extension: {
               forceUseFallback: true,
               fallback:
-                getPromisesRaw(window, "venomwallet")?.waitingVenomPromise ||
+                getPromiseRaw(window, "venomwallet") ||
                 (() => Promise.reject("venomwallet fallback error")),
             },
           }
@@ -196,7 +192,7 @@ export class ProviderController {
             extension: {
               forceUseFallback: true,
               fallback:
-                getPromisesRaw(window, "everwallet")?.waitingEverPromise ||
+                getPromiseRaw(window, "everwallet") ||
                 (() => Promise.reject("everwallet fallback error")),
             },
           }

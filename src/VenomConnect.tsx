@@ -1,7 +1,7 @@
 import { isIOS, isMobile } from "react-device-detect";
 import { createRoot, Root } from "react-dom/client";
 import { Modal } from "./components";
-import { getPromisesRaw, ProviderController } from "./controllers";
+import { getPromiseRaw, ProviderController } from "./controllers";
 import { EventController } from "./controllers/EventController";
 import {
   CLOSE_EVENT,
@@ -263,8 +263,10 @@ class VenomConnect {
     return this.providerController.currentProvider;
   }
 
-  public static getPromises = (walletId: string, type: string | undefined) =>
-    getPromisesRaw(window, walletId, type);
+  public static getPromise = (
+    walletId: string,
+    type: string | undefined = "extension"
+  ) => getPromiseRaw(window, walletId, type);
 
   // --------------- PRIVATE METHODS --------------- //
 
