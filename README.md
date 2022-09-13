@@ -7,7 +7,7 @@ Dev tips:
 
 You can find the library file in the folder **./lib"**.
 
-If you want to rebuild this file, use the command `yarn lib` (or `npm run lib` if you prefer npm).
+If you want to rebuild this file, use the command `yarn lib`.
 
 ---
 
