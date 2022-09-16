@@ -1,7 +1,22 @@
 {
   "name": "venom-connect",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/web3sp/venom-connect.git"
+  },
+  "keywords": [
+    "web3",
+    "venom",
+    "everscale",
+    "wallet"
+  ],
+  "author": "web3space",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
@@ -21,9 +36,6 @@
   },
   "devDependencies": {
     "react-scripts": "5.0.1"
-  },
-  "scripts": {
-    "lib": "webpack -w"
   },
   "eslintConfig": {
     "extends": [

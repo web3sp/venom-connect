@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**/*.yml'
+      - '.gitignore'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create tag and release
+        id: create_tag_and_release
+        uses: jaywcjlove/create-tag-action@main
+        with:
+          package-path: ./package.json
+          release: true
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: yarn
+      - run: yarn build
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}

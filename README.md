@@ -1,13 +1,8 @@
 # VenomConnect
 
-Dev tips:
+# Install
 
-- _work in progress_
-- _temporary supported only import via files; npm support coming soon_
-
-You can find the library file in the folder **./lib"**.
-
-If you want to rebuild this file, use the command `yarn lib`.
+`yarn add venom-connect`.
 
 ---
 
@@ -18,7 +13,7 @@ If you want to rebuild this file, use the command `yarn lib`.
 ## Import VenomConnect
 
 ```javascript
-import { VenomConnect } from "./lib/venom";
+import { VenomConnect } from "venom-connect";
 ```
 
 ## Init VenomConnect with your own settings

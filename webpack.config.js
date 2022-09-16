@@ -7,7 +7,7 @@ module.exports = {
   },
   output: {
     // path: path.resolve(__dirname, "../example/src/lib/venom"), // for dev
-    path: path.resolve(__dirname, "./lib"), // for prod
+    path: path.resolve(__dirname, "./dist"), // for prod
     filename: "[name].js",
     libraryTarget: "umd",
     library: "VenomConnect",
