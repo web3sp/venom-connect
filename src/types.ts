@@ -142,6 +142,9 @@ export type ProviderOptionsWithConnector = {
       packageOptions?: {
         [id: string]: any;
       };
+      packageOptionsStandalone?: {
+        [id: string]: any;
+      };
     })[];
 };
 export type ProviderOptionsList = (ProviderOptionsWithConnector & {
@@ -173,6 +176,9 @@ export type ProviderOptionsWithConnectorOptional = {
       standalone?: Connector;
       package: any;
       packageOptions?: {
+        [id: string]: any;
+      };
+      packageOptionsStandalone?: {
         [id: string]: any;
       };
     })[];

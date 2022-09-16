@@ -111,6 +111,7 @@ List of default options:
 - Basic options
   - `package` — NPM package
   - `packageOptions` — An object that is passed inside the RPM package during initialization
+  - `packageOptionsStandalone` — An object that is passed inside the RPM package during initialization (for standalone)
   - `id` — ID of the corresponding option
   - `type` — type of the corresponding option; `"extension"` for example
 - Overwrite default options
@@ -136,22 +137,25 @@ const initVenomConnect = async () => {
         walletWaysToConnect: [
           {
             package: ProviderRpcClient,
+
             packageOptions: {
+              fallback:
+                VenomConnect.getPromise("venomwallet", "extension") ||
+                (() => Promise.reject()),
+              forceUseFallback: true,
+            },
+            packageOptionsStandalone: {
               fallback: () =>
                 EverscaleStandaloneClient.create({
                   connection: {
-                    group: "mainnet",
+                    id: 1000,
+                    group: "venom_mainnet",
                     type: "jrpc",
                     data: {
-                      endpoint: "https://jrpc-mainnet.venom.rs/rpc",
+                      endpoint: "https://jrpc.venom.foundation/rpc",
                     },
                   },
-                }).then(
-                  (
-                    VenomConnect.getPromise("venomwallet", "extension") ||
-                    (() => Promise.reject())
-                  )()
-                ),
+                }),
               forceUseFallback: true,
             },
 
@@ -186,6 +190,7 @@ The initialized library returns an instance that contains a number of functions 
 - `on`
 - `off`
 - `currentProvider` — getter
+- `getStandalone`
 - `getPromise` — static method
 - `updateTheme`
   <!-- - `toggleModal` -->
@@ -215,7 +220,11 @@ Returns the corresponding `off` function with no accepted parameters.
 
 #### `currentProvider`
 
-Returns the current provider. If not authorized returns a current standalone provider.
+Returns the current provider or _null_.
+
+#### `getStandalone`
+
+The function of getting a standalone provider by its ID. `getStandalone("venomwallet")` or `getStandalone()` By default, the ID is **venomwallet**.
 
 #### `getPromise`
 

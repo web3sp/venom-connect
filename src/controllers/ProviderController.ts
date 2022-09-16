@@ -89,77 +89,23 @@ export class ProviderController {
   private checkNetworkId: number | number[];
 
   private _currentProvider: any;
-  private _standalone: any;
 
-  private getStandalone = async () => {
-    const venomWallet = this.providers?.find(
-      (provider) => provider.id === "venomwallet"
-    );
+  public getStandalone = async (walletId: string) => {
+    const wallet = this.providers?.find((provider) => provider.id === walletId);
 
-    if (venomWallet) {
-      const venomFromUser = venomWallet?.walletWaysToConnect.find(
+    if (wallet) {
+      const standaloneFromUser = wallet?.walletWaysToConnect.find(
         (way) => way.type === "extension" && !!way.standalone
       );
-      if (venomFromUser?.standalone) {
-        return venomFromUser.standalone(
-          venomFromUser.package,
-          venomFromUser.packageOptions
-        );
-      }
-
-      const venomStandaloneFallback =
-        venomWallet && allProviders.connectors.venomwallet.extension;
-
-      if (venomStandaloneFallback?.standalone && venomFromUser) {
-        return venomStandaloneFallback.standalone(
-          venomFromUser.package,
-          venomFromUser.packageOptions
-        );
-      }
-    }
-
-    const someoneFromUser = this.providers?.find(
-      (provider) =>
-        !!provider.walletWaysToConnect.find(
-          (way) => way.type === "extension" && !!way.standalone
-        )
-    );
-
-    if (someoneFromUser) {
-      const way = someoneFromUser.walletWaysToConnect.find(
-        (way) => way.type === "extension" && !!way.standalone
-      );
-
-      if (way?.standalone) {
-        return way.standalone(way.package, way.packageOptions);
-      }
-
-      const tuple = Object.entries(allProviders.connectors).find(
-        ([key, value]) =>
-          !!value.extension.connector &&
-          someoneFromUser.id === key &&
-          way?.package &&
-          way?.packageOptions
-      );
-
-      const someoneWallets = {
-        key: tuple?.[0],
-        value: tuple?.[1],
-      };
-
-      if (way && someoneWallets.value) {
-        return someoneWallets.value.extension.standalone(
-          way.package,
-          way.packageOptions
+      if (standaloneFromUser?.standalone) {
+        return standaloneFromUser.standalone(
+          standaloneFromUser.package,
+          standaloneFromUser.packageOptionsStandalone
         );
       }
     }
 
     return null;
-  };
-
-  public setStandalone = async () => {
-    this._standalone = await this.getStandalone();
   };
 
   public set currentProvider(cp) {
@@ -170,7 +116,7 @@ export class ProviderController {
   }
 
   public get currentProvider() {
-    return this._currentProvider || this._standalone;
+    return this._currentProvider;
   }
 
   constructor(options: ProviderControllerOptions) {
@@ -185,6 +131,7 @@ export class ProviderController {
                 getPromiseRaw(window, "venomwallet") ||
                 (() => Promise.reject("venomwallet fallback error")),
             },
+            standalone: {}, // ?
           }
         : {},
       everwallet: window
@@ -195,6 +142,7 @@ export class ProviderController {
                 getPromiseRaw(window, "everwallet") ||
                 (() => Promise.reject("everwallet fallback error")),
             },
+            standalone: {}, // ?
           }
         : {},
     };
@@ -251,19 +199,23 @@ export class ProviderController {
                 defaultWay.options.isCurrentBrowser
               );
 
-              const forceUseFallback =
-                !!walletWayToConnect.packageOptions?.forceUseFallback;
+              const userOptions = walletWayToConnect.packageOptions;
 
-              const userOptions =
-                isCurrentDevise.isCurrentBrowser && !forceUseFallback
-                  ? walletWayToConnect.packageOptions
-                  : null;
+              const defaultOptions =
+                defaultPackageOptions[id]?.[walletWayToConnect.type];
 
-              const defaultOptions = isCurrentDevise.isCurrentBrowser
-                ? defaultPackageOptions[id]?.[walletWayToConnect.type]
+              const packageOptions = isCurrentDevise.isCurrentBrowser
+                ? userOptions || defaultOptions || {}
                 : {};
 
-              const packageOptions = userOptions || defaultOptions || {};
+              const userOptionsStandalone =
+                walletWayToConnect.packageOptionsStandalone;
+
+              const defaultOptionsStandalone =
+                defaultPackageOptions[id]?.["standalone"];
+
+              const packageOptionsStandalone =
+                userOptionsStandalone || defaultOptionsStandalone || {};
 
               // задаём 1000 как дефолт ид венома
               packageOptions.checkNetworkId = this.checkNetworkId;
@@ -290,6 +242,7 @@ export class ProviderController {
                     "standalone"
                   ],
                 packageOptions,
+                packageOptionsStandalone,
                 options: {
                   ...(typeof defaultWay?.options === "object"
                     ? defaultWay?.options
@@ -303,8 +256,6 @@ export class ProviderController {
             ),
         };
       });
-
-    this.setStandalone();
   }
 
   public shouldDisplayProvider(id: string) {

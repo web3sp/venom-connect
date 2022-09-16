@@ -259,6 +259,10 @@ class VenomConnect {
     return authProvider;
   };
 
+  public getStandalone(walletId: string = "venomwallet") {
+    return this.providerController.getStandalone(walletId);
+  }
+
   public get currentProvider() {
     return this.providerController.currentProvider;
   }
