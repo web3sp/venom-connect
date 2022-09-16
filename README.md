@@ -2,11 +2,11 @@
 
 # Install
 
-`yarn add venom-connect`.
+Use a package manager like:
+
+`yarn add venom-connect`
 
 ---
-
-<br />
 
 # How to use VenomConnect?
 
