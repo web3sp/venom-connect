@@ -35,9 +35,9 @@ jobs:
           package-path: package.json
           release: true
           body: |
-            ${{ steps.changelog.outputs.compareurl }}
+            ${{ steps.create_changelog.outputs.compareurl }}
   
-            ${{ steps.changelog.outputs.changelog }}
+            ${{ steps.create_changelog.outputs.changelog }}
       - run: yarn
       - run: yarn build
       - uses: JS-DevTools/npm-publish@v1
