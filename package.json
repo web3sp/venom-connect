@@ -1,9 +1,12 @@
 {
   "name": "venom-connect",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/lib/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "webpack"
+    "build:types": "yarn tsc -d --declarationDir dist/types --declarationMap --emitDeclarationOnly",
+    "build:dist": "webpack",
+    "build": "build:dist && build:types"
   },
   "repository": {
     "type": "git",
