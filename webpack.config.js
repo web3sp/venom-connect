@@ -3,11 +3,10 @@ const path = require("path");
 module.exports = {
   mode: "production",
   entry: {
-    index: "./src/index.tsx"
+    index: "./src/index.tsx",
   },
   output: {
-    // path: path.resolve(__dirname, "../example/src/lib/venom"), // for dev
-    path: path.resolve(__dirname, "./dist"), // for prod
+    path: path.resolve(__dirname, "./dist"),
     filename: "[name].js",
     libraryTarget: "umd",
     library: "VenomConnect",
@@ -15,7 +14,7 @@ module.exports = {
     globalObject: "globalThis",
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js"],
   },
   devtool: "source-map",
   module: {
@@ -28,11 +27,11 @@ module.exports = {
             loader: "url-loader",
             options: {
               limit: 65535,
-              name: "static/media/[name].[hash:8].[ext]"
-            }
-          }
-        ]
-      }
-    ]
-  }
+              name: "static/media/[name].[hash:8].[ext]",
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
