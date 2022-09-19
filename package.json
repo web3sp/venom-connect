@@ -5,8 +5,9 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "build:types": "yarn tsc -d --declarationDir dist/types --declarationMap --emitDeclarationOnly",
-    "build:dist": "webpack",
-    "build": "build:dist && build:types"
+    "build:lib": "webpack",
+    "build:dist": "yarn build:lib && yarn build:types",
+    "build": "yarn build:dist"
   },
   "repository": {
     "type": "git",
