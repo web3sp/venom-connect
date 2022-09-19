@@ -1,6 +1,6 @@
 # VenomConnect
 
-# Install
+## Install
 
 Use a package manager like:
 
@@ -8,7 +8,9 @@ Use a package manager like:
 
 ---
 
-# How to use VenomConnect?
+## How to use VenomConnect?
+
+_You can clone this repository and run one of the available usage examples. Right now it's only [React app](./examples/react/)._
 
 ## Import VenomConnect
 
