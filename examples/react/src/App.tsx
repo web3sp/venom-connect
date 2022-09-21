@@ -2,6 +2,8 @@ import { Address, ProviderRpcClient } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 import { useEffect, useState } from "react";
 
+import { VenomConnect } from "venom-connect";
+
 import testContractAbi from "./abi/test.abi.json";
 
 import "@fontsource/roboto/300.css";
@@ -16,8 +18,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-
-import VenomConnect from "venom-connect";
 
 const initTheme = "light" as const;
 

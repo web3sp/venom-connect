@@ -73,7 +73,7 @@ export const WrongNetworkPopup = ({
   return (
     <>
       <ShowNetworkWrapper>
-        <TextDiv textAlign="left">
+        <TextDiv textAlign="center">
           Please change network in your wallets settings to
         </TextDiv>
         <ShowNetwork color={textColor}>Venom Mainnet</ShowNetwork>

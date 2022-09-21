@@ -182,6 +182,16 @@ const SCardHeader = styled.div<CardHeader>`
     "28px"};
 `;
 
+const STextAlign = styled.div`
+  width: 100%;
+  text-align: center;
+`;
+
+const SChildren = styled.div`
+  width: 100%;
+  margin-top: 10px;
+`;
+
 type AbstractPopUpProps = {
   show: boolean;
   goBack?: SimpleFunction;
@@ -215,7 +225,7 @@ const AbstractPopUp = ({
               fontSize={cardHeader.fontSize}
               fontWeight={themeObject.popup.title?.fontWeight}
             >
-              <span>{cardHeader.text}</span>
+              <STextAlign>{cardHeader.text}</STextAlign>
               {!!onClose && (
                 <CloseCross
                   color={themeObject.popup.closeCross.color}
@@ -224,7 +234,9 @@ const AbstractPopUp = ({
                 />
               )}
             </SCardHeader>
-            {children}
+            <SChildren>
+              <STextAlign>{children}</STextAlign>
+            </SChildren>
           </SModalCard>
         </SModalCardWrapper>
       </SModalContainer>

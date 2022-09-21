@@ -1,3 +1,4 @@
+import { toggleExtensionWindow } from "../../helpers/backdrop";
 import { getKey as getKeyRaw, log, makeMove } from "../../helpers/utils";
 import { setupNetworkIdTimer } from "./networkIdTimerUtil";
 
@@ -138,6 +139,10 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
 
     const permissions = ["basic", "accountInteraction"];
 
+    await toggleExtensionWindow({
+      isExtensionWindowOpen: true,
+    });
+
     await makeMove(
       {
         before: `permissions requesting (${permissions.join(", ")})`,
@@ -173,6 +178,10 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
   } catch (error) {
     // console.error(error);
   }
+
+  await toggleExtensionWindow({
+    isExtensionWindowOpen: false,
+  });
 };
 
 /**

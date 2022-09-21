@@ -4,6 +4,10 @@ import { Modal } from "./components";
 import { getPromiseRaw, ProviderController } from "./controllers";
 import { EventController } from "./controllers/EventController";
 import {
+  ToggleExtensionWindow,
+  toggleExtensionWindow,
+} from "./helpers/backdrop";
+import {
   CLOSE_EVENT,
   CONNECT_EVENT,
   ERROR_EVENT,
@@ -110,6 +114,17 @@ class VenomConnect {
 
   private async toggleModal(): Promise<void> {
     await this._toggleModal();
+  }
+
+  /**
+   * Toggle the backdrop when performing an action in the extension window
+   *
+   * static method (via window)
+   */
+  public static async toggleExtensionWindow(
+    params: ToggleExtensionWindow
+  ): Promise<void> {
+    await toggleExtensionWindow(params);
   }
 
   // работа с логином
