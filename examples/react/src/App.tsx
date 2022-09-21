@@ -1,8 +1,6 @@
 import { Address, ProviderRpcClient } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 import { useEffect, useState } from "react";
-// @ts-ignore
-import VenomConnectLib from "venom-connect";
 
 import testContractAbi from "./abi/test.abi.json";
 
@@ -19,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const VenomConnect: any = VenomConnectLib; // TS fix
+import VenomConnect from "venom-connect";
 
 const initTheme = "light" as const;
 
@@ -237,6 +235,7 @@ const App = () => {
     return () => {
       off?.();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [venomConnect]);
 
   const onStandaloneCall = async () => {

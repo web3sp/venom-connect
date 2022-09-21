@@ -136,7 +136,7 @@ export type ProviderOptions = {
 export type ProviderOptionsWithConnector = {
   id: string;
   // wallet: WalletDisplay;
-  links?: Links;
+  links?: Partial<Links>;
   walletWaysToConnect: (ProviderDisplay &
     WayToConnect & {
       connector: Connector;
@@ -158,7 +158,7 @@ export type ProviderOptionsList = (ProviderOptionsWithConnector & {
 type ProviderOptionsWithOnClick = {
   id: string;
   // wallet: WalletDisplay;
-  links?: Links;
+  links?: Partial<Links>;
   walletWaysToConnect: (ProviderDisplay &
     WayToConnect & {
       onClick: () => Promise<void>;
@@ -172,7 +172,7 @@ export type ProviderOptionsListWithOnClick = (ProviderOptionsWithOnClick & {
 export type ProviderOptionsWithConnectorOptional = {
   id: string;
   // wallet?: WalletDisplay;
-  links?: Links;
+  links?: Partial<Links>;
   walletWaysToConnect: (Partial<ProviderDisplay> &
     WayToConnect & {
       connector?: Connector;
