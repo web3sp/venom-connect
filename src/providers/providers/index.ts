@@ -1,10 +1,8 @@
 import { ProviderOptions } from "../../types";
 import { everDefaultLinks } from "./everwallet";
-import { getVenomQr, venomDefaultLinks, VenomWalletLogo } from "./venomwallet";
+import { getVenomQr, venomDefaultLinks } from "./venomwallet";
 export * from "./everwallet";
 export * from "./venomwallet";
-
-const DefaultWalletLogo = VenomWalletLogo; // todo
 
 type linkCreator = (
   links: typeof venomDefaultLinks | typeof everDefaultLinks | undefined
@@ -44,11 +42,11 @@ export const getValueByKey: (
 
 export const DEFAULT: ProviderOptions = {
   id: "wallet",
-  wallet: {
-    name: "wallet",
-    description: "default wallet",
-    logo: DefaultWalletLogo,
-  },
+  // wallet: {
+  //   name: "wallet",
+  //   description: "default wallet",
+  //   logo: DefaultWalletLogo,
+  // },
   walletWaysToConnect: [],
 };
 

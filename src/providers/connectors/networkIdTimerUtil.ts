@@ -1,6 +1,6 @@
 export const setupNetworkIdTimer = (
-  address: any,
-  provider: any,
+  address: any, // Address / string
+  provider: any, // ProviderRpcClient
   allowedNetworkIds: number | number[] | undefined
 ) => {
   if (window && address && window.venomNetworkIntervalId) {

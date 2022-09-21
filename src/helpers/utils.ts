@@ -52,6 +52,13 @@ export const makeMove = async (
   }
 };
 
+/**
+ * ["isChrome", "isDesktop"]
+ *
+ * [["isChrome", "isDesktop"], ["isFirefox", "isDesktop"]]
+ *
+ * "isDesktop"
+ */
 export const checkIsCurrentBrowser = (isCurrentBrowser?: any) => {
   let _isCurrentBrowser: boolean | undefined;
 

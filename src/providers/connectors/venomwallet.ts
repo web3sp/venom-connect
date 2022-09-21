@@ -6,6 +6,9 @@ export const venomWalletName = "Venom Wallet";
 
 const getKey = (type: string) => getKeyRaw(venomWalletName, type);
 
+/**
+ * venomProvider: ProviderRpcClient
+ */
 export const checkIsProviderExist = async (venomProvider: any) => {
   try {
     const isExist = !!(await venomProvider?.hasProvider());
@@ -25,7 +28,7 @@ export const checkIsProviderExist = async (venomProvider: any) => {
 };
 
 /**
- * venomProvider: typeof ProviderRpcClient,
+ * venomProvider: ProviderRpcClient,
  * options: any | undefined
  */
 const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
@@ -95,7 +98,7 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
 };
 
 /**
- * venomProvider: typeof ProviderRpcClient,
+ * venomProvider: ProviderRpcClient,
  * options: any | undefined
  */
 const connectToVenomWallet = async (VenomProvider: any, options: any) => {
@@ -173,7 +176,7 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
 };
 
 /**
- * venomProvider: typeof ProviderRpcClient,
+ * venomProvider: ProviderRpcClient,
  * options: any | undefined
  */
 const getStandaloneConnectionToVenomWallet = async (

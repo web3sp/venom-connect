@@ -160,7 +160,7 @@ export class ProviderController {
           allProviders.providers?.[id] || undefined;
 
         const {
-          wallet,
+          // wallet,
           links,
           walletWaysToConnect,
           defaultWalletWaysToConnect,
@@ -171,7 +171,7 @@ export class ProviderController {
 
         return {
           id,
-          wallet,
+          // wallet,
           links,
           walletWaysToConnect: (
             providerInfo.walletWaysToConnect as ProviderOptionsWithConnectorOptional["walletWaysToConnect"]

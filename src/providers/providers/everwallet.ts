@@ -1,10 +1,9 @@
 import { getValueByKey } from ".";
 import { ProviderOptions } from "../../types";
-import { everWalletName } from "../connectors/everwallet";
 import Apple from "../logos/Apple.svg";
 import ChromeExtension from "../logos/ChromeExtensionEver.svg";
-import FirefoxExtension from "../logos/FirefoxExtensionEver.svg";
 import EverWalletLogo from "../logos/EverWalletLogo.svg";
+import FirefoxExtension from "../logos/FirefoxExtensionEver.svg";
 import MobileApp from "../logos/MobileAppEver.svg";
 import MobileAppWhite from "../logos/MobileAppEverWhite.svg";
 import PlayMarket from "../logos/PlayMarket.svg";
@@ -72,11 +71,11 @@ const EverWalletLogos = {
 
 export const everwallet: ProviderOptions = {
   id: "everwallet",
-  wallet: {
-    name: everWalletName,
-    description: "The official wallet of the Everscale network",
-    logo: EverWalletLogos.wallet,
-  },
+  // wallet: {
+  //   name: everWalletName,
+  //   description: "The official wallet of the Everscale network",
+  //   logo: EverWalletLogos.wallet,
+  // },
   walletWaysToConnect: [
     {
       id: "extension",
