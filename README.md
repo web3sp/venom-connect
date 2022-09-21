@@ -190,8 +190,8 @@ The initialized library returns an instance that contains a number of functions 
 - `getStandalone`
 - `getPromise` — static method
 - `updateTheme`
-  <!-- - `toggleModal` -->
-  <!-- - `getInfo` -->
+- `toggleExtensionWindow` — static method
+<!-- - `getInfo` -->
 
 #### `connect`
 
@@ -232,6 +232,10 @@ You can get the promise you need by wallet ID and connection type `getPromise("v
 #### `updateTheme`
 
 You can use this function to interactively switch themes in runtime.
+
+#### `toggleExtensionWindow`
+
+Toggle the backdrop when performing an action in the extension window. `toggleExtensionWindow({ isExtensionWindowOpen: boolean; popUpText?: { title: string; text?: string; }; })`
 
 ### Subscribing to events
 

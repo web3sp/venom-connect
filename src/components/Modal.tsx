@@ -60,17 +60,26 @@ type ModalProps = {
   disconnect?: SimpleFunction;
 };
 
-type ModalState = {
+export type ModalState = {
   show: boolean;
   themeConfig?: ThemeConfig;
   wrongNetwork?: boolean;
   isFullProvider?: boolean;
+  isExtensionWindowOpen?: boolean;
+  popUpText: {
+    title: string;
+    text?: string;
+  };
 };
 
 const INITIAL_STATE: ModalState = {
   show: false,
   wrongNetwork: false,
   isFullProvider: false,
+  popUpText: {
+    title: "Waiting for an action in the extension window",
+    // text: '',
+  },
 };
 
 export const Modal = ({
@@ -91,6 +100,11 @@ export const Modal = ({
       setIsFullProvider(state.isFullProvider);
     }
     setWrongNetwork(state.wrongNetwork);
+
+    if (state.isExtensionWindowOpen !== undefined) {
+      setIsExtensionWindowOpen(state.isExtensionWindowOpen);
+      setPopUpText(state.popUpText || INITIAL_STATE.popUpText);
+    }
   };
 
   const getWalletWaysToConnect = (_walletId: string | undefined) => {
@@ -147,6 +161,10 @@ export const Modal = ({
   const [isFullProvider, setIsFullProvider] = useState<boolean | undefined>(
     INITIAL_STATE.isFullProvider
   );
+  const [isExtensionWindowOpen, setIsExtensionWindowOpen] = useState<
+    boolean | undefined
+  >();
+  const [popUpText, setPopUpText] = useState(INITIAL_STATE.popUpText);
 
   useEffect(() => {
     setSlide(getInitialSlide || Slide.walletsList);
@@ -435,6 +453,15 @@ export const Modal = ({
           changeWallet={changeWallet}
           disconnect={disconnect}
         />
+      </AbstractPopUp>
+      <AbstractPopUp
+        show={!!isExtensionWindowOpen}
+        themeObject={themeConfig.theme}
+        cardHeader={{
+          text: popUpText.title,
+        }}
+      >
+        <>{popUpText.text}</>
       </AbstractPopUp>
     </>
   );
