@@ -18,7 +18,6 @@ import {
   ThemeConfig,
   UserProvidersOptions,
   VenomConnectOptions,
-  WalletDisplay,
 } from "./types";
 
 export const libName = "VenomConnect";
@@ -65,16 +64,16 @@ class VenomConnect {
           };
 
           const providerOptions: UserProvidersOptions["x"] = {
-            wallet: {
-              ...{
-                name: "your wallet",
-              },
-              ...defaultProviderOptions?.wallet,
-              ...value.wallet,
-              logo: !!value.wallet?.logo
-                ? value.wallet.logo
-                : defaultProviderOptions?.wallet?.logo || undefined,
-            } as WalletDisplay,
+            // wallet: {
+            //   ...{
+            //     name: "your wallet",
+            //   },
+            //   ...defaultProviderOptions?.wallet,
+            //   ...value.wallet,
+            //   logo: !!value.wallet?.logo
+            //     ? value.wallet.logo
+            //     : defaultProviderOptions?.wallet?.logo || undefined,
+            // } as WalletDisplay,
             links: value.links,
             walletWaysToConnect: value.walletWaysToConnect?.length
               ? value.walletWaysToConnect ||
@@ -109,13 +108,19 @@ class VenomConnect {
 
   // --------------- PUBLIC METHODS --------------- //
 
-  public async toggleModal(): Promise<void> {
+  private async toggleModal(): Promise<void> {
     await this._toggleModal();
   }
 
   // работа с логином
   // покажем попап со способами подключения (для мобил - сразу выбор аккаунта)
   // как использовать в случае если уже залогинен - непонятно
+
+  /**
+   * This function causes the pop-up to be displayed with the available connection methods: through the extension, links to mobile applications.
+   *
+   * @return Promise of ProviderRpcClient or error/string
+   */
   public connect = (): Promise<any> =>
     new Promise(async (resolve, reject) => {
       this.updateState({
@@ -145,6 +150,11 @@ class VenomConnect {
       }
     });
 
+  /**
+   * This function allows you to get a specific provider **bypassing the selection pop-up** `connect(walletId, connectorTypeId)`.
+   *
+   * @return Promise of ProviderRpcClient or error/string
+   */
   public connectTo = (id: string, connectorId: string): Promise<any> =>
     new Promise(async (resolve, reject) => {
       this.on(CONNECT_EVENT, (provider) => resolve(provider));
@@ -170,18 +180,32 @@ class VenomConnect {
       );
     });
 
+  /**
+   * return
+   *
+   * {
+   *
+   *  show (boolean) for pop-up
+   *
+   *  themeConfig {...}
+   *
+   * }
+   */
   public getInfo = () => {
     const show = this.show;
     const themeConfig = this.themeConfig;
-    const options = this.options;
+    // const options = this.options;
 
     return {
       show,
       themeConfig,
-      options,
+      // options,
     };
   };
 
+  /**
+   * You can use this function to interactively switch themes in runtime.
+   */
   public async updateTheme(
     theme: ThemeNameList | ThemeConfig["theme"]
   ): Promise<void> {
@@ -189,6 +213,11 @@ class VenomConnect {
     await this.updateState({ themeConfig });
   }
 
+  /**
+   * **Subscribing** to internal library events. `on(event, callback)`
+   *
+   * Returns the corresponding `off` function with no accepted parameters.
+   */
   public on(event: Events, callback: SimpleFunction): SimpleFunction {
     this.eventController.on({
       event,
@@ -202,6 +231,9 @@ class VenomConnect {
       });
   }
 
+  /**
+   * **Unsubscribe** from internal library events. `on(event, callback)`
+   */
   public off(event: Events, callback?: SimpleFunction): void {
     this.eventController.off({
       event,
@@ -209,6 +241,11 @@ class VenomConnect {
     });
   }
 
+  /**
+   * This function checks authorization in the available connection methods (extensions) and **returns** the corresponding **instance** of the wallet provider or **false**.
+   *
+   * @return Promise of auth ProviderRpcClient or false/undefined
+   */
   public checkAuth = async (
     providerIdList: string[] | undefined = Object.keys(allProviders.providers)
   ) => {
@@ -259,14 +296,25 @@ class VenomConnect {
     return authProvider;
   };
 
+  /**
+   * The function of getting a standalone provider by its ID. `getStandalone("venomwallet")` or `getStandalone()` By default, the ID is **venomwallet**.
+   */
   public getStandalone(walletId: string = "venomwallet") {
     return this.providerController.getStandalone(walletId);
   }
 
+  /**
+   * Returns the current provider (ProviderRpcClient) or _null_.
+   */
   public get currentProvider() {
     return this.providerController.currentProvider;
   }
 
+  /**
+   * The function of getting an object with promises, each of which waits for the initialization of the corresponding provider (_for example: `__venom`_) on the `window` object and is resolved by them or after several attempts is rejected.
+   *
+   *  You can get the promise you need by wallet ID and connection type `getPromise("venomwallet", "extension")` or you can use the default connection type ("extension") `getPromise("venomwallet")`.
+   */
   public static getPromise = (
     walletId: string,
     type: string | undefined = "extension"

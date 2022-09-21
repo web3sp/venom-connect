@@ -217,8 +217,6 @@ const SSubTextItem = styled.div`
 type Img = {
   color?: string;
   maxHeight: number | string;
-
-  children: any;
 };
 const SImg = styled.div<Img>`
   max-height: ${({ maxHeight }) =>

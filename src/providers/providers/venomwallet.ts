@@ -1,6 +1,5 @@
 import { getValueByKey } from ".";
 import { ProviderOptions } from "../../types";
-import { venomWalletName } from "../connectors/venomwallet";
 import Apple from "../logos/Apple.svg";
 import ChromeExtension from "../logos/ChromeExtensionVenom.svg";
 import FirefoxExtension from "../logos/FirefoxExtensionVenom.svg";
@@ -79,11 +78,11 @@ const VenomWalletLogos = {
 
 export const venomwallet: ProviderOptions = {
   id: "venomwallet",
-  wallet: {
-    name: venomWalletName,
-    description: "The official wallet of the Venom network",
-    logo: VenomWalletLogos.wallet,
-  },
+  // wallet: {
+  //   name: venomWalletName,
+  //   description: "The official wallet of the Venom network",
+  //   logo: VenomWalletLogos.wallet,
+  // },
   walletWaysToConnect: [
     {
       id: "extension",

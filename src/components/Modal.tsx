@@ -17,14 +17,17 @@ import { WrongNetworkPopup } from "./WrongNetworkPopup";
 declare global {
   // tslint:disable-next-line
   interface Window {
-    updateVenomModal: any;
-
+    // ever wallet
     __hasEverscaleProvider?: boolean;
     __ever?: any;
 
-    venomNetworkIntervalId?: number;
-
+    // venom wallet
+    __hasVenomProvider?: boolean;
     __venom?: any;
+
+    // lib
+    updateVenomModal: any;
+    venomNetworkIntervalId?: number;
   }
 }
 
@@ -210,17 +213,18 @@ export const Modal = ({
   };
 
   // первый шаг с кошельками
+  // сейчас не используется
   const walletCardList: Case = useMemo(() => {
     return {
       type: Slide.walletsList,
       element: (
         <SProviders>
-          {options.map(({ id, wallet }, i) => (
+          {options.map(({ id /* wallet */ }, i) => (
             <CardManager
               key={id}
-              name={wallet.name}
-              logo={wallet.logo}
-              description={wallet.description}
+              name={"wallet.name"} // fix
+              logo={"wallet.logo"} // fix
+              description={"wallet.description"} // fix
               themeObject={themeConfig.theme}
               themeName={themeConfig.name}
               onClick={() => onWalletCardItemClick(id)}

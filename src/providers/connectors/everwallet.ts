@@ -6,6 +6,9 @@ export const everWalletName = "Ever Wallet";
 
 const getKey = (type: string) => getKeyRaw(everWalletName, type);
 
+/**
+ * everProvider: ProviderRpcClient
+ */
 export const checkIsProviderExist = async (everProvider: any) => {
   try {
     const isExist = !!(await everProvider?.hasProvider());
@@ -25,7 +28,7 @@ export const checkIsProviderExist = async (everProvider: any) => {
 };
 
 /**
- * everProvider: typeof ProviderRpcClient,
+ * everProvider: ProviderRpcClient,
  * options: any | undefined
  */
 const checkEverWalletAuth = async (EverProvider: any, options: any) => {
@@ -95,7 +98,7 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
 };
 
 /**
- * everProvider: typeof ProviderRpcClient,
+ * everProvider: ProviderRpcClient,
  * options: any | undefined
  */
 const connectToEverWallet = async (EverProvider: any, options: any) => {
@@ -173,7 +176,7 @@ const connectToEverWallet = async (EverProvider: any, options: any) => {
 };
 
 /**
- * everProvider: typeof ProviderRpcClient,
+ * everProvider: ProviderRpcClient,
  * options: any | undefined
  */
 const getStandaloneConnectionToEverWallet = async (

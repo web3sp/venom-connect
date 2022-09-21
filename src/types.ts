@@ -122,23 +122,27 @@ export type WayToConnect = {
   type: ConnectorType;
   options?: any;
 };
+
+/**
+ * provider: ProviderRpcClient
+ */
 type Connector = (provider?: any, options?: any) => Promise<any>;
 
 export type ProviderOptions = {
   id: string;
-  wallet: WalletDisplay;
+  // wallet: WalletDisplay;
   walletWaysToConnect: (ProviderDisplay & WayToConnect)[];
 };
 export type ProviderOptionsWithConnector = {
   id: string;
-  wallet: WalletDisplay;
-  links: Links;
+  // wallet: WalletDisplay;
+  links?: Links;
   walletWaysToConnect: (ProviderDisplay &
     WayToConnect & {
       connector: Connector;
       authConnector?: Connector;
       standalone?: Connector;
-      package: any;
+      package: any; // ProviderRpcClient
       packageOptions?: {
         [id: string]: any;
       };
@@ -153,12 +157,12 @@ export type ProviderOptionsList = (ProviderOptionsWithConnector & {
 
 type ProviderOptionsWithOnClick = {
   id: string;
-  wallet: WalletDisplay;
-  links: Links;
+  // wallet: WalletDisplay;
+  links?: Links;
   walletWaysToConnect: (ProviderDisplay &
     WayToConnect & {
       onClick: () => Promise<void>;
-      package: any;
+      package: any; // ProviderRpcClient
     })[];
 };
 export type ProviderOptionsListWithOnClick = (ProviderOptionsWithOnClick & {
@@ -167,14 +171,14 @@ export type ProviderOptionsListWithOnClick = (ProviderOptionsWithOnClick & {
 
 export type ProviderOptionsWithConnectorOptional = {
   id: string;
-  wallet: WalletDisplay;
-  links: Links;
-  walletWaysToConnect: (ProviderDisplay &
+  // wallet?: WalletDisplay;
+  links?: Links;
+  walletWaysToConnect: (Partial<ProviderDisplay> &
     WayToConnect & {
       connector?: Connector;
       authConnector?: Connector;
       standalone?: Connector;
-      package: any;
+      package: any; // ProviderRpcClient
       packageOptions?: {
         [id: string]: any;
       };
