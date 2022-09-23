@@ -191,6 +191,20 @@ const SChildren = styled.div`
   width: 100%;
   margin-top: 10px;
 `;
+type Badge = {
+  color: string;
+};
+const SBadge = styled.div<Badge>`
+  width: 100%;
+  margin-top: 24px;
+
+  font-size: 13px;
+  line-height: 20px;
+
+  text-align: center;
+
+  color: ${({ color }) => `${color}`};
+`;
 
 type AbstractPopUpProps = {
   show: boolean;
@@ -235,7 +249,17 @@ const AbstractPopUp = ({
               )}
             </SCardHeader>
             <SChildren>
-              <STextAlign>{children}</STextAlign>
+              {children && <STextAlign>{children}</STextAlign>}
+              <SBadge color={themeObject.popup.badgeColor}>
+                powered by{" "}
+                <a
+                  href="https://web3.space/venom-connect"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <b>web3.space</b>
+                </a>
+              </SBadge>
             </SChildren>
           </SModalCard>
         </SModalCardWrapper>

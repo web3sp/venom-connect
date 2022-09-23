@@ -30,6 +30,7 @@ const theme = {
     title: {
       fontWeight: 500,
     },
+    badgeColor: "#70718B",
   },
   item: {
     background: {
