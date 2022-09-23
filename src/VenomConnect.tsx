@@ -257,13 +257,14 @@ class VenomConnect {
   }
 
   /**
-   * This function checks authorization in the available connection methods (extensions) and **returns** the corresponding **instance** of the wallet provider or **false**.
+   * This function checks authorization in the available connection methods (extensions) and **returns** the corresponding **instance** of the wallet provider.
    *
    * @return Promise of auth ProviderRpcClient or false/undefined
    */
   public checkAuth = async (
     providerIdList: string[] | undefined = Object.keys(allProviders.providers)
   ) => {
+    let fallback = undefined;
     const providers = providerIdList?.map(async (id) => {
       const provider = this.providerController.getProvider(id);
 
@@ -278,12 +279,17 @@ class VenomConnect {
               authConnector
             ));
 
-          if (!provider) return null;
+          if (!provider?.auth) {
+            if (id === "venomwallet") {
+              fallback = provider.fallback;
+            }
+            return null;
+          }
 
           return {
             connectorId,
             connectorType: type,
-            provider,
+            provider: provider?.auth,
           };
         })
         .filter((promise) => !!promise);
@@ -304,7 +310,8 @@ class VenomConnect {
 
     const auth = filteredAuthList?.length ? filteredAuthList : false;
 
-    const authProvider = auth && auth?.[0]?.walletWaysToConnect?.[0]?.provider;
+    const authProvider =
+      (auth && auth?.[0]?.walletWaysToConnect?.[0]?.provider) || fallback;
 
     this.eventController.trigger(CONNECT_EVENT, authProvider);
 

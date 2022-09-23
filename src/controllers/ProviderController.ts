@@ -333,7 +333,7 @@ export class ProviderController {
 
       const provider = await authConnector(providerPackage, options);
 
-      this.currentProvider = provider;
+      this.currentProvider = provider?.auth || null;
 
       return provider || null;
     } catch (error) {

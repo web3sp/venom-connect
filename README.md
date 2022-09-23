@@ -203,7 +203,7 @@ This function allows you to get a specific provider **bypassing the selection po
 
 #### `checkAuth`
 
-This function checks authorization in the available connection methods (extensions) and **returns** the corresponding **instance** of the wallet provider or **false**.
+This function checks authorization in the available connection methods (extensions) and **returns** the corresponding **instance** of the wallet provider.
 
 #### `on`
 
