@@ -36,6 +36,7 @@ type PopupTheme = {
   title?: {
     fontWeight?: string | number;
   };
+  badgeColor: string;
 };
 
 type ItemTheme = {

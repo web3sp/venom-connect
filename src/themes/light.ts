@@ -26,6 +26,7 @@ const theme = {
       color: "#8BA9BC",
       hoverColor: "#68F7AA",
     },
+    badgeColor: "#ACACB5",
   },
   item: {
     background: {
