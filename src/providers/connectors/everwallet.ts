@@ -92,7 +92,10 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
       value: "check auth end",
     });
 
-    return auth;
+    return {
+      auth,
+      fallback: everProvider,
+    };
   } catch (error) {
     // console.error(error);
   }
@@ -172,6 +175,10 @@ const connectToEverWallet = async (EverProvider: any, options: any) => {
     log({
       key,
       value: "connection end",
+    });
+
+    await toggleExtensionWindow({
+      isExtensionWindowOpen: false,
     });
 
     return everProvider;

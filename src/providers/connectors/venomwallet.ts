@@ -92,7 +92,10 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
       value: "check auth end",
     });
 
-    return auth;
+    return {
+      auth,
+      fallback: venomProvider,
+    };
   } catch (error) {
     // console.error(error);
   }
@@ -172,6 +175,10 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
     log({
       key,
       value: "connection end",
+    });
+
+    await toggleExtensionWindow({
+      isExtensionWindowOpen: false,
     });
 
     return venomProvider;
