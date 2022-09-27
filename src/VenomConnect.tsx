@@ -281,7 +281,7 @@ class VenomConnect {
 
           if (!provider?.auth) {
             if (id === "venomwallet") {
-              fallback = provider.fallback;
+              fallback = provider?.fallback;
             }
             return null;
           }
