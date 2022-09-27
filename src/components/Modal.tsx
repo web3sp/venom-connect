@@ -343,6 +343,8 @@ export const Modal = ({
               marginTop: "32px",
               width: "286px",
               justifyContent: "space-between",
+              marginRight: "auto",
+              marginLeft: "auto",
             }}
           >
             {/*<QrCard {...walletWayToConnect.options} themeConfig={themeConfig} />*/}
@@ -436,6 +438,7 @@ export const Modal = ({
         cardHeader={{
           text: card?.title || "your wallet",
           // fontSize: card?.type === Slide.currentWallet ? 20 : undefined,
+          textAlign: "left",
         }}
         goBack={slide !== getInitialSlide() ? goBack : undefined}
       >

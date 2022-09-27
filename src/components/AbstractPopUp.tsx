@@ -182,9 +182,12 @@ const SCardHeader = styled.div<CardHeader>`
     "28px"};
 `;
 
-const STextAlign = styled.div`
+type TextAlign = {
+  textAlign?: string;
+};
+const STextAlign = styled.div<TextAlign>`
   width: 100%;
-  text-align: center;
+  text-align: ${({ textAlign }) => `${textAlign || "center"}`};
 `;
 
 const SChildren = styled.div`
@@ -214,6 +217,7 @@ type AbstractPopUpProps = {
   cardHeader: {
     text: string | JSX.Element;
     fontSize?: number | string;
+    textAlign?: "left" | "right" | "center";
   };
   children?: JSX.Element;
 };
@@ -239,7 +243,9 @@ const AbstractPopUp = ({
               fontSize={cardHeader.fontSize}
               fontWeight={themeObject.popup.title?.fontWeight}
             >
-              <STextAlign>{cardHeader.text}</STextAlign>
+              <STextAlign textAlign={cardHeader.textAlign}>
+                {cardHeader.text}
+              </STextAlign>
               {!!onClose && (
                 <CloseCross
                   color={themeObject.popup.closeCross.color}
