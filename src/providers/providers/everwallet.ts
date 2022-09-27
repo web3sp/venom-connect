@@ -133,7 +133,7 @@ export const everwallet: ProviderOptions = {
       id: "ios",
       type: "ios",
       logo: EverWalletLogos.connectors.ios,
-      logoWhite: EverWalletLogos.connectors.ios,
+      logoWhite: EverWalletLogos.connectors.iosWhite,
       name: "Ever Mobile App",
       options: {
         text: "Click here to open App Store",
@@ -147,7 +147,7 @@ export const everwallet: ProviderOptions = {
       id: "android",
       type: "android",
       logo: EverWalletLogos.connectors.android,
-      logoWhite: EverWalletLogos.connectors.android,
+      logoWhite: EverWalletLogos.connectors.androidWhite,
       name: "Ever Mobile App",
       options: {
         text: "Click here to open Google Play",
