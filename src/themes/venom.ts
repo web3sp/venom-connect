@@ -31,6 +31,9 @@ const theme = {
       fontWeight: 500,
     },
     badgeColor: "#70718B",
+    scroll: {
+      color: "rgba(255, 255, 255, 0.1)",
+    },
   },
   item: {
     background: {

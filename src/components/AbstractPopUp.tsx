@@ -1,4 +1,5 @@
 import { rgba } from "polished";
+import { isDesktop } from "react-device-detect";
 import styled from "styled-components";
 import { SimpleFunction, Theme, ThemeConfig } from "../types";
 import { CloseCross } from "./CloseCross";
@@ -190,6 +191,41 @@ const STextAlign = styled.div<TextAlign>`
   text-align: ${({ textAlign }) => `${textAlign || "center"}`};
 `;
 
+type ScrollSection = {
+  color: string;
+  isDesktop: boolean;
+};
+const SScrollSection = styled.div<ScrollSection>`
+  max-width: 364px;
+
+  height: 100%;
+  max-height: ${({ isDesktop }) =>
+    `${isDesktop ? "min(calc(100vh - 210px), 300px)" : "100vh"}`};
+
+  padding: 0 22px;
+  margin: 0 -22px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  direction: ltr;
+  scrollbar-color: transparent;
+  scrollbar-width: all;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: ${({ color }) => color};
+  }
+`;
+
 const SChildren = styled.div`
   width: 100%;
   margin-top: 10px;
@@ -255,7 +291,14 @@ const AbstractPopUp = ({
               )}
             </SCardHeader>
             <SChildren>
-              {children && <STextAlign>{children}</STextAlign>}
+              {children && (
+                <SScrollSection
+                  color={themeObject.popup.scroll.color}
+                  isDesktop={isDesktop}
+                >
+                  {children}
+                </SScrollSection>
+              )}
               <SBadge color={themeObject.popup.badgeColor}>
                 powered by{" "}
                 <a

@@ -28,6 +28,9 @@ const theme = {
       hoverColor: "#68F7AA",
     },
     badgeColor: "#3B4363",
+    scroll: {
+      color: "#3A3A51",
+    },
   },
   item: {
     background: {

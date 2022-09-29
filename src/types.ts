@@ -37,6 +37,9 @@ type PopupTheme = {
     fontWeight?: string | number;
   };
   badgeColor: string;
+  scroll: {
+    color: string;
+  };
 };
 
 type ItemTheme = {
