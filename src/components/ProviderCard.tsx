@@ -12,6 +12,7 @@ type ProviderContainerWrapper = {
   item: Theme["item"];
   popup: Theme["popup"];
   isShowCheckWarnings: boolean;
+  isFirst: boolean;
 };
 const SProviderContainerWrapper = styled.div<ProviderContainerWrapper>`
   width: 100%;
@@ -27,8 +28,8 @@ const SProviderContainerWrapper = styled.div<ProviderContainerWrapper>`
   background: transparent;
 
   /* ========================= */
-  margin-top: ${({ isShowCheckWarnings }) =>
-    isShowCheckWarnings ? 0 : `10px`};
+  margin-top: ${({ isShowCheckWarnings, isFirst }) =>
+    isShowCheckWarnings || isFirst ? 0 : "10px"};
   border-radius: ${({
     popup: {
       border: { borderRadius },
@@ -440,6 +441,7 @@ export const ProviderCard = ({
           item={themeObject.item}
           popup={themeObject.popup}
           isShowCheckWarnings={isShowBadBrowserWarning}
+          isFirst={!!isFirst}
         >
           <SProviderContainer
             item={themeObject.item}
