@@ -12,6 +12,7 @@ import {
 } from "../types";
 import AbstractPopUp from "./AbstractPopUp";
 import { CardManager } from "./CardManager";
+import { QrCard } from "./InnerCard";
 import { WrongNetworkPopup } from "./WrongNetworkPopup";
 
 declare global {
@@ -345,8 +346,27 @@ export const Modal = ({
               justifyContent: "space-between",
               marginRight: "auto",
               marginLeft: "auto",
+              rowGap: "16px",
             }}
           >
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <div>
+                {walletWayToConnect.options.qr ? (
+                  <>
+                    <QrCard
+                      qr={walletWayToConnect.options.qr}
+                      themeConfig={themeConfig}
+                    />
+                  </>
+                ) : null}
+              </div>
+            </div>
             {/*<QrCard {...walletWayToConnect.options} themeConfig={themeConfig} />*/}
             {walletWayToConnect.options.devises?.map((device: any) => {
               if (device.type === "ios") {
@@ -378,11 +398,7 @@ export const Modal = ({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img
-                      style={{ marginTop: "16px", cursor: "pointer" }}
-                      src={DownloadApk}
-                      alt=""
-                    />
+                    <img src={DownloadApk} alt="" />
                   </a>
                 );
               }

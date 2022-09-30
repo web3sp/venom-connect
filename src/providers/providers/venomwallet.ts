@@ -10,9 +10,31 @@ import VenomWalletLogo from "../logos/VenomWalletLogo.svg";
 
 export { VenomWalletLogo };
 
+export const getVenomIos = (link?: string) => {
+  return (
+    // url
+    //
+    "https://venomwallet.page.link" +
+    //
+    // params
+    //
+    "/?link=" +
+    (link || encodeURIComponent(window.location.href)) +
+    //
+    "&apn=" +
+    "com.venom.wallet" +
+    //
+    "&isi=" +
+    "1622970889" +
+    //
+    "&ibi=" +
+    "foundation.venom.wallet"
+  );
+};
+
 // for venom
 const venomDefaultLink = "/";
-const venomIosDeepLink = "https://testflight.apple.com/join/x5jOlxzL";
+const venomIosDeepLink = getVenomIos();
 const venomAndroidDeepLink = "https://venomwallet.page.link/download";
 const venomExtensionLinkChrome =
   "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch";
@@ -38,7 +60,7 @@ export const venomDefaultLinks = {
 };
 //
 
-export const getVenomQr = () => {
+export const getVenomQr = (link?: string) => {
   return (
     // url
     //
@@ -47,7 +69,7 @@ export const getVenomQr = () => {
     // params
     //
     "/?link=" +
-    encodeURIComponent(window.location.href) +
+    (link || encodeURIComponent(window.location.href)) +
     //
     "&apn=" +
     "com.venom.wallet" +

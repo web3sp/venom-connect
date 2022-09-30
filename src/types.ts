@@ -102,7 +102,12 @@ type Links = {
     browser: "chrome" | "firefox";
     link: string | null;
   }[];
-  ios: string | null;
+  ios:
+    | string
+    | null
+    | {
+        targetLink: string;
+      };
   android: string | null;
   qr: string | null;
 };
