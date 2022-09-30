@@ -1,11 +1,31 @@
 import { ProviderOptions } from "../../types";
 import { everDefaultLinks } from "./everwallet";
-import { getVenomQr, venomDefaultLinks } from "./venomwallet";
+import { getVenomIos, getVenomQr, venomDefaultLinks } from "./venomwallet";
 export * from "./everwallet";
 export * from "./venomwallet";
 
 type linkCreator = (
-  links: typeof venomDefaultLinks | typeof everDefaultLinks | undefined
+  links:
+    | {
+        ios:
+          | string
+          | null
+          | {
+              targetLink: string;
+            };
+        android: string | null;
+        qr:
+          | string
+          | null
+          | {
+              targetLink: string;
+            };
+        extension: {
+          browser: string;
+          link: string | null;
+        }[];
+      }
+    | undefined
 ) =>
   | string
   | null
@@ -27,12 +47,49 @@ export const getValueByKey: (
     if (links?.[key] !== null && !!id) {
       // @ts-ignore
       const userValue = links?.[key];
-      if (userValue) return userValue;
+
+      if (
+        userValue &&
+        typeof userValue === "object" &&
+        !Array.isArray(userValue) &&
+        typeof userValue?.targetLink === "string"
+      ) {
+        if (key === "ios") {
+          if (id === "venomwallet") {
+            return getVenomIos(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
+        }
+
+        if (key === "qr") {
+          if (id === "venomwallet") {
+            return getVenomQr(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
+        }
+
+        return "/";
+      }
+
+      if (userValue)
+        return userValue as Exclude<
+          typeof userValue,
+          {
+            targetLink: string;
+          }
+        >;
 
       const defaultValue = defaultLinks?.[id]?.[key];
+
       if (defaultValue && key === "qr") {
         if (id === "venomwallet") return getVenomQr();
         // if (id === "everwallet") return getEverQr();
+      }
+      if (defaultValue && key === "ios") {
+        if (id === "venomwallet") return getVenomIos();
+        // if (id === "everwallet") return getEverIos();
       }
       return defaultValue;
     }

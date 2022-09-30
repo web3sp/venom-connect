@@ -200,7 +200,7 @@ const SScrollSection = styled.div<ScrollSection>`
 
   height: 100%;
   max-height: ${({ isDesktop }) =>
-    `${isDesktop ? "min(calc(100vh - 210px), 300px)" : "100vh"}`};
+    `${isDesktop ? "min(calc(100vh - 210px), 350px)" : "100vh"}`};
 
   padding: 0 22px;
   margin: 0 -22px;
