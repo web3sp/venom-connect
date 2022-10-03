@@ -10,7 +10,7 @@ import {
   SimpleFunction,
   ThemeConfig,
 } from "../types";
-import AbstractPopUp from "./AbstractPopUp";
+import AbstractPopUp, { SECONDS } from "./AbstractPopUp";
 import { CardManager } from "./CardManager";
 import { QrCard } from "./InnerCard";
 import { WrongNetworkPopup } from "./WrongNetworkPopup";
@@ -104,6 +104,15 @@ export const Modal = ({
 
     if (state.isExtensionWindowOpen !== undefined) {
       setIsExtensionWindowOpen(state.isExtensionWindowOpen);
+
+      if (state.isExtensionWindowOpen) {
+        setExtensionPause(true);
+      } else {
+        setTimeout(() => {
+          setExtensionPause(false);
+        }, SECONDS * 1000);
+      }
+
       setPopUpText(state.popUpText || INITIAL_STATE.popUpText);
     }
   };
@@ -407,7 +416,7 @@ export const Modal = ({
             })}
           </div>
           <div
-            style={{ marginTop: "16px", cursor: "pointer", color: "#11A97D" }}
+            style={{ marginTop: "24px", cursor: "pointer", color: "#11A97D" }}
             onClick={goBack}
           >
             Back
@@ -432,6 +441,21 @@ export const Modal = ({
     cards.find((card) => card.type === slide);
 
   const card = getCard();
+
+  const [networkPause, setNetworkPause] = useState(false);
+  const [extensionPause, setExtensionPause] = useState(false);
+
+  useEffect(() => {
+    const condition = !!wrongNetwork && !show && !!isFullProvider;
+
+    if (condition) {
+      setNetworkPause(true);
+    } else {
+      setTimeout(() => {
+        setNetworkPause(false);
+      }, SECONDS * 1000);
+    }
+  }, [wrongNetwork, show, isFullProvider]);
 
   return (
     <>
@@ -461,7 +485,8 @@ export const Modal = ({
         {card?.element}
       </AbstractPopUp>
       <AbstractPopUp
-        show={!!wrongNetwork && !show && !!isFullProvider}
+        show={(!!wrongNetwork && !show && !!isFullProvider) || networkPause}
+        hide={!(!!wrongNetwork && !show && !!isFullProvider)}
         themeObject={themeConfig.theme}
         cardHeader={{
           text: "Active network is wrong",
@@ -474,7 +499,8 @@ export const Modal = ({
         />
       </AbstractPopUp>
       <AbstractPopUp
-        show={!!isExtensionWindowOpen}
+        show={!!isExtensionWindowOpen || extensionPause}
+        hide={!isExtensionWindowOpen}
         themeObject={themeConfig.theme}
         cardHeader={{
           text: popUpText.title,
