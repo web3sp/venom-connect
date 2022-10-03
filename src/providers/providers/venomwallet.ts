@@ -136,8 +136,8 @@ export const venomwallet: ProviderOptions = {
             img: VenomWalletLogos.connectors.apple,
             text: "iOS App",
 
-            deepLink: (links: typeof venomDefaultLinks | undefined) =>
-              getValueByKey("venomwallet", "ios")(links),
+            deepLink:
+              "https://apps.apple.com/app/venom-blockchain-wallet/id1622970889",
             alt: "iOS",
             storeId: "ios",
           },
@@ -146,9 +146,8 @@ export const venomwallet: ProviderOptions = {
             img: VenomWalletLogos.connectors.playMarket,
             text: "Android App",
 
-            deepLink: (
-              links: typeof venomDefaultLinks | undefined = venomDefaultLinks
-            ) => getValueByKey("venomwallet", "android")(links),
+            deepLink:
+              "https://play.google.com/store/apps/details?id=com.venom.wallet",
             alt: "Android",
             storeId: "android",
           },
