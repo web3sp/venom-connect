@@ -45,8 +45,6 @@ const ChangeWalletButton = styled.div`
   font-weight: 400;
   font-size: 18px;
   line-height: 20px;
-
-  margin-bottom: 17px;
 `;
 
 type TextDivType = {

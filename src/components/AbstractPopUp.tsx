@@ -1,15 +1,21 @@
 import { rgba } from "polished";
+import { useEffect, useState } from "react";
 import { isDesktop } from "react-device-detect";
 import styled from "styled-components";
 import { SimpleFunction, Theme, ThemeConfig } from "../types";
 import { CloseCross } from "./CloseCross";
 
+export const SECONDS: number = 0.25;
+
 type BackdropStyleProps = {
   show: boolean;
+  visible: boolean;
   backdrop: Theme["common"]["backdrop"];
   popup: Theme["popup"];
 };
 const SBackdrop = styled.div<BackdropStyleProps>`
+  transition: all ${SECONDS / 2}s ease-in-out;
+
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
   font-style: normal;
@@ -38,8 +44,8 @@ const SBackdrop = styled.div<BackdropStyleProps>`
 
   /* ========================= */
   opacity: ${({ show }) => (show ? 1 : 0)};
-  visibility: ${({ show }) => (show ? "visible" : "hidden")};
-  pointer-events: ${({ show }) => (show ? "auto" : "none")};
+  visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
+  pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
 
   top: ${({ backdrop: { offset } }) =>
     typeof offset === "string" ? offset : `-${offset || 0}px`};
@@ -60,8 +66,11 @@ const SBackdrop = styled.div<BackdropStyleProps>`
 
 type ModalContainerStyleProps = {
   show: boolean;
+  visible: boolean;
 };
 const SModalContainer = styled.div<ModalContainerStyleProps>`
+  transition: all ${SECONDS}s ease-in-out;
+
   position: relative;
 
   width: 100vw;
@@ -74,8 +83,8 @@ const SModalContainer = styled.div<ModalContainerStyleProps>`
 
   /* ========================= */
   opacity: ${({ show }) => (show ? 1 : 0)};
-  visibility: ${({ show }) => (show ? "visible" : "hidden")};
-  pointer-events: ${({ show }) => (show ? "auto" : "none")};
+  visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
+  pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
   /* ========================= */
 `;
 
@@ -89,10 +98,13 @@ const SHitbox = styled.div`
 
 type ModalCardWrapperStyleProps = {
   show: boolean;
+  visible: boolean;
   maxWidth?: number;
   border: Theme["popup"]["border"];
 };
 const SModalCardWrapper = styled.div<ModalCardWrapperStyleProps>`
+  transition: all ${SECONDS}s ease-in-out;
+
   width: 100%;
   max-height: 100%;
   margin: 10px;
@@ -105,8 +117,8 @@ const SModalCardWrapper = styled.div<ModalCardWrapperStyleProps>`
 
   /* ========================= */
   opacity: ${({ show }) => (show ? 1 : 0)};
-  visibility: ${({ show }) => (show ? "visible" : "hidden")};
-  pointer-events: ${({ show }) => (show ? "auto" : "none")};
+  visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
+  pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
 
   max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}px` : "400px")};
   padding: ${({ border: { width } }) => `${width}px`};
@@ -117,7 +129,6 @@ const SModalCardWrapper = styled.div<ModalCardWrapperStyleProps>`
 `;
 
 type ModalCardStyleProps = {
-  show: boolean;
   popup: ThemeConfig["theme"]["popup"];
 };
 const SModalCard = styled.div<ModalCardStyleProps>`
@@ -200,7 +211,7 @@ const SScrollSection = styled.div<ScrollSection>`
 
   height: 100%;
   max-height: ${({ isDesktop }) =>
-    `${isDesktop ? "min(calc(100vh - 210px), 350px)" : "100vh"}`};
+    `${isDesktop ? "min(calc(100vh - 210px), 355px)" : "100vh"}`};
 
   padding: 0 22px;
   margin: 0 -22px;
@@ -226,9 +237,26 @@ const SScrollSection = styled.div<ScrollSection>`
   }
 `;
 
-const SChildren = styled.div`
+type Children = {
+  animation?: boolean;
+};
+const SChildren = styled.div<Children>`
   width: 100%;
   margin-top: 10px;
+  opacity: ${({ animation }) => (animation ? 1 : 0)};
+
+  animation-duration: ${SECONDS}s;
+  animation-name: ${({ animation }) => (animation ? "children" : "")};
+
+  @keyframes children {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
 `;
 type Badge = {
   color: string;
@@ -247,6 +275,8 @@ const SBadge = styled.div<Badge>`
 
 type AbstractPopUpProps = {
   show: boolean;
+  hide?: boolean;
+  pause?: SimpleFunction;
   goBack?: SimpleFunction;
   onClose?: SimpleFunction;
   themeObject: ThemeConfig["theme"];
@@ -258,23 +288,92 @@ type AbstractPopUpProps = {
   children?: JSX.Element;
 };
 const AbstractPopUp = ({
-  show,
+  show: outerShow,
+  hide,
+  pause,
   goBack,
   onClose,
   themeObject,
   cardHeader,
   children,
 }: AbstractPopUpProps) => {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (outerShow) {
+      setShow(outerShow);
+    }
+
+    const setShowWrapper = () => {
+      setShow(outerShow);
+    };
+
+    const id = outerShow
+      ? undefined
+      : setTimeout(setShowWrapper, SECONDS * 1000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [outerShow]);
+
+  useEffect(() => {
+    const onCloseWrapper = () => {
+      onClose?.();
+    };
+
+    const id = show ? undefined : setTimeout(onCloseWrapper, SECONDS * 1000);
+
+    return () => {
+      clearTimeout(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show]);
+
+  useEffect(() => {
+    if (hide) {
+      setShow(false);
+    }
+  }, [hide]);
+
+  const [key, setKey] = useState(cardHeader.text);
+
+  useEffect(() => {
+    const fn = () => {
+      setKey(cardHeader.text || "");
+    };
+
+    const id = setTimeout(fn, 1);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [cardHeader.text]);
+
   return (
     <SBackdrop
-      show={show}
+      show={outerShow}
+      visible={outerShow}
       backdrop={themeObject.common?.backdrop}
       popup={themeObject.popup}
     >
-      <SModalContainer show={show}>
-        <SHitbox onClick={goBack || onClose} />
-        <SModalCardWrapper show={show} border={themeObject.popup.border}>
-          <SModalCard show={show} popup={themeObject.popup}>
+      <SModalContainer show={show} visible={outerShow}>
+        <SHitbox
+          onClick={
+            goBack ||
+            (() => {
+              if (onClose) {
+                setShow(false);
+              }
+            })
+          }
+        />
+        <SModalCardWrapper
+          show={show}
+          visible={outerShow}
+          border={themeObject.popup.border}
+        >
+          <SModalCard popup={themeObject.popup}>
             <SCardHeader
               fontSize={cardHeader.fontSize}
               fontWeight={themeObject.popup.title?.fontWeight}
@@ -286,19 +385,17 @@ const AbstractPopUp = ({
                 <CloseCross
                   color={themeObject.popup.closeCross.color}
                   hoverColor={themeObject.popup.closeCross.hoverColor}
-                  onClick={onClose}
+                  onClick={() => setShow(false)}
                 />
               )}
             </SCardHeader>
-            <SChildren>
-              {children && (
-                <SScrollSection
-                  color={themeObject.popup.scroll.color}
-                  isDesktop={isDesktop}
-                >
-                  {children}
-                </SScrollSection>
-              )}
+            <SChildren animation={key === cardHeader.text}>
+              <SScrollSection
+                color={themeObject.popup.scroll.color}
+                isDesktop={isDesktop}
+              >
+                {children}
+              </SScrollSection>
               <SBadge color={themeObject.popup.badgeColor}>
                 powered by{" "}
                 <a
