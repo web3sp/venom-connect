@@ -112,9 +112,19 @@ export class ProviderController {
   };
 
   public set currentProvider(cp) {
-    window.updateVenomModal({
-      isFullProvider: !!cp,
-    });
+    const updateVenomModal = () =>
+      window.updateVenomModal({
+        isFullProvider: !!cp,
+      });
+
+    (function tryUpdateVenomModal() {
+      try {
+        updateVenomModal();
+      } catch (error) {
+        setTimeout(tryUpdateVenomModal, 100);
+      }
+    })();
+
     this._currentProvider = cp;
   }
 
