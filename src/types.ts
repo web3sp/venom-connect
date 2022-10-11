@@ -109,7 +109,12 @@ type Links = {
         targetLink: string;
       };
   android: string | null;
-  qr: string | null;
+  qr:
+    | string
+    | null
+    | {
+        targetLink: string;
+      };
 };
 
 type ProviderDisplay = {
@@ -133,7 +138,19 @@ export type WayToConnect = {
 };
 
 /**
- * provider: ProviderRpcClient
+ * provider: ProviderRpcClient,
+ * options?: any,
+ * callbacks: Callbacks,
+ */
+export type ExtensionConnector = (
+  provider: any,
+  options: any | undefined,
+  callbacks: Callbacks
+) => Promise<any>;
+
+/**
+ * provider: ProviderRpcClient,
+ * options?: any,
  */
 type Connector = (provider?: any, options?: any) => Promise<any>;
 
@@ -148,7 +165,7 @@ export type ProviderOptionsWithConnector = {
   links?: Partial<Links>;
   walletWaysToConnect: (ProviderDisplay &
     WayToConnect & {
-      connector: Connector;
+      connector: ExtensionConnector;
       authConnector?: Connector;
       standalone?: Connector;
       package: any; // ProviderRpcClient
@@ -184,7 +201,7 @@ export type ProviderOptionsWithConnectorOptional = {
   links?: Partial<Links>;
   walletWaysToConnect: (Partial<ProviderDisplay> &
     WayToConnect & {
-      connector?: Connector;
+      connector?: ExtensionConnector;
       authConnector?: Connector;
       standalone?: Connector;
       package: any; // ProviderRpcClient
@@ -217,4 +234,9 @@ export type VenomConnectOptions = {
 export type ProviderControllerOptions = {
   providersOptions: UserProvidersOptions;
   checkNetworkId: number | number[];
+};
+
+export type Callbacks = {
+  authorizationCompleted: (provider: any) => void;
+  extensionWindowClosed: () => void;
 };

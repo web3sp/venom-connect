@@ -241,10 +241,12 @@ Toggle the backdrop when performing an action in the extension window. `toggleEx
 
 Available events:
 
-- `select` — after clicking on one of the items; opening the extension window
-- `connect` — after authorization in the extension; returns the provider object
-- `close` — after the user closes the extension window
+- `connect` — called every time the visibility of the pop-up changes; returns the current provider object
 - `error`
+- `close` — after the user closes the pop-up
+- `select` — after clicking on one of the extension items; opening the extension window
+- `extension-auth` — after successful authorization in the extension window
+- `extension-window-closed` — after closing the authorization window prematurely
 
 ```javascript
 const onConnect = async (provider: ProviderRpcClient | undefined) => {

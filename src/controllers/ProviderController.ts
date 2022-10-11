@@ -2,12 +2,15 @@ import {
   CONNECT_EVENT,
   ERROR_EVENT,
   Events,
+  EXTENSION_AUTH_EVENT,
+  EXTENSION_WINDOW_CLOSED_EVENT,
   SELECT_EVENT,
 } from "../helpers/events";
 import { checkIsCurrentBrowser } from "../helpers/utils";
 import * as allProviders from "../providers";
 import {
   ConnectorType,
+  ExtensionConnector,
   ProviderControllerOptions,
   ProviderOptionsList,
   ProviderOptionsListWithOnClick,
@@ -344,7 +347,7 @@ export class ProviderController {
   public connectTo = async (
     id: string,
     connectorId: string,
-    connector: (providerPackage: any, opts: any) => Promise<any>
+    connector: ExtensionConnector
   ) => {
     try {
       this.currentProvider = null;
@@ -364,7 +367,14 @@ export class ProviderController {
         ...providerOptions,
       };
 
-      const provider = await connector(providerPackage, options);
+      const provider = await connector(providerPackage, options, {
+        authorizationCompleted: (_provider) => {
+          this.eventController.trigger(EXTENSION_AUTH_EVENT, _provider);
+        },
+        extensionWindowClosed: () => {
+          this.eventController.trigger(EXTENSION_WINDOW_CLOSED_EVENT);
+        },
+      });
 
       this.currentProvider = provider;
 
