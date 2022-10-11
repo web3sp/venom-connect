@@ -1,5 +1,6 @@
 import { toggleExtensionWindow } from "../../helpers/backdrop";
 import { getKey as getKeyRaw, log, makeMove } from "../../helpers/utils";
+import { Callbacks } from "../../types";
 import { setupNetworkIdTimer } from "./networkIdTimerUtil";
 
 // checked for version "everscale-inpage-provider": "^0.3.28",
@@ -104,8 +105,13 @@ const checkVenomWalletAuth = async (VenomProvider: any, options: any) => {
 /**
  * venomProvider: ProviderRpcClient,
  * options: any | undefined
+ * callbacks: Callbacks
  */
-const connectToVenomWallet = async (VenomProvider: any, options: any) => {
+const connectToVenomWallet = async (
+  VenomProvider: any,
+  options: any,
+  callbacks: Callbacks
+) => {
   try {
     const key = getKey("extension");
 
@@ -177,6 +183,8 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
       value: "connection end",
     });
 
+    callbacks.authorizationCompleted(venomProvider);
+
     await toggleExtensionWindow({
       isExtensionWindowOpen: false,
     });
@@ -184,6 +192,7 @@ const connectToVenomWallet = async (VenomProvider: any, options: any) => {
     return venomProvider;
   } catch (error) {
     // console.error(error);
+    callbacks.extensionWindowClosed();
   }
 
   await toggleExtensionWindow({

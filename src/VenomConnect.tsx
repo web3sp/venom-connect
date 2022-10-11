@@ -8,11 +8,13 @@ import {
   toggleExtensionWindow,
 } from "./helpers/backdrop";
 import {
+  Events,
+  SELECT_EVENT,
   CLOSE_EVENT,
   CONNECT_EVENT,
   ERROR_EVENT,
-  Events,
-  SELECT_EVENT,
+  EXTENSION_AUTH_EVENT,
+  EXTENSION_WINDOW_CLOSED_EVENT,
 } from "./helpers/events";
 import * as allProviders from "./providers";
 import { getThemeConfig, ThemeNameList, themesList } from "./themes";
@@ -105,6 +107,13 @@ class VenomConnect {
     this.providerController.on(ERROR_EVENT, (error) => this.onError(error));
     this.providerController.on(SELECT_EVENT, this.onProviderSelect);
 
+    this.providerController.on(EXTENSION_AUTH_EVENT, (_provider) =>
+      this.eventController.trigger(EXTENSION_AUTH_EVENT, _provider)
+    );
+    this.providerController.on(EXTENSION_WINDOW_CLOSED_EVENT, () =>
+      this.eventController.trigger(EXTENSION_WINDOW_CLOSED_EVENT)
+    );
+
     this.options = this.providerController.getOptions();
 
     this.renderModal();
@@ -144,7 +153,7 @@ class VenomConnect {
 
       this.on(CONNECT_EVENT, (provider) => resolve(provider));
       this.on(ERROR_EVENT, (error) => reject(error));
-      this.on(CLOSE_EVENT, () => reject("Modal closed by user"));
+      this.on(CLOSE_EVENT, () => reject("Pop-up closed"));
 
       const connectorIdList = Object.keys(allProviders.connectors);
       const authList = await this.checkAuth(connectorIdList);
@@ -174,7 +183,7 @@ class VenomConnect {
     new Promise(async (resolve, reject) => {
       this.on(CONNECT_EVENT, (provider) => resolve(provider));
       this.on(ERROR_EVENT, (error) => reject(error));
-      this.on(CLOSE_EVENT, () => reject("Modal closed by user"));
+      this.on(CLOSE_EVENT, () => reject("Pop-up closed"));
       const provider = this.providerController.getProvider(id);
       if (!provider) {
         return reject(

@@ -1,5 +1,6 @@
 import { toggleExtensionWindow } from "../../helpers/backdrop";
 import { getKey as getKeyRaw, log, makeMove } from "../../helpers/utils";
+import { Callbacks } from "../../types";
 import { setupNetworkIdTimer } from "./networkIdTimerUtil";
 
 // checked for version "everscale-inpage-provider": "^0.3.28",
@@ -104,8 +105,13 @@ const checkEverWalletAuth = async (EverProvider: any, options: any) => {
 /**
  * everProvider: ProviderRpcClient,
  * options: any | undefined
+ * callbacks: Callbacks
  */
-const connectToEverWallet = async (EverProvider: any, options: any) => {
+const connectToEverWallet = async (
+  EverProvider: any,
+  options: any,
+  callbacks: Callbacks
+) => {
   try {
     const key = getKey("extension");
 
@@ -177,6 +183,8 @@ const connectToEverWallet = async (EverProvider: any, options: any) => {
       value: "connection end",
     });
 
+    callbacks.authorizationCompleted(everProvider);
+
     await toggleExtensionWindow({
       isExtensionWindowOpen: false,
     });
@@ -184,6 +192,7 @@ const connectToEverWallet = async (EverProvider: any, options: any) => {
     return everProvider;
   } catch (error) {
     // console.error(error);
+    callbacks.extensionWindowClosed();
   }
 
   await toggleExtensionWindow({
