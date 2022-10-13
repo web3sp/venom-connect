@@ -34,7 +34,7 @@ export const getVenomIos = (link?: string) => {
 
 // for venom
 const venomDefaultLink = "/";
-const venomIosDeepLink = null; // getVenomIos in runtime
+const venomIosDeepLink = undefined; // getVenomIos in runtime
 const venomAndroidDeepLink = "https://venomwallet.page.link/download";
 const venomExtensionLinkChrome =
   "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch";
