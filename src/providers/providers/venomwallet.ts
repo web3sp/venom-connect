@@ -10,56 +10,6 @@ import VenomWalletLogo from "../logos/VenomWalletLogo.svg";
 
 export { VenomWalletLogo };
 
-export const getVenomIos = (link?: string) => {
-  return (
-    // url
-    //
-    "https://venomwallet.page.link" +
-    //
-    // params
-    //
-    "/?link=" +
-    (link || encodeURIComponent(window.location.href)) +
-    //
-    "&apn=" +
-    "com.venom.wallet" +
-    //
-    "&isi=" +
-    "1622970889" +
-    //
-    "&ibi=" +
-    "foundation.venom.wallet"
-  );
-};
-
-// for venom
-const venomDefaultLink = "/";
-const venomIosDeepLink = undefined; // getVenomIos in runtime
-const venomAndroidDeepLink = "https://venomwallet.page.link/download";
-const venomExtensionLinkChrome =
-  "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch";
-export const venomDefaultLinks = {
-  ios: venomIosDeepLink !== null ? venomIosDeepLink || venomDefaultLink : null,
-  android:
-    venomAndroidDeepLink !== null
-      ? venomAndroidDeepLink || venomDefaultLink
-      : null,
-  qr:
-    venomIosDeepLink !== null
-      ? venomIosDeepLink || venomAndroidDeepLink || venomDefaultLink
-      : null,
-  extension: [
-    {
-      browser: "chrome",
-      link:
-        venomExtensionLinkChrome !== null
-          ? venomExtensionLinkChrome || venomDefaultLink
-          : null,
-    },
-  ],
-};
-//
-
 export const getVenomQr = (link?: string) => {
   return (
     // url
@@ -80,6 +30,30 @@ export const getVenomQr = (link?: string) => {
     "&ibi=" +
     "foundation.venom.wallet"
   );
+};
+
+export const getVenomIos = getVenomQr;
+export const getVenomAndroid = getVenomQr;
+
+// for venom
+const venomDefaultLink = "/";
+const venomIosDeepLink = undefined; // getVenomIos in runtime
+const venomAndroidDeepLink = undefined; // getVenomAndroid in runtime
+const venomExtensionLinkChrome =
+  "https://chrome.google.com/webstore/detail/venom-wallet/ojggmchlghnjlapmfbnjholfjkiidbch";
+export const venomDefaultLinks = {
+  ios: venomIosDeepLink,
+  android: venomAndroidDeepLink,
+  qr: undefined,
+  extension: [
+    {
+      browser: "chrome",
+      link:
+        venomExtensionLinkChrome !== null
+          ? venomExtensionLinkChrome || venomDefaultLink
+          : null,
+    },
+  ],
 };
 
 const VenomWalletLogos = {

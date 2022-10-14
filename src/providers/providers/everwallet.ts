@@ -20,16 +20,9 @@ const everExtensionLinkChrome =
   "https://chrome.google.com/webstore/detail/ever-wallet/cgeeodpfagjceefieflmdfphplkenlfk";
 const everExtensionLinkFirefox = "https://everwallet.net";
 export const everDefaultLinks = {
-  ios: everIosDeepLink !== null ? everIosDeepLink || everDefaultLink : null,
-  android:
-    everAndroidDeepLink !== null
-      ? everAndroidDeepLink || everDefaultLink
-      : null,
-  qr:
-    everIosDeepLink !== null
-      ? everIosDeepLink || everAndroidDeepLink || everDefaultLink
-      : null,
-
+  ios: everIosDeepLink,
+  android: everAndroidDeepLink,
+  qr: undefined,
   extension: [
     {
       browser: "chrome",
