@@ -416,7 +416,7 @@ export const Modal = ({
             })}
           </div>
           <div
-            style={{ marginTop: "24px", cursor: "pointer", color: "#11A97D" }}
+            style={{ margin: "24px 0px 2px", cursor: "pointer", color: "#11A97D" }}
             onClick={goBack}
           >
             Back
