@@ -5,16 +5,16 @@ import { getPromiseRaw, ProviderController } from "./controllers";
 import { EventController } from "./controllers/EventController";
 import {
   ToggleExtensionWindow,
-  toggleExtensionWindow,
+  toggleExtensionWindow
 } from "./helpers/backdrop";
 import {
-  Events,
-  SELECT_EVENT,
   CLOSE_EVENT,
   CONNECT_EVENT,
   ERROR_EVENT,
+  Events,
   EXTENSION_AUTH_EVENT,
   EXTENSION_WINDOW_CLOSED_EVENT,
+  SELECT_EVENT
 } from "./helpers/events";
 import * as allProviders from "./providers";
 import { getThemeConfig, ThemeNameList, themesList } from "./themes";
@@ -23,20 +23,46 @@ import {
   SimpleFunction,
   ThemeConfig,
   UserProvidersOptions,
-  VenomConnectOptions,
+  VenomConnectOptions
 } from "./types";
 
 export const libName = "VenomConnect";
 
 let oldRoot: Root | undefined = undefined;
 
+const _getDefaultVenomNetworkNameById = (networkId: number) => {
+  switch (networkId) {
+    case 1010:
+      return "Venom Testnet";
+    case 1000:
+    default:
+      return "Venom Mainnet";
+  }
+};
+
+const getDefaultVenomNetworkNameById = (networkId: number | number[]) => {
+  if (Array.isArray(networkId)) {
+    const names = networkId.map((id) => {
+      return _getDefaultVenomNetworkNameById(id);
+    });
+
+    return Array.from(new Set(names))?.[0];
+  }
+
+  return _getDefaultVenomNetworkNameById(networkId);
+};
+
 const defaultOptions: VenomConnectOptions = {
   theme: themesList.default.name,
   providersOptions: {},
   checkNetworkId: 1000,
+  checkNetworkName: "Venom Testnet",
 };
 class VenomConnect {
   private show: boolean = false;
+
+  private checkNetworkId: number | number[];
+  private checkNetworkName: string;
 
   private themeConfig: ThemeConfig;
   private options: ProviderOptionsListWithOnClick;
@@ -48,9 +74,19 @@ class VenomConnect {
     theme?: VenomConnectOptions["theme"];
     providersOptions: VenomConnectOptions["providersOptions"];
     checkNetworkId?: number | number[];
+    checkNetworkName?: string;
   }) {
     const theme = options.theme || defaultOptions.theme;
     this.themeConfig = getThemeConfig(theme);
+
+    const checkNetworkId =
+      options.checkNetworkId || defaultOptions.checkNetworkId;
+    this.checkNetworkId = checkNetworkId;
+
+    const checkNetworkName =
+      options.checkNetworkName ||
+      getDefaultVenomNetworkNameById(checkNetworkId);
+    this.checkNetworkName = checkNetworkName;
 
     this.providerController = new ProviderController({
       providersOptions: Object.fromEntries(
@@ -98,7 +134,8 @@ class VenomConnect {
           ];
         })
       ),
-      checkNetworkId: options.checkNetworkId || defaultOptions.checkNetworkId,
+      checkNetworkId,
+      checkNetworkName,
     });
 
     this.providerController.on(CONNECT_EVENT, (provider) =>
@@ -471,6 +508,7 @@ class VenomConnect {
 
     root.render(
       <Modal
+        networkName={this.checkNetworkName}
         themeConfig={this.themeConfig}
         options={injectedLinkOptions}
         onClose={this.onClose}

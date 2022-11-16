@@ -60,11 +60,13 @@ const TextDiv = styled.div<TextDivType>`
 `;
 export type WrongNetworkPopupProps = {
   textColor: ThemeConfig["theme"]["common"]["text"]["color"];
+  networkName: string;
   changeWallet: () => void;
   disconnect?: () => void;
 };
 export const WrongNetworkPopup = ({
   textColor,
+  networkName,
   changeWallet,
   disconnect,
 }: WrongNetworkPopupProps) => {
@@ -74,7 +76,7 @@ export const WrongNetworkPopup = ({
         <TextDiv textAlign="center">
           Please change network in your wallets settings to
         </TextDiv>
-        <ShowNetwork color={textColor}>Venom Mainnet</ShowNetwork>
+        <ShowNetwork color={textColor}>{networkName}</ShowNetwork>
       </ShowNetworkWrapper>
       <TextDiv textAlign="center">or</TextDiv>
       {disconnect ? (

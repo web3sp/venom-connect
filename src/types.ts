@@ -229,11 +229,13 @@ export type VenomConnectOptions = {
   theme: ThemeNameList | ThemeConfig["theme"];
   providersOptions: UserProvidersOptions;
   checkNetworkId: number | number[];
+  checkNetworkName?: string;
 };
 
 export type ProviderControllerOptions = {
   providersOptions: UserProvidersOptions;
   checkNetworkId: number | number[];
+  checkNetworkName: string;
 };
 
 export type Callbacks = {

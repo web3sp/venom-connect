@@ -54,6 +54,7 @@ const SProviders = styled.div`
 `;
 
 type ModalProps = {
+  networkName: string;
   themeConfig: ThemeConfig;
   options: ProviderOptionsListWithOnClick;
   onClose: SimpleFunction;
@@ -84,6 +85,7 @@ const INITIAL_STATE: ModalState = {
 };
 
 export const Modal = ({
+  networkName,
   themeConfig: initThemeConfig,
   options,
   onClose,
@@ -416,7 +418,11 @@ export const Modal = ({
             })}
           </div>
           <div
-            style={{ margin: "24px 0px 2px", cursor: "pointer", color: "#11A97D" }}
+            style={{
+              margin: "24px 0px 2px",
+              cursor: "pointer",
+              color: "#11A97D",
+            }}
             onClick={goBack}
           >
             Back
@@ -496,6 +502,7 @@ export const Modal = ({
           textColor={themeConfig.theme.common.text.color}
           changeWallet={changeWallet}
           disconnect={disconnect}
+          networkName={networkName}
         />
       </AbstractPopUp>
       <AbstractPopUp

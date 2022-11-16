@@ -27,6 +27,7 @@ There are two types of settings:
 - general settings for this library
   - `theme`
   - `checkNetworkId`
+  - `checkNetworkName`
 - list of settings for different wallets, connection methods
   - `providersOptions`
 
@@ -51,7 +52,15 @@ Available formats:
 - `"1000"`
 - `[ "1000", /* ... */ ]`
 
-_You don't have to fill in this field, then the default ID is **1000**._
+### Expected network Name (`checkNetworkName`)
+
+Here you need to set the correct network Name for your site to work.
+
+Available format:
+
+- `"Venom Mainnet"`
+
+_You don't have to fill in this field, then the default Name is **`Venom Mainnet`** for `1000` or **`Venom Testnet`** for `1010`._
 
 ### Providers options (`providersOptions`)
 

@@ -90,6 +90,7 @@ export class ProviderController {
   private providerOptions: UserProvidersOptions;
 
   private checkNetworkId: number | number[];
+  private checkNetworkName: string;
 
   private _currentProvider: any;
 
@@ -161,6 +162,7 @@ export class ProviderController {
     };
 
     this.checkNetworkId = options.checkNetworkId;
+    this.checkNetworkName = options.checkNetworkName;
 
     this.providerOptions = options.providersOptions;
 
@@ -232,6 +234,7 @@ export class ProviderController {
 
               // задаём 1000 как дефолт ид венома
               packageOptions.checkNetworkId = this.checkNetworkId;
+              packageOptions.checkNetworkName = this.checkNetworkName;
 
               return {
                 ...defaultWay,
