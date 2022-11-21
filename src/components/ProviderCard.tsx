@@ -111,7 +111,7 @@ const SProviderContainer = styled.div<ProviderContainer>`
   overflow: hidden;
 
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
 
   transition: background-color 0.2s ease-in-out;
@@ -141,6 +141,11 @@ const SIconSection = styled.div<IconSection>`
       border: { width },
     },
   }) => `${56 - width}px`};
+  min-width: ${({
+    item: {
+      border: { width },
+    },
+  }) => `${56 - width}px`};
   padding-left: ${({
     item: {
       border: { width },
@@ -155,7 +160,7 @@ type MainSection = {
 const SMainSection = styled.div<MainSection>`
   box-sizing: border-box;
 
-  flex-grow: 1;
+  /* flex-grow: 1; */
 
   display: flex;
   flex-direction: column;
@@ -426,7 +431,7 @@ export const ProviderCard = ({
 
   // список способов подключения
   return (
-    <SWrapper>
+    <SWrapper onClick={onClick}>
       {isShowBadBrowserWarning && NotSupportedBadge}
       <a
         {...(cardLink
@@ -446,7 +451,6 @@ export const ProviderCard = ({
           <SProviderContainer
             item={themeObject.item}
             borderRadius={themeObject.popup.border.borderRadius}
-            onClick={onClick}
           >
             <SIconSection item={themeObject.item}>
               {!!logo && (
