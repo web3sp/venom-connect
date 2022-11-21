@@ -283,7 +283,7 @@ const App = () => {
         <Grid item>
           <Typography variant="h1" component="h1" textAlign="center">
             Example
-            {/* (v1.0.12)
+            {/* (v1.0.13)
             <div
               style={{
                 display: "flex",
@@ -296,7 +296,7 @@ const App = () => {
                   fontSize: "0.3em",
                 }}
               >
-                [Deployment: Nov 16 2022]
+                [Deployment: Nov 21 2022]
               </i>
             </div> */}
           </Typography>
