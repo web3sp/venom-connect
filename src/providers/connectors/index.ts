@@ -1,4 +1,5 @@
 import everwallet from "./everwallet";
+import oxychatwallet from "./oxychatwallet";
 import venomwallet from "./venomwallet";
 
-export { venomwallet, everwallet };
+export { everwallet, oxychatwallet, venomwallet };

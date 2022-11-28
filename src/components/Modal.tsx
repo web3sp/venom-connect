@@ -47,6 +47,9 @@ declare global {
     __hasVenomProvider?: boolean;
     __venom?: any;
 
+    // oxychat wallet
+    __oxy?: any;
+
     // lib
     updateVenomModal: any;
     venomNetworkIntervalId?: number;
@@ -151,7 +154,6 @@ export const Modal = ({
       ret = [...ret, ...o.walletWaysToConnect];
     });
     return ret;
-    // return options.find(({ id }) => id === _walletId)?.walletWaysToConnect;
   };
 
   // const getInitialSlide = () =>
