@@ -16,7 +16,7 @@ import {
   Container,
   Divider,
   Grid,
-  Typography,
+  Typography
 } from "@mui/material";
 
 const initTheme = "light" as const;
@@ -105,6 +105,33 @@ const initVenomConnect = async () => {
         defaultWalletWaysToConnect: [
           // List of enabled options
           "mobile",
+          "ios",
+          "android",
+        ],
+      },
+      oxychatwallet: {
+        walletWaysToConnect: [
+          {
+            // NPM package
+            package: ProviderRpcClient,
+            packageOptions: {
+              fallback:
+                VenomConnect.getPromise("oxychatwallet", "extension") ||
+                (() => Promise.reject()),
+              forceUseFallback: true,
+            },
+            packageOptionsStandalone: {
+              fallback: standaloneFallback,
+              forceUseFallback: true,
+            },
+
+            // Setup
+            id: "extension",
+            type: "extension",
+          },
+        ],
+        defaultWalletWaysToConnect: [
+          // List of enabled options
           "ios",
           "android",
         ],
@@ -283,6 +310,24 @@ const App = () => {
         <Grid item>
           <Typography variant="h1" component="h1" textAlign="center">
             Example
+            {/* (v1.0.14) */}
+            <br />
+            <small>(OXY.CHAT version)</small>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <i
+                style={{
+                  fontSize: "0.3em",
+                }}
+              >
+                [Deployment: Nov 28 2022]
+              </i>
+            </div>
           </Typography>
         </Grid>
       </Grid>

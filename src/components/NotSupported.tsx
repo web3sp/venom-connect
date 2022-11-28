@@ -69,7 +69,7 @@ type BrowserTextProps = {
   browserName: Browsers | string;
 };
 const BrowserText = ({ browserName }: BrowserTextProps) => (
-  <>You need to install {browserName} browser</>
+  browserName ? <>You need to install {browserName} browser</> : <></>
 );
 
 type ProviderBadgeProps = {

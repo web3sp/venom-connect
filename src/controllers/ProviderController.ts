@@ -78,6 +78,32 @@ export const getPromiseRaw = (
         return Promise.reject();
       },
     },
+    oxychatwallet: {
+      // todo
+      extension: () => {
+        if (windowObject) {
+          return new Promise((resolve, reject) => {
+            if (windowObject.__oxy) {
+              resolve(windowObject.__oxy);
+              return;
+            }
+            let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+            let interval = setInterval(() => {
+              if (windowObject.__oxy) {
+                clearInterval(interval);
+                resolve(windowObject.__oxy);
+              } else if (nTries > 0) {
+                nTries--;
+              } else {
+                clearInterval(interval);
+                reject("Ever wallet is not found");
+              }
+            }, 100);
+          });
+        }
+        return Promise.reject();
+      },
+    },
   };
 
   // @ts-ignore
@@ -155,6 +181,17 @@ export class ProviderController {
               fallback:
                 getPromiseRaw(window, "everwallet") ||
                 (() => Promise.reject("everwallet fallback error")),
+            },
+            standalone: {}, // ?
+          }
+        : {},
+      oxychatwallet: window
+        ? {
+            extension: {
+              forceUseFallback: true,
+              fallback:
+                getPromiseRaw(window, "oxychatwallet") ||
+                (() => Promise.reject("oxychatwallet fallback error")),
             },
             standalone: {}, // ?
           }

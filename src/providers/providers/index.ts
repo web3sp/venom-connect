@@ -1,5 +1,6 @@
 import { ProviderOptions } from "../../types";
 import { everDefaultLinks } from "./everwallet";
+import { getOxyAndroid, getOxyIos, getOxyQr, oxychatDefaultLinks } from "./oxychatwallet";
 import {
   getVenomAndroid,
   getVenomIos,
@@ -7,6 +8,7 @@ import {
   venomDefaultLinks,
 } from "./venomwallet";
 export * from "./everwallet";
+export * from "./oxychatwallet";
 export * from "./venomwallet";
 
 type linkCreator = (
@@ -49,6 +51,7 @@ type linkCreator = (
 const defaultLinks = {
   venomwallet: venomDefaultLinks,
   everwallet: everDefaultLinks,
+  oxychatwallet: oxychatDefaultLinks,
 };
 
 export const getValueByKey: (
@@ -73,6 +76,11 @@ export const getValueByKey: (
               (userValue as { targetLink: string })?.targetLink || undefined
             );
           }
+          if (id === "oxychatwallet") {
+            return getOxyIos(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
         }
 
         if (key === "android") {
@@ -81,11 +89,21 @@ export const getValueByKey: (
               (userValue as { targetLink: string })?.targetLink || undefined
             );
           }
+          if (id === "oxychatwallet") {
+            return getOxyAndroid(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
         }
 
         if (key === "qr") {
           if (id === "venomwallet") {
             return getVenomQr(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
+          if (id === "oxychatwallet") {
+            return getOxyQr(
               (userValue as { targetLink: string })?.targetLink || undefined
             );
           }
@@ -108,14 +126,17 @@ export const getValueByKey: (
         if (key === "qr") {
           if (id === "venomwallet") return getVenomQr();
           // if (id === "everwallet") return getEverQr();
+          if (id === "oxychatwallet") return getOxyQr();
         }
         if (key === "ios") {
           if (id === "venomwallet") return getVenomIos();
           // if (id === "everwallet") return getEverIos();
+          if (id === "oxychatwallet") return getOxyIos();
         }
         if (key === "android") {
           if (id === "venomwallet") return getVenomAndroid();
           // if (id === "everwallet") return getEverAndroid();
+          if (id === "oxychatwallet") return getOxyAndroid();
         }
       }
 
