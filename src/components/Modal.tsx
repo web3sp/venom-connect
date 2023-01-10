@@ -10,6 +10,7 @@ import {
   SimpleFunction,
   ThemeConfig,
 } from "../types";
+import { VENOM_CONNECT_MODAL_ID } from "../VenomConnect";
 import AbstractPopUp, { SECONDS } from "./AbstractPopUp";
 import { CardManager } from "./CardManager";
 import { QrCard } from "./InnerCard";
@@ -471,9 +472,9 @@ export const Modal = ({
       />
       <style>
         {`
-          a {
-            text-decoration: none;
-            color: inherit;
+          #${VENOM_CONNECT_MODAL_ID} a {
+            text-decoration: none !important;
+            color: inherit !important;
           }
         `}
       </style>
