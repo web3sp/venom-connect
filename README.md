@@ -60,7 +60,7 @@ Available format:
 
 - `"Venom Mainnet"`
 
-_You don't have to fill in this field, then the default Name is **`Venom Mainnet`** for `1000` or **`Venom Testnet`** for `1010`._
+_You don't have to fill in this field, then the default Name is **`Venom Mainnet`** for `1` or **`Venom Testnet`** for `1000`._
 
 ### Providers options (`providersOptions`)
 
@@ -154,7 +154,7 @@ const initVenomConnect = async () => {
               fallback: () =>
                 EverscaleStandaloneClient.create({
                   connection: {
-                    id: 1000,
+                    id: 1,
                     group: "venom_mainnet",
                     type: "jrpc",
                     data: {

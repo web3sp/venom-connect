@@ -24,7 +24,7 @@ const initTheme = "light" as const;
 const standaloneFallback = () =>
   EverscaleStandaloneClient.create({
     connection: {
-      id: 1000,
+      id: 1,
       group: "venom_mainnet",
       type: "jrpc",
       data: {
@@ -36,7 +36,7 @@ const standaloneFallback = () =>
 const initVenomConnect = async () => {
   return new VenomConnect({
     theme: initTheme,
-    // checkNetworkId: 1000,
+    checkNetworkId: 1,
     providersOptions: {
       venomwallet: {
         links: {
@@ -252,13 +252,13 @@ const App = () => {
       await venomConnect?.getStandalone("venomwallet");
 
     if (standalone) {
-      const testContractAddress = new Address(
-        "0:52195e5fd2d90b996c2a5e0f1825b84014a3962a5e31a544fb63bae13fec5727"
+      const mainnetContractAddress = new Address(
+        "0:", // todo
       );
 
       const contract = new standalone.Contract(
         testContractAbi,
-        testContractAddress
+        mainnetContractAddress
       );
       setStandaloneMethodsIsFetching(true);
       const outputs = await contract.methods
@@ -283,22 +283,6 @@ const App = () => {
         <Grid item>
           <Typography variant="h1" component="h1" textAlign="center">
             Example
-            {/* (v1.0.14)
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <i
-                style={{
-                  fontSize: "0.3em",
-                }}
-              >
-                [Deployment: Dec 02 2022]
-              </i>
-            </div> */}
           </Typography>
         </Grid>
       </Grid>
