@@ -34,9 +34,9 @@ let oldRoot: Root | undefined = undefined;
 
 const _getDefaultVenomNetworkNameById = (networkId: number) => {
   switch (networkId) {
-    case 1010:
-      return "Venom Testnet";
     case 1000:
+      return "Venom Testnet";
+    case 1:
     default:
       return "Venom Mainnet";
   }
@@ -57,8 +57,8 @@ const getDefaultVenomNetworkNameById = (networkId: number | number[]) => {
 const defaultOptions: VenomConnectOptions = {
   theme: themesList.default.name,
   providersOptions: {},
-  checkNetworkId: 1000,
-  checkNetworkName: "Venom Testnet",
+  checkNetworkId: 1,
+  checkNetworkName: "Venom Mainnet",
 };
 class VenomConnect {
   private show: boolean = false;
