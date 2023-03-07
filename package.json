@@ -17,7 +17,10 @@
     "web3",
     "venom",
     "everscale",
-    "wallet"
+    "wallet",
+    "blockchain",
+    "venom-blockchain",
+    "venom-developer-program"
   ],
   "author": "web3space",
   "license": "MIT",
