@@ -89,7 +89,7 @@ export const venomwallet: ProviderOptions = {
       },
       name: "Venom [[browser]] Extension", // [[browser]] will replace to 'Chrome' or 'Firefox'
       options: {
-        isCurrentBrowser: [["isChrome", "isDesktop"]],
+        isCurrentBrowser: [["Blink", "isDesktop"]],
         installExtensionLink: (links: typeof venomDefaultLinks | undefined) =>
           getValueByKey("venomwallet", "extension")(links),
         checkIsProviderExist: () => !!window.__venom, // todo

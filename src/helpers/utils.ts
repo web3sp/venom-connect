@@ -76,6 +76,14 @@ export const checkIsCurrentBrowser = (isCurrentBrowser?: any) => {
           r ||
           !!item?.reduce((rInner: any, itemInner: any) => {
             // @ts-ignore
+            if (deviceDetect[itemInner] === undefined) {
+              return (
+                rInner &&
+                deviceDetect.engineName?.toLocaleLowerCase() ===
+                  itemInner?.toLocaleLowerCase()
+              );
+            }
+            // @ts-ignore
             return rInner && deviceDetect[itemInner];
           }, true)
         );
