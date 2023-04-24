@@ -387,6 +387,9 @@ export class ProviderController {
         extensionWindowClosed: () => {
           this.eventController.trigger(EXTENSION_WINDOW_CLOSED_EVENT);
         },
+        extensionWindowError: (error) => {
+          this.eventController.trigger(ERROR_EVENT, error);
+        },
       });
 
       this.currentProvider = provider;

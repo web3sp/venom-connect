@@ -16,6 +16,26 @@ import { CardManager } from "./CardManager";
 import { QrCard } from "./InnerCard";
 import { WrongNetworkPopup } from "./WrongNetworkPopup";
 
+const DoneButton = styled.div`
+  background: #11a97d;
+  width: 100%;
+  max-width: 320px;
+  height: 56px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+`;
+
 declare global {
   // tslint:disable-next-line
   interface Window {
@@ -37,6 +57,7 @@ enum Slide {
   walletsList,
   currentWallet,
   innerCard,
+  waitingInstallation,
 }
 
 type Case = {
@@ -55,12 +76,14 @@ const SProviders = styled.div`
 `;
 
 type ModalProps = {
+  error?: string;
   networkName: string;
   themeConfig: ThemeConfig;
   options: ProviderOptionsListWithOnClick;
   onClose: SimpleFunction;
   changeWallet: SimpleFunction;
   disconnect?: SimpleFunction;
+  clearError?: () => void;
 };
 
 export type ModalState = {
@@ -86,6 +109,8 @@ const INITIAL_STATE: ModalState = {
 };
 
 export const Modal = ({
+  error,
+  clearError,
   networkName,
   themeConfig: initThemeConfig,
   options,
@@ -195,6 +220,7 @@ export const Modal = ({
   const onCloseCrossClick = () => {
     if (!getInitialWalletOption()) setWalletId(undefined);
     if (!getInitialWalletWayToConnect()) setWalletWaysToConnect(undefined);
+    clearError?.();
 
     setSlide(getInitialSlide);
     onClose();
@@ -442,6 +468,28 @@ export const Modal = ({
 
   const innerCard = mobileAppsPopUp;
 
+  const waitingInstallation: Case = useMemo(() => {
+    return {
+      type: Slide.waitingInstallation,
+      element: (
+        <>
+          <div style={{ marginTop: 20 }}>
+            We are currently waiting for the installation and configuration of
+            the{" "}
+            {error?.includes("Venom")
+              ? "Venom"
+              : error?.includes("Ever")
+              ? "Ever"
+              : ""}{" "}
+            Wallet extension
+          </div>
+          <DoneButton onClick={() => window.location.reload()}>Done</DoneButton>
+        </>
+      ),
+      title: <>Waiting for the installation </>,
+    };
+  }, [options, themeConfig.theme]);
+
   const cards = [walletCardList, currentWalletCards, innerCard];
 
   const getCard: () => Case | undefined = () =>
@@ -464,6 +512,13 @@ export const Modal = ({
     }
   }, [wrongNetwork, show, isFullProvider]);
 
+  // removed error handling window, only if not found
+  useEffect(() => {
+    if (!!error && !error.includes("wallet is not found")) {
+      onCloseCrossClick();
+    }
+  }, [error]);
+
   return (
     <>
       <link
@@ -478,44 +533,77 @@ export const Modal = ({
           }
         `}
       </style>
-      <AbstractPopUp
-        show={show}
-        onClose={onCloseCrossClick}
-        themeObject={themeConfig.theme}
-        cardHeader={{
-          text: card?.title || "your wallet",
-          // fontSize: card?.type === Slide.currentWallet ? 20 : undefined,
-          textAlign: "left",
-        }}
-        goBack={slide !== getInitialSlide() ? goBack : undefined}
-      >
-        {card?.element}
-      </AbstractPopUp>
-      <AbstractPopUp
-        show={(!!wrongNetwork && !show && !!isFullProvider) || networkPause}
-        hide={!(!!wrongNetwork && !show && !!isFullProvider)}
-        themeObject={themeConfig.theme}
-        cardHeader={{
-          text: "Active network is wrong",
-        }}
-      >
-        <WrongNetworkPopup
-          textColor={themeConfig.theme.common.text.color}
-          changeWallet={changeWallet}
-          disconnect={disconnect}
-          networkName={networkName}
-        />
-      </AbstractPopUp>
-      <AbstractPopUp
-        show={!!isExtensionWindowOpen || extensionPause}
-        hide={!isExtensionWindowOpen}
-        themeObject={themeConfig.theme}
-        cardHeader={{
-          text: popUpText.title,
-        }}
-      >
-        <>{popUpText.text}</>
-      </AbstractPopUp>
+      {error ? (
+        error.includes("wallet is not found") ? (
+          <AbstractPopUp
+            show={!!error}
+            hide={!error}
+            themeObject={themeConfig.theme}
+            cardHeader={{
+              text: waitingInstallation.title,
+            }}
+          >
+            {waitingInstallation?.element}
+          </AbstractPopUp>
+        ) : (
+          <></>
+          // <AbstractPopUp
+          //   show={!!error}
+          //   hide={!error}
+          //   themeObject={themeConfig.theme}
+          //   onClose={onCloseCrossClick}
+          //   cardHeader={{
+          //     text: "Error",
+          //   }}
+          // >
+          //   <>
+          //     <div style={{ marginTop: 20 }}>{error}</div>
+          //     <DoneButton onClick={onCloseCrossClick}>Close</DoneButton>
+          //   </>
+          // </AbstractPopUp>
+        )
+      ) : (
+        <>
+          <AbstractPopUp
+            show={show}
+            onClose={onCloseCrossClick}
+            themeObject={themeConfig.theme}
+            cardHeader={{
+              text: card?.title || "your wallet",
+              // fontSize: card?.type === Slide.currentWallet ? 20 : undefined,
+              textAlign: "left",
+            }}
+            goBack={slide !== getInitialSlide() ? goBack : undefined}
+          >
+            {card?.element}
+          </AbstractPopUp>
+          <AbstractPopUp
+            show={(!!wrongNetwork && !show && !!isFullProvider) || networkPause}
+            hide={!(!!wrongNetwork && !show && !!isFullProvider)}
+            themeObject={themeConfig.theme}
+            cardHeader={{
+              text: "Active network is wrong",
+            }}
+          >
+            <WrongNetworkPopup
+              textColor={themeConfig.theme.common.text.color}
+              changeWallet={changeWallet}
+              disconnect={disconnect}
+              networkName={networkName}
+            />
+          </AbstractPopUp>
+          <AbstractPopUp
+            show={!!isExtensionWindowOpen || extensionPause}
+            hide={!isExtensionWindowOpen}
+            themeObject={themeConfig.theme}
+            cardHeader={{
+              text: popUpText.title,
+            }}
+          >
+            <>{popUpText.text}</>
+          </AbstractPopUp>
+        </>
+      )}
     </>
   );
 };

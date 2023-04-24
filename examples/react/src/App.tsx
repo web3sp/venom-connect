@@ -24,8 +24,8 @@ const initTheme = "light" as const;
 const standaloneFallback = () =>
   EverscaleStandaloneClient.create({
     connection: {
-      id: 1,
-      group: "venom_mainnet",
+      id: 1000,
+      group: "venom_testnet",
       type: "jrpc",
       data: {
         endpoint: "https://jrpc.venom.foundation/rpc",
@@ -36,7 +36,7 @@ const standaloneFallback = () =>
 const initVenomConnect = async () => {
   return new VenomConnect({
     theme: initTheme,
-    checkNetworkId: 1,
+    checkNetworkId: 1000,
     providersOptions: {
       venomwallet: {
         links: {
@@ -253,7 +253,7 @@ const App = () => {
 
     if (standalone) {
       const mainnetContractAddress = new Address(
-        "0:", // todo
+        "0:" // todo
       );
 
       const contract = new standalone.Contract(
