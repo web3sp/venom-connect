@@ -241,4 +241,5 @@ export type ProviderControllerOptions = {
 export type Callbacks = {
   authorizationCompleted: (provider: any) => void;
   extensionWindowClosed: () => void;
+  extensionWindowError: (error: any) => void;
 };

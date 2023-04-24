@@ -190,14 +190,23 @@ const connectToEverWallet = async (
     });
 
     return everProvider;
-  } catch (error) {
-    // console.error(error);
-    callbacks.extensionWindowClosed();
+  } catch (error: any) {
+    let emessage;
+    if (typeof error === "object") {
+      if (error.message) {
+        emessage = error.message; // get the error message
+      } else {
+        emessage = JSON.stringify(error); // convert the object to a string
+      }
+    } else {
+      emessage = error.toString(); // convert the error to a string
+    }
+    callbacks.extensionWindowError(emessage);
+  } finally {
+    await toggleExtensionWindow({
+      isExtensionWindowOpen: false,
+    });
   }
-
-  await toggleExtensionWindow({
-    isExtensionWindowOpen: false,
-  });
 };
 
 /**

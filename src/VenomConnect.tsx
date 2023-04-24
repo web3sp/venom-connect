@@ -65,6 +65,7 @@ class VenomConnect {
 
   private checkNetworkId: number | number[];
   private checkNetworkName: string;
+  private error: string | undefined = undefined;
 
   private themeConfig: ThemeConfig;
   private options: ProviderOptionsListWithOnClick;
@@ -513,6 +514,11 @@ class VenomConnect {
 
     root.render(
       <Modal
+        clearError={() => {
+          this.error = undefined;
+          this.renderModal();
+        }}
+        error={this.error}
         networkName={this.checkNetworkName}
         themeConfig={this.themeConfig}
         options={injectedLinkOptions}
@@ -530,10 +536,12 @@ class VenomConnect {
     );
   }
   private onError = async (error: any) => {
-    if (this.show) {
+    this.error = error;
+    this.renderModal();
+    if (!this.show) {
       await this._toggleModal();
     }
-    this.eventController.trigger(ERROR_EVENT, error);
+    // this.eventController.trigger(ERROR_EVENT, error);
   };
 
   private onProviderSelect = (providerId: string) => {
