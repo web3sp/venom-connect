@@ -11,7 +11,7 @@ export const setupNetworkIdTimer = (
       const state = await provider?.getProviderState?.();
       // если есть белый список, то чекаем, иначе можно всем
       let isAllowedId = true;
-      if (allowedNetworkIds) {
+      if (allowedNetworkIds !== undefined) {
         if (Array.isArray(allowedNetworkIds)) {
           isAllowedId = !!allowedNetworkIds.find(
             (id) => state.networkId === id
@@ -20,7 +20,6 @@ export const setupNetworkIdTimer = (
           isAllowedId = state.networkId === allowedNetworkIds;
         }
       }
-
       const isAuth = !!state?.permissions?.accountInteraction?.address;
 
       // console.log('TESING NET', allowedNetworkIds, state)
