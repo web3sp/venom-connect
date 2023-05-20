@@ -36,6 +36,8 @@ const _getDefaultVenomNetworkNameById = (networkId: number) => {
   switch (networkId) {
     case 1000:
       return "Venom Testnet";
+    case 0:
+      return "Venom Local Node";
     case 1:
     default:
       return "Venom Mainnet";
@@ -82,8 +84,10 @@ class VenomConnect {
     const theme = options.theme || defaultOptions.theme;
     this.themeConfig = getThemeConfig(theme);
 
+    // Local Node network id is 0, so we need an additional isArray check in order to use it
     const checkNetworkId =
-      options.checkNetworkId || defaultOptions.checkNetworkId;
+      (options.checkNetworkId || !Array.isArray(options.checkNetworkId)) ? options.checkNetworkId! : defaultOptions.checkNetworkId;
+    this.checkNetworkId = checkNetworkId;
     this.checkNetworkId = checkNetworkId;
 
     const checkNetworkName =
@@ -122,8 +126,8 @@ class VenomConnect {
             links: value.links,
             walletWaysToConnect: value.walletWaysToConnect?.length
               ? value.walletWaysToConnect ||
-                defaultProviderOptions?.walletWaysToConnect ||
-                []
+              defaultProviderOptions?.walletWaysToConnect ||
+              []
               : defaultProviderOptions?.walletWaysToConnect,
             defaultWalletWaysToConnect: value.defaultWalletWaysToConnect || [],
           };
@@ -415,7 +419,7 @@ class VenomConnect {
   private async disconnect() {
     try {
       await this.currentProvider?._api?.disconnect?.();
-    } catch (error) {}
+    } catch (error) { }
   }
 
   private renderModal() {
