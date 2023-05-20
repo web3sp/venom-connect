@@ -58,6 +58,8 @@ Available formats:
 - `"1000"`
 - `[ "1000", /* ... */ ]`
 
+! Use value 0 to work with local-node !
+
 ### Expected network Name (`checkNetworkName`)
 
 Here you need to set the correct network Name for your site to work.
@@ -66,7 +68,7 @@ Available format:
 
 - `"Venom Mainnet"`
 
-_You don't have to fill in this field, then the default Name is **`Venom Mainnet`** for `1` or **`Venom Testnet`** for `1000`._
+_You don't have to fill in this field, then the default Name is **`Venom Mainnet`** for `1`, **`Venom Local Node`** for `0` or **`Venom Testnet`** for `1000`._
 
 ### Providers options (`providersOptions`)
 
