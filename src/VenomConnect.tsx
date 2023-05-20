@@ -39,6 +39,8 @@ const _getDefaultVenomNetworkNameById = (networkId: number) => {
     case 1:
     default:
       return "Venom Mainnet";
+    case 0:
+      return "Venom Local Node";
   }
 };
 
@@ -83,7 +85,7 @@ class VenomConnect {
     this.themeConfig = getThemeConfig(theme);
 
     const checkNetworkId =
-      options.checkNetworkId || defaultOptions.checkNetworkId;
+      options.checkNetworkId === undefined ? defaultOptions.checkNetworkId : options.checkNetworkId;
     this.checkNetworkId = checkNetworkId;
 
     const checkNetworkName =
