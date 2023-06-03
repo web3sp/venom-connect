@@ -229,7 +229,7 @@ const App = () => {
     if (_provider && _address)
       setTimeout(() => {
         check(_provider);
-      }, 100);
+      }, 7000);
   };
 
   const onConnect = async (provider: any) => {
