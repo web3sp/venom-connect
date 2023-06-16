@@ -126,12 +126,13 @@ const initVenomConnect = async () => {
             },
 
             // Setup
-            id: "extension",
-            type: "extension",
+            id: "mobile",
+            type: "mobile",
           },
         ],
         defaultWalletWaysToConnect: [
           // List of enabled options
+          "mobile",
           "ios",
           "android",
         ],
