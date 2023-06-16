@@ -40,6 +40,7 @@ export const CardManager = (props: CardManagerProps) => {
 
   // вывод списка под разные платформы
   if (connectorType) {
+    if (options?.["hide"]) return null; // hide card if option
     if (isMobile) {
       if (isIOS) {
         return connectorType === "ios" ? (
