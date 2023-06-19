@@ -80,6 +80,7 @@ Currently available IDs (new wallets may be added in the future):
 
 - `venomwallet`
 - `everwallet`
+- `oxychatwallet`
 
 The value is an object with the settings of this wallet:
 
