@@ -16,7 +16,7 @@ import {
   Container,
   Divider,
   Grid,
-  Typography
+  Typography,
 } from "@mui/material";
 
 const initTheme = "light" as const;
@@ -37,6 +37,7 @@ const initVenomConnect = async () => {
   return new VenomConnect({
     theme: initTheme,
     checkNetworkId: 1000,
+    // nTries: 3,
     providersOptions: {
       venomwallet: {
         links: {

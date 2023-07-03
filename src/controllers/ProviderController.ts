@@ -25,7 +25,8 @@ const sortingArr: ConnectorType[] = ["extension", "mobile", "ios", "android"];
 export const getPromiseRaw = (
   windowObject: any,
   walletId: string,
-  type: string | undefined = "extension"
+  type: string | undefined = "extension",
+  nTries: number = 0
 ) => {
   const promises = {
     venomwallet: {
@@ -36,7 +37,7 @@ export const getPromiseRaw = (
               resolve(windowObject.__venom);
               return;
             }
-            let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+            // let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
             let interval = setInterval(() => {
               if (windowObject.__venom) {
                 clearInterval(interval);
@@ -61,7 +62,7 @@ export const getPromiseRaw = (
               resolve(windowObject.__ever);
               return;
             }
-            let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+            // let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
             let interval = setInterval(() => {
               if (windowObject.__ever) {
                 clearInterval(interval);
@@ -87,7 +88,7 @@ export const getPromiseRaw = (
               resolve(windowObject.__oxy);
               return;
             }
-            let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
+            // let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
             let interval = setInterval(() => {
               if (windowObject.__oxy) {
                 clearInterval(interval);
@@ -117,6 +118,7 @@ export class ProviderController {
 
   private checkNetworkId: number | number[];
   private checkNetworkName: string;
+  private nTries: number;
 
   private _currentProvider: any;
 
@@ -160,6 +162,8 @@ export class ProviderController {
   }
 
   constructor(options: ProviderControllerOptions) {
+    this.nTries = options.nTries || 0;
+
     const defaultPackageOptions: {
       [key: string]: Record<string, Record<string, any>>;
     } = {
@@ -168,7 +172,7 @@ export class ProviderController {
             extension: {
               forceUseFallback: true,
               fallback:
-                getPromiseRaw(window, "venomwallet") ||
+                getPromiseRaw(window, "venomwallet", undefined, this.nTries) ||
                 (() => Promise.reject("venomwallet fallback error")),
             },
             standalone: {}, // ?
@@ -179,7 +183,7 @@ export class ProviderController {
             extension: {
               forceUseFallback: true,
               fallback:
-                getPromiseRaw(window, "everwallet") ||
+                getPromiseRaw(window, "everwallet", undefined, this.nTries) ||
                 (() => Promise.reject("everwallet fallback error")),
             },
             standalone: {}, // ?
@@ -190,8 +194,12 @@ export class ProviderController {
             extension: {
               forceUseFallback: true,
               fallback:
-                getPromiseRaw(window, "oxychatwallet") ||
-                (() => Promise.reject("oxychatwallet fallback error")),
+                getPromiseRaw(
+                  window,
+                  "oxychatwallet",
+                  undefined,
+                  this.nTries
+                ) || (() => Promise.reject("oxychatwallet fallback error")),
             },
             standalone: {}, // ?
           }
