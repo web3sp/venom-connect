@@ -230,12 +230,14 @@ export type VenomConnectOptions = {
   providersOptions: UserProvidersOptions;
   checkNetworkId: number | number[];
   checkNetworkName?: string;
+  nTries?: number;
 };
 
 export type ProviderControllerOptions = {
   providersOptions: UserProvidersOptions;
   checkNetworkId: number | number[];
   checkNetworkName: string;
+  nTries?: number;
 };
 
 export type Callbacks = {

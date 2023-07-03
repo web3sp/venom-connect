@@ -41,7 +41,6 @@ const _getDefaultVenomNetworkNameById = (networkId: number) => {
     case 1:
     default:
       return "Venom Mainnet";
-
   }
 };
 
@@ -62,6 +61,7 @@ const defaultOptions: VenomConnectOptions = {
   providersOptions: {},
   checkNetworkId: 1,
   checkNetworkName: "Venom Mainnet",
+  nTries: 0,
 };
 class VenomConnect {
   private show: boolean = false;
@@ -74,6 +74,7 @@ class VenomConnect {
   private options: ProviderOptionsListWithOnClick;
   private providerController: ProviderController;
   private eventController: EventController = new EventController();
+  private static nTries: number = 0;
   // private pagePosition: number | null = null;
 
   constructor(options: {
@@ -81,18 +82,23 @@ class VenomConnect {
     providersOptions: VenomConnectOptions["providersOptions"];
     checkNetworkId?: number | number[];
     checkNetworkName?: string;
+    nTries?: number;
   }) {
+    console.log("VenomConnect.tsx: constructor", options);
     const theme = options.theme || defaultOptions.theme;
     this.themeConfig = getThemeConfig(theme);
 
     const checkNetworkId =
-      options.checkNetworkId === undefined ? defaultOptions.checkNetworkId : options.checkNetworkId;
+      options.checkNetworkId === undefined
+        ? defaultOptions.checkNetworkId
+        : options.checkNetworkId;
     this.checkNetworkId = checkNetworkId;
 
     const checkNetworkName =
       options.checkNetworkName ||
       getDefaultVenomNetworkNameById(checkNetworkId);
     this.checkNetworkName = checkNetworkName;
+    VenomConnect.nTries = options.nTries || defaultOptions.nTries!;
 
     this.providerController = new ProviderController({
       providersOptions: Object.fromEntries(
@@ -142,6 +148,7 @@ class VenomConnect {
       ),
       checkNetworkId,
       checkNetworkName,
+      nTries: VenomConnect.nTries,
     });
 
     this.providerController.on(CONNECT_EVENT, (provider) =>
@@ -396,7 +403,7 @@ class VenomConnect {
   public static getPromise = (
     walletId: string,
     type: string | undefined = "extension"
-  ) => getPromiseRaw(window, walletId, type);
+  ) => getPromiseRaw(window, walletId, type, VenomConnect.nTries);
 
   // --------------- PRIVATE METHODS --------------- //
 
