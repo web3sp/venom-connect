@@ -84,6 +84,7 @@ class VenomConnect {
     checkNetworkName?: string;
     nTries?: number;
   }) {
+    console.log("VenomConnect.tsx: constructor", options);
     const theme = options.theme || defaultOptions.theme;
     this.themeConfig = getThemeConfig(theme);
 
