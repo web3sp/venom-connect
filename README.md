@@ -34,6 +34,7 @@ There are two types of settings:
   - `theme`
   - `checkNetworkId`
   - `checkNetworkName`
+  - `nTries`
 - list of settings for different wallets, connection methods
   - `providersOptions`
 
@@ -69,6 +70,12 @@ Available format:
 - `"Venom Mainnet"`
 
 _You don't have to fill in this field, then the default Name is **`Venom Mainnet`** for `1`, **`Venom Local Node`** for `0` or **`Venom Testnet`** for `1000`._
+
+### Number of Tries to connect to wallet (`nTries`)
+
+Here you need to set the number of tries to connect to wallet
+
+_You don't have to fill in this field, then the default option is 0_
 
 ### Providers options (`providersOptions`)
 
