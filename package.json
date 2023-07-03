@@ -1,6 +1,6 @@
 {
   "name": "venom-connect",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "main": "dist/lib/index.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
