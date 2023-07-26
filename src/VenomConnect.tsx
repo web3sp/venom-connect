@@ -221,6 +221,10 @@ class VenomConnect {
         } else if (this.checkIsWalletBrowser().isOxyWalletBrowser) {
           await this.connectTo("oxychatwallet", "extension");
 
+          // check OneArt
+        } else if (this.checkIsWalletBrowser().isOneartWalletBrowser) {
+          await this.connectTo("oneartwallet", "extension");
+
           // показываем обычный попап
         } else {
           await this._toggleModal();
@@ -413,6 +417,7 @@ class VenomConnect {
     const isVenomWalletBrowser = !!(
       navigator &&
       navigator.userAgent.includes("VenomWalletBrowser") &&
+      !navigator.userAgent.includes("OneArtWalletBrowser") &&
       ids.includes("venomwallet")
     );
     const isEverWalletBrowser = !!(
@@ -425,12 +430,18 @@ class VenomConnect {
       navigator.userAgent.includes("OxyWalletBrowser") &&
       ids.includes("oxychatwallet")
     );
+    const isOneartWalletBrowser = !!(
+      navigator &&
+      navigator.userAgent.includes("OneArtWalletBrowser") &&
+      ids.includes("oneartwallet")
+    );
     return {
       isVenomWalletBrowser,
       isEverWalletBrowser,
       isOxyWalletBrowser,
+      isOneartWalletBrowser,
       isOneOfWalletBrowsers:
-        isVenomWalletBrowser || isEverWalletBrowser || isOxyWalletBrowser,
+        isVenomWalletBrowser || isEverWalletBrowser || isOxyWalletBrowser || isOneartWalletBrowser,
     };
   };
 

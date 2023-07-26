@@ -92,7 +92,7 @@ export const venomwallet: ProviderOptions = {
         isCurrentBrowser: [["Blink", "isDesktop"]],
         installExtensionLink: (links: typeof venomDefaultLinks | undefined) =>
           getValueByKey("venomwallet", "extension")(links),
-        checkIsProviderExist: () => !!window.__venom, // todo
+        checkIsProviderExist: () => window.__venom && !window.__venom.isOneArt,
       },
     },
     {
