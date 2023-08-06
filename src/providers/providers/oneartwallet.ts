@@ -9,7 +9,7 @@ import MobileApp from "../logos/MobileAppOneart.svg";
 import MobileAppWhite from "../logos/MobileAppOneartWhite.svg";
 
 // for oneart
-const oneartDefaultLink = "https://oneart.page.link/?apn=oneart.digital&isi=1600729515&ibi=co.oneart&efr=1";
+const oneartDefaultLink = "https://oneart.page.link/?apn=oneart.digital&isi=1600729515&ibi=co.oneart";
 const oneartIosDeepLink = undefined;
 const oneartAndroidDeepLink = undefined;
 const oneartExtensionLinkChrome = oneartDefaultLink;
