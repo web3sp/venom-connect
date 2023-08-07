@@ -33,13 +33,13 @@ export const getPromiseRaw = (
       extension: () => {
         if (windowObject) {
           return new Promise((resolve, reject) => {
-            if (windowObject.__venom) {
+            if (windowObject.__venom && !windowObject.__venom.isOneArt) {
               resolve(windowObject.__venom);
               return;
             }
             // let nTries = 0; // число попыток, иначе он будет бесконечно, может это вынести в конфиг
             let interval = setInterval(() => {
-              if (windowObject.__venom) {
+              if (windowObject.__venom && !windowObject.__venom.isOneArt) {
                 clearInterval(interval);
                 resolve(windowObject.__venom);
               } else if (nTries > 0) {
@@ -98,6 +98,30 @@ export const getPromiseRaw = (
               } else {
                 clearInterval(interval);
                 reject("Ever wallet is not found");
+              }
+            }, 100);
+          });
+        }
+        return Promise.reject();
+      },
+    },
+    oneartwallet: {
+      extension: () => {
+        if (windowObject) {
+          return new Promise((resolve, reject) => {
+            if (windowObject.__venom && windowObject.__venom.isOneArt) {
+              resolve(windowObject.__venom);
+              return;
+            }
+            let interval = setInterval(() => {
+              if (windowObject.__venom && windowObject.__venom.isOneArt) {
+                clearInterval(interval);
+                resolve(windowObject.__venom);
+              } else if (nTries > 0) {
+                nTries--;
+              } else {
+                clearInterval(interval);
+                reject("OneArt wallet is not found");
               }
             }, 100);
           });

@@ -1,6 +1,7 @@
 import { ProviderOptions } from "../../types";
 import { everDefaultLinks } from "./everwallet";
 import { getOxyAndroid, getOxyIos, getOxyQr, oxychatDefaultLinks } from "./oxychatwallet";
+import { getOneArtAndroid, getOneArtIos, getOneArtQr, oneartDefaultLinks } from "./oneartwallet";
 import {
   getVenomAndroid,
   getVenomIos,
@@ -9,6 +10,7 @@ import {
 } from "./venomwallet";
 export * from "./everwallet";
 export * from "./oxychatwallet";
+export * from "./oneartwallet";
 export * from "./venomwallet";
 
 type linkCreator = (
@@ -52,6 +54,7 @@ const defaultLinks = {
   venomwallet: venomDefaultLinks,
   everwallet: everDefaultLinks,
   oxychatwallet: oxychatDefaultLinks,
+  oneartwallet: oneartDefaultLinks,
 };
 
 export const getValueByKey: (
@@ -81,6 +84,11 @@ export const getValueByKey: (
               (userValue as { targetLink: string })?.targetLink || undefined
             );
           }
+          if (id === "oneartwallet") {
+            return getOneArtIos(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
         }
 
         if (key === "android") {
@@ -94,6 +102,11 @@ export const getValueByKey: (
               (userValue as { targetLink: string })?.targetLink || undefined
             );
           }
+          if (id === "oneartwallet") {
+            return getOneArtAndroid(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
         }
 
         if (key === "qr") {
@@ -104,6 +117,11 @@ export const getValueByKey: (
           }
           if (id === "oxychatwallet") {
             return getOxyQr(
+              (userValue as { targetLink: string })?.targetLink || undefined
+            );
+          }
+          if (id === "oneartwallet") {
+            return getOneArtQr(
               (userValue as { targetLink: string })?.targetLink || undefined
             );
           }
@@ -127,16 +145,19 @@ export const getValueByKey: (
           if (id === "venomwallet") return getVenomQr();
           // if (id === "everwallet") return getEverQr();
           if (id === "oxychatwallet") return getOxyQr();
+          if (id === "oneartwallet") return getOneArtQr();
         }
         if (key === "ios") {
           if (id === "venomwallet") return getVenomIos();
           // if (id === "everwallet") return getEverIos();
           if (id === "oxychatwallet") return getOxyIos();
+          if (id === "oneartwallet") return getOneArtIos();
         }
         if (key === "android") {
           if (id === "venomwallet") return getVenomAndroid();
           // if (id === "everwallet") return getEverAndroid();
           if (id === "oxychatwallet") return getOxyAndroid();
+          if (id === "oneartwallet") return getOneArtAndroid();
         }
       }
 

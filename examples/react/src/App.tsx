@@ -110,6 +110,34 @@ const initVenomConnect = async () => {
           "android",
         ],
       },
+      oneartwallet: {
+        walletWaysToConnect: [
+          {
+            // NPM package
+            package: ProviderRpcClient,
+            packageOptions: {
+              fallback:
+                VenomConnect.getPromise("oneartwallet", "extension") ||
+                (() => Promise.reject()),
+              forceUseFallback: true,
+            },
+            packageOptionsStandalone: {
+              fallback: standaloneFallback,
+              forceUseFallback: true,
+            },
+
+            // Setup
+            id: "extension",
+            type: "extension",
+          },
+        ],
+        defaultWalletWaysToConnect: [
+          // List of enabled options
+          "mobile",
+          "ios",
+          "android",
+        ],
+      },
       oxychatwallet: {
         walletWaysToConnect: [
           {
